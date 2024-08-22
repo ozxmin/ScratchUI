@@ -24,6 +24,11 @@ class ViewController: UITableViewController {
         super.viewDidLayoutSubviews()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("did")
+    }
+
     func setLayout() {
 //        additionalSafeAreaInsets
 //        tableView.topAnchor.constraint(equalTo:view.topAnchor).isActive = true
@@ -64,7 +69,12 @@ class ViewController: UITableViewController {
         myInt = 1
         super.init(coder: coder)
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("will")
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        tableView.deselectRow(at: indexPath, animated: true)
 //        // Fetch Image

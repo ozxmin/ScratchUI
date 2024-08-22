@@ -11,6 +11,9 @@ class MyTableTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        restorationIdentifier = self.view.typeID
+        restorationIdentifier = tableView.typeID
+
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -25,7 +28,9 @@ class MyTableTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
-
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
