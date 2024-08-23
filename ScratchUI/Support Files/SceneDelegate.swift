@@ -18,9 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window?.makeKeyAndVisible()
 
-        let initialViewController = ContactTableViewController() // Use your own view controller here
+        let initialViewController = InitialViewController(myInt: 1) // Use your own view controller here
 
-        initialViewController.view.translatesAutoresizingMaskIntoConstraints = false
+//        initialViewController.view.translatesAutoresizingMaskIntoConstraints = false
 
 
 

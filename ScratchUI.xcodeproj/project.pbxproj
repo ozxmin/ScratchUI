@@ -10,12 +10,11 @@
 		C909FE292C63419C00766D10 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C909FE282C63419C00766D10 /* NetworkClient.swift */; };
 		C93ACCE92C609A5500208CB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCE82C609A5500208CB6 /* AppDelegate.swift */; };
 		C93ACCEB2C609A5500208CB6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCEA2C609A5500208CB6 /* SceneDelegate.swift */; };
-		C93ACCED2C609A5500208CB6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCEC2C609A5500208CB6 /* ViewController.swift */; };
+		C93ACCED2C609A5500208CB6 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCEC2C609A5500208CB6 /* InitialViewController.swift */; };
 		C93ACCF22C609A5700208CB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C93ACCF12C609A5700208CB6 /* Assets.xcassets */; };
 		C93ACCF52C609A5700208CB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C93ACCF32C609A5700208CB6 /* LaunchScreen.storyboard */; };
 		C93ACD012C61DB1500208CB6 /* MyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C93ACD002C61DB1500208CB6 /* MyCell.xib */; };
 		C93ACD032C61DB3A00208CB6 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACD022C61DB3A00208CB6 /* MyCell.swift */; };
-		C961041E2C76978B00F8C284 /* MyTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961041D2C76978B00F8C284 /* MyTableTableViewController.swift */; };
 		C96104202C76A57A00F8C284 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961041F2C76A57A00F8C284 /* UIExtension.swift */; };
 		C961044D2C76E22500F8C284 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961044C2C76E22500F8C284 /* ContactTableViewController.swift */; };
 		C96104512C7702D100F8C284 /* contacts_mock_data.json in Resources */ = {isa = PBXBuildFile; fileRef = C96104502C7702D100F8C284 /* contacts_mock_data.json */; };
@@ -23,6 +22,8 @@
 		C96104572C77EE5E00F8C284 /* ContactTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96104562C77EE5E00F8C284 /* ContactTableCell.swift */; };
 		C961045A2C78061C00F8C284 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96104582C78061C00F8C284 /* ContactDetailViewController.swift */; };
 		C961045B2C78061C00F8C284 /* ContactDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96104592C78061C00F8C284 /* ContactDetailViewController.xib */; };
+		C961045E2C78319C00F8C284 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961045C2C78319C00F8C284 /* MenuTableViewController.swift */; };
+		C961045F2C78319C00F8C284 /* MenuTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C961045D2C78319C00F8C284 /* MenuTableViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,13 +31,12 @@
 		C93ACCE52C609A5500208CB6 /* ScratchUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScratchUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93ACCE82C609A5500208CB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C93ACCEA2C609A5500208CB6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C93ACCEC2C609A5500208CB6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C93ACCEC2C609A5500208CB6 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		C93ACCF12C609A5700208CB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C93ACCF42C609A5700208CB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C93ACCF62C609A5700208CB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C93ACD002C61DB1500208CB6 /* MyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyCell.xib; sourceTree = "<group>"; };
 		C93ACD022C61DB3A00208CB6 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
-		C961041D2C76978B00F8C284 /* MyTableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTableTableViewController.swift; sourceTree = "<group>"; };
 		C961041F2C76A57A00F8C284 /* UIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtension.swift; sourceTree = "<group>"; };
 		C961044C2C76E22500F8C284 /* ContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
 		C96104502C7702D100F8C284 /* contacts_mock_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = contacts_mock_data.json; sourceTree = "<group>"; };
@@ -44,6 +44,8 @@
 		C96104562C77EE5E00F8C284 /* ContactTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableCell.swift; sourceTree = "<group>"; };
 		C96104582C78061C00F8C284 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
 		C96104592C78061C00F8C284 /* ContactDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailViewController.xib; sourceTree = "<group>"; };
+		C961045C2C78319C00F8C284 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		C961045D2C78319C00F8C284 /* MenuTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuTableViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,10 +119,11 @@
 				C96104502C7702D100F8C284 /* contacts_mock_data.json */,
 				C93ACCF62C609A5700208CB6 /* Info.plist */,
 				C93ACCE82C609A5500208CB6 /* AppDelegate.swift */,
-				C961041D2C76978B00F8C284 /* MyTableTableViewController.swift */,
 				C93ACCEA2C609A5500208CB6 /* SceneDelegate.swift */,
 				C961041F2C76A57A00F8C284 /* UIExtension.swift */,
-				C93ACCEC2C609A5500208CB6 /* ViewController.swift */,
+				C93ACCEC2C609A5500208CB6 /* InitialViewController.swift */,
+				C961045C2C78319C00F8C284 /* MenuTableViewController.swift */,
+				C961045D2C78319C00F8C284 /* MenuTableViewController.xib */,
 				C93ACCF12C609A5700208CB6 /* Assets.xcassets */,
 				C93ACCF32C609A5700208CB6 /* LaunchScreen.storyboard */,
 				C93ACD042C61DB4300208CB6 /* MyCell */,
@@ -195,6 +198,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C961045F2C78319C00F8C284 /* MenuTableViewController.xib in Resources */,
 				C96104512C7702D100F8C284 /* contacts_mock_data.json in Resources */,
 				C93ACCF52C609A5700208CB6 /* LaunchScreen.storyboard in Resources */,
 				C93ACCF22C609A5700208CB6 /* Assets.xcassets in Resources */,
@@ -210,7 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C93ACCED2C609A5500208CB6 /* ViewController.swift in Sources */,
+				C93ACCED2C609A5500208CB6 /* InitialViewController.swift in Sources */,
 				C909FE292C63419C00766D10 /* NetworkClient.swift in Sources */,
 				C93ACD032C61DB3A00208CB6 /* MyCell.swift in Sources */,
 				C96104202C76A57A00F8C284 /* UIExtension.swift in Sources */,
@@ -218,9 +222,9 @@
 				C961044D2C76E22500F8C284 /* ContactTableViewController.swift in Sources */,
 				C96104552C770BB700F8C284 /* ContactDataManager.swift in Sources */,
 				C96104572C77EE5E00F8C284 /* ContactTableCell.swift in Sources */,
+				C961045E2C78319C00F8C284 /* MenuTableViewController.swift in Sources */,
 				C961045A2C78061C00F8C284 /* ContactDetailViewController.swift in Sources */,
 				C93ACCEB2C609A5500208CB6 /* SceneDelegate.swift in Sources */,
-				C961041E2C76978B00F8C284 /* MyTableTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

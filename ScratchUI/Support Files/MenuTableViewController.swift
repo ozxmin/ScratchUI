@@ -1,50 +1,47 @@
 //
-//  MyTableTableViewController.swift
+//  MenuTableViewController.swift
 //  ScratchUI
 //
-//  Created by Ozmin Vazquez on 21/08/24.
+//  Created by Ozmin Vazquez on 22/08/24.
 //
 
 import UIKit
 
-class MyTableTableViewController: UITableViewController {
+class MenuTableViewController: UITableViewController, UINavigationControllerDelegate {
+    let data = ["uno", "dos", "tres", "cuatro"]
 
+    override func loadView() {
+        super.loadView()
+        navigationItem.title = "Initial2"
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        restorationIdentifier = self.view.typeID
-//        restorationIdentifier = tableView.typeID
-
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
         
     }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        let cell = UITableViewCell()
+        cell.textLabel?.text = data[indexPath.row]
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        navigationController?.pushViewController(ContactTableViewController(), animated: true)
+        show(ContactTableViewController(), sender: nil)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -90,5 +87,5 @@ class MyTableTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

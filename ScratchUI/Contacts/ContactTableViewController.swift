@@ -30,7 +30,6 @@ class ContactTableViewController: UITableViewController {
     
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        tableView.backgroundColor = .blue
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
