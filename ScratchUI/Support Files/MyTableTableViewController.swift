@@ -11,8 +11,8 @@ class MyTableTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        restorationIdentifier = self.view.typeID
-        restorationIdentifier = tableView.typeID
+//        restorationIdentifier = self.view.typeID
+//        restorationIdentifier = tableView.typeID
 
 
         // Uncomment the following line to preserve selection between presentations
