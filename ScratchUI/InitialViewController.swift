@@ -7,25 +7,29 @@
 
 import UIKit
 
-class InitialViewController: UINavigationController {
+class InitialViewController: UINavigationController, UINavigationBarDelegate, UINavigationControllerDelegate {
     let myInt: Int
 
     override func loadView() {
         super.loadView()
 
-        let menuVC = MenuTableViewController()
-        addChild(menuVC)
+//        let menuVC = MenuTableViewController()
+//        addChild(menuVC)
+
+//        menuVC.didMove(toParent: self)
+//        delegate = menuVC
+        delegate = self
+//        navigationBar.delegate = self
+        view.backgroundColor = .orange
         navigationItem.title = "Initial1"
-        menuVC.didMove(toParent: self)
-        delegate = menuVC
+        navigationBar.largeContentTitle = "Intit 2"
+        title = "Init 3"
+        
         configureNavigationBar()
-
-
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     func configureNavigationBar() {

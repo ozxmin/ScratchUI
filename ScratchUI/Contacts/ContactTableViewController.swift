@@ -26,6 +26,7 @@ class ContactTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.dataSource = dataSource
         tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.classID())
+        view.backgroundColor = .magenta
     }
     
     override func viewIsAppearing(_ animated: Bool) {
