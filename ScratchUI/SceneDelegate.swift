@@ -17,13 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.frame = UIScreen.main.bounds
 
         window?.makeKeyAndVisible()
-
-        let initialViewController = InitialViewController(myInt: 1) // Use your own view controller here
-
-//        initialViewController.view.translatesAutoresizingMaskIntoConstraints = false
-
-
-
+        window?.backgroundColor = .cyan
+//        let initialViewController = UINavigationController(rootViewController: MenuTableViewController())
+        let initialViewController = InitialViewController(rootViewController: MenuTableViewController())
         window?.rootViewController = initialViewController
     }
     
