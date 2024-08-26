@@ -8,9 +8,30 @@
 import UIKit
 
 class ContactTableCell: UITableViewCell {
+
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+        print("🩵 \(Self.self): \(#function)")
+    }
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        print("🌶️ \(Self.self): \(#function)")
+    }
+
+    convenience init() {
+        self.init()
+        textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        print("🩵 \(Self.self): \(#function)")
+
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
     }
 
     static var nib: UINib {
@@ -20,6 +41,7 @@ class ContactTableCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-
     }
+
+
 }
