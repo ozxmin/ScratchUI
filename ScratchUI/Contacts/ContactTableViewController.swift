@@ -27,22 +27,24 @@ class ContactTableViewController: UITableViewController {
         tableView.dataSource = dataSource
         tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.classID())
         view.backgroundColor = .magenta
-    }
-    
-    override func viewIsAppearing(_ animated: Bool) {
-        super.viewIsAppearing(animated)
+        title = "Contacts"
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let childVC = UIViewController(nibName: "ContactDetailViewController", bundle: nil)
         let childVC = ContactDetailViewController()
-        showDetailViewController(childVC, sender: self)
+
+//        childVC.modalPresentationStyle = .fullScreen
+//        childVC.modalTransitionStyle = .crossDissolve
 //        addChild(childVC)
 //        view.addSubview(childVC.view)
 //        childVC.didMove(toParent: self)
+
+        show(childVC, sender: nil)
+        //showDetailViewController(childVC, sender: nil)
+        //present(childVC, animated: true, completion: nil)
         ///Not working performing segue. Why?
         // performSegue(withIdentifier: "ContactDetailViewController", sender: self)
-//        UIApplication.shared.windows.first?.rootViewController = destinationVC
-//        UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
     deinit {
         print("deinit ContactTableViewController")
