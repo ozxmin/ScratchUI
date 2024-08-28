@@ -20,14 +20,27 @@ import UIKit
  */
 
 class ContactTableViewController: UITableViewController {
-    let dataSource = ContactDataSource()
+    let source = ContactDataSource()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = dataSource
-        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.classID())
-        view.backgroundColor = .magenta
         title = "Contacts"
+        tableView.dataSource = source
+
+        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.classID())
+        view.backgroundColor = .systemOrange
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UILabel(frame: .zero)
+        header.text = source.sections[section]
+        header.font = UIFont.boldSystemFont(ofSize: 20)
+        header.backgroundColor = .systemGray
+        return header
+    }
+
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        source.sections[section]
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -46,37 +59,41 @@ class ContactTableViewController: UITableViewController {
         ///Not working performing segue. Why?
         // performSegue(withIdentifier: "ContactDetailViewController", sender: self)
     }
-    deinit {
-        print("deinit ContactTableViewController")
-    }
 }
 
 // MARK: -
 class ContactDataSource: NSObject {
-    let dataManager: ContactDataManager
-    let contacts: [ContactEntity]
-    override init() {
-        dataManager = ContactDataManager()
-        contacts = dataManager.getData()
+    private let dataManager: ContactDataManager
+    private let contacts: Dictionary<String, [ContactEntity]>
+    var sections: [String] {
+        Array(contacts.keys)
     }
 
+    override init() {
+        dataManager = ContactDataManager()
+        contacts = dataManager.mapToSections()
+    }
 }
 
 // MARK: - UITableViewDataSource
 extension ContactDataSource: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        contacts.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        sections.count
     }
+
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sections
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let sectionIndex = sections[section]
+        return contacts[sectionIndex]?.count ?? 0
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableCell.classID(), for: indexPath)
-        cell.textLabel?.text = contacts[indexPath.item].name
+        let sectionIndex = sections[indexPath.section]
+        cell.textLabel?.text = contacts[sectionIndex]?[indexPath.row].name
         return cell
     }
-}
-
-// MARK: - UITableViewDataSourcePrefetching
-extension ContactDataSource: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        //preload items at specified index
-    }
-}
+} 
