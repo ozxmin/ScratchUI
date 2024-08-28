@@ -9,12 +9,60 @@ import Foundation
 
 class ContactDataManager {
     //TODO: - Get off main thread
-    func getData() -> [ContactEntity] {
+
+    func mapToSections() -> Dictionary<String, [ContactEntity]> {
+        let alphabet = CharacterSet.getAlphabet()!
+        let array = decodeJsonData()
+
+        let grouped = Dictionary(grouping: array) { String($0.name.first?.uppercased() ?? "#") }
+        return grouped
+    }
+
+    func decodeJsonData() -> [ContactEntity] {
         let contacts: [ContactEntity] = Bundle.main.decode("contacts_mock_data")
         return contacts
-
     }
 }
+
+// MARK: - Utilities
+
+extension CharacterSet {
+    
+    // stackoverflow.com/questions/69495317/how-to-get-localized-alphabet-swift-ios
+    static func getAlphabet() -> [String]? {
+        let local = Locale(identifier: Locale.current.identifier)
+        let localSet = local.exemplarCharacterSet
+        let upperCaseIntersection = localSet?.intersection(CharacterSet.uppercaseLetters)
+
+        guard let charSubset = upperCaseIntersection else { return nil }
+        
+        let alphabet = charSubset.codePoints().compactMap { UnicodeScalar($0) }.map { String(Character($0)) }
+        // If you don't sort alphabetical order is not guaranteed.
+        let sorted = alphabet.sorted(by: {$0.localizedCompare($1) == .orderedAscending } )
+        return sorted
+    }
+
+    private func codePoints() -> [Int] {
+        var result: [Int] = []
+        var plane = 0
+        // following documentation at 
+        // developer.apple.com/documentation/foundation/nscharacterset/1417719-bitmaprepresentation
+        for (i, w) in bitmapRepresentation.enumerated() {
+            let k = i % 0x2001
+            if k == 0x2000 {
+                // plane index byte
+                plane = Int(w) << 13
+                continue
+            }
+            let base = (plane + k) << 3
+            for j in 0 ..< 8 where w & 1 << j != 0 {
+                result.append(base + j)
+            }
+        }
+        return result
+    }
+}
+
 
 extension Bundle {
     func decode<T: Decodable>(_ file: String) -> T {
@@ -46,7 +94,6 @@ extension Bundle {
             fatalError("Failed to decode \(file) from bundle: \(error.localizedDescription)")
         }
     }
-
 }
 
 
@@ -70,6 +117,5 @@ struct ContactEntity: Identifiable, Codable, Hashable {
         case email
         case dateAdded = "date_added"
     }
-    //{"id":4,"first_name":"Phebe","last_name":"Plues","email":"pplues3@hc360.com","phone":"523-613-1844","address":"61 Blaine Road","normal_dist_val":0.56,"date_added":"5/15/2024","avatar":"https://robohash.org/accusantiumetquis.jpg?size=50x50&set=set1"}
 }
 
