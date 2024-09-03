@@ -19,7 +19,7 @@ struct DemoInfo: Hashable, RawRepresentable, ExpressibleByStringLiteral {
     init(stringLiteral: StringLiteralType) {
         name = String(stringLiteral)
         switch stringLiteral {
-            case "ContactTableViewController": screen = ContactTableViewController.self
+            case "ContactTableViewController": screen = ContactsTableViewController.self
             default: screen = ContactDetailViewController.self
         }
     }
@@ -45,14 +45,14 @@ enum Demos: DemoInfo, CaseIterable {
     //case dream = ContactTableViewController.self
     var rawValue: DemoInfo {
         switch self {
-            case .contacts: return DemoInfo(rawValue: ContactTableViewController.self)!
+            case .contacts: return DemoInfo(rawValue: ContactsTableViewController.self)!
             case .test: return DemoInfo(rawValue: ContactDetailViewController.self)!
         }
     }
 
     init?(rawValue: DemoInfo) {
         switch rawValue.screen {
-            case is ContactTableViewController.Type: self = .contacts
+            case is ContactsTableViewController.Type: self = .contacts
             case is ContactDetailViewController.Type: self = .test
             default: return nil
         }

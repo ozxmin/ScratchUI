@@ -10,19 +10,7 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-//    var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        // Create the window
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//
-//        // Instantiate the initial view controller
-//        let initialViewController = ViewController()
-//
-//        // Set the root view controller
-//        window?.rootViewController = initialViewController
-//        window?.makeKeyAndVisible()
         return true
     }
 

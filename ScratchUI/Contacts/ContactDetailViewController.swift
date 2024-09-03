@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ContactDetailViewController: UIViewController {
+final class ContactDetailViewController: UIViewController {
 
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var firstName: UILabel!
@@ -15,13 +15,10 @@ class ContactDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
-
     
-    // MARK: - Navigation
+// MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
