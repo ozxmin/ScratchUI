@@ -8,22 +8,22 @@
 import UIKit
 
 // MARK: -
-final class ContactDataSource: NSObject {
-    private let dataManager: ContactDataManager
+final class ContactsDataSource: NSObject {
+    private let dataManager: ContactsDataManager
     private let contacts: Dictionary<String, [ContactEntity]>
     var sections: [String] {
-        Array(contacts.keys)
+        Array(contacts.keys.sorted())
     }
 
     override init() {
-        dataManager = ContactDataManager()
-        contacts = dataManager.mappedToSections()
+        dataManager = ContactsDataManager()
+        contacts = dataManager.sortedAndKeyed()
         super.init()
     }
 }
 
 // MARK: - UITableViewDataSource
-extension ContactDataSource: UITableViewDataSource {
+extension ContactsDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         sections.count
     }

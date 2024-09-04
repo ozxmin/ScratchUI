@@ -14,6 +14,31 @@ final class InitialViewController: UINavigationController {
         view.backgroundColor = .magenta
 
         configureNavigationBar(with: self.navigationBar)
+        self.toolbarItems = [
+            UIBarButtonItem(title: "", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems()),
+            UIBarButtonItem(title: "", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems())
+        ]
+
+    }
+
+    func menuItems () -> UIMenu {
+        let addMenuItems = UIMenu(title: "", options: .displayInline, children: [
+            UIAction (title: "Copy", image: UIImage (systemName: "doc") ) { (_) in
+                print ("Copy")
+            },
+            UIAction (title: "Share", image: UIImage (systemName: "square.and.arrow.up")) { (_) in
+                print ("Share")
+            },
+            UIAction (title: "Favorite", image: UIImage(systemName: "suit.heart")){ （_） in
+                print ("Favorite")
+            },
+            UIAction (title: "Show All Photos", image: UIImage (systemName: "photo.on.rectangle")) { (_) in
+                print ("Show All Photos")
+            },
+            UIAction(title: "Delete", image: UIImage (systemName: "trash"), attributes: .destructive) { (_) in
+                print ("Delete")
+            }])
+        return addMenuItems
     }
 
     private func configureNavigationBar(with navigationBar: UINavigationBar) {

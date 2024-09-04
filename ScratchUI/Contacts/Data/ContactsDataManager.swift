@@ -7,12 +7,16 @@
 
 import Foundation
 
-final class ContactDataManager {
+final class ContactsDataManager {
     // TODO: - Get off main thread
-    func mappedToSections() -> Dictionary<String, [ContactEntity]> {
-
+    func unsortedKeys() -> Dictionary<String, [ContactEntity]> {
         let array = decodeJsonData()
+        let grouped = Dictionary(grouping: array) { String($0.name.first?.uppercased() ?? "#") }
+        return grouped
+    }
 
+    func sortedAndKeyed() -> Dictionary<String, [ContactEntity]> {
+        let array = decodeJsonData().sorted { $0.name < $1.name }
         let grouped = Dictionary(grouping: array) { String($0.name.first?.uppercased() ?? "#") }
         return grouped
     }
