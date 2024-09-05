@@ -65,6 +65,26 @@
 			path = RestAPI;
 			sourceTree = "<group>";
 		};
+		C90D7BA82C8933C400FDF54A /* Menu Scene */ = {
+			isa = PBXGroup;
+			children = (
+				C961045C2C78319C00F8C284 /* MenuTableViewController.swift */,
+				C961045D2C78319C00F8C284 /* MenuTableViewController.xib */,
+			);
+			path = "Menu Scene";
+			sourceTree = "<group>";
+		};
+		C90D7BA92C89341E00FDF54A /* App Files */ = {
+			isa = PBXGroup;
+			children = (
+				C93ACCEA2C609A5500208CB6 /* SceneDelegate.swift */,
+				C93ACCF32C609A5700208CB6 /* LaunchScreen.storyboard */,
+				C93ACCF62C609A5700208CB6 /* Info.plist */,
+				C93ACCE82C609A5500208CB6 /* AppDelegate.swift */,
+			);
+			path = "App Files";
+			sourceTree = "<group>";
+		};
 		C93ACCDC2C609A5500208CB6 = {
 			isa = PBXGroup;
 			children = (
@@ -84,17 +104,15 @@
 		C93ACCE72C609A5500208CB6 /* ScratchUI */ = {
 			isa = PBXGroup;
 			children = (
-				C93ACCEA2C609A5500208CB6 /* SceneDelegate.swift */,
 				C93ACCEC2C609A5500208CB6 /* InitialViewController.swift */,
-				C961045C2C78319C00F8C284 /* MenuTableViewController.swift */,
-				C961045D2C78319C00F8C284 /* MenuTableViewController.xib */,
-				C961044B2C76E20700F8C284 /* Contacts */,
+				C90D7BA82C8933C400FDF54A /* Menu Scene */,
+				C961044B2C76E20700F8C284 /* Contacts Scene */,
 				C96104522C77044300F8C284 /* Support Files */,
 			);
 			path = ScratchUI;
 			sourceTree = "<group>";
 		};
-		C961044B2C76E20700F8C284 /* Contacts */ = {
+		C961044B2C76E20700F8C284 /* Contacts Scene */ = {
 			isa = PBXGroup;
 			children = (
 				C96104532C7707DD00F8C284 /* Data */,
@@ -103,18 +121,16 @@
 				C96104582C78061C00F8C284 /* ContactDetailViewController.swift */,
 				C96104592C78061C00F8C284 /* ContactDetailViewController.xib */,
 			);
-			path = Contacts;
+			path = "Contacts Scene";
 			sourceTree = "<group>";
 		};
 		C96104522C77044300F8C284 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				C90D7BA92C89341E00FDF54A /* App Files */,
 				C96104502C7702D100F8C284 /* contacts_mock_data.json */,
-				C93ACCF62C609A5700208CB6 /* Info.plist */,
-				C93ACCE82C609A5500208CB6 /* AppDelegate.swift */,
 				C961041F2C76A57A00F8C284 /* UIExtension.swift */,
 				C93ACCF12C609A5700208CB6 /* Assets.xcassets */,
-				C93ACCF32C609A5700208CB6 /* LaunchScreen.storyboard */,
 				C909FE272C63416400766D10 /* RestAPI */,
 			);
 			path = "Support Files";
@@ -358,7 +374,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86R5XVSPS7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ScratchUI/Support Files/Info.plist";
+				INFOPLIST_FILE = "ScratchUI/Support Files/App Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -385,7 +401,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86R5XVSPS7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ScratchUI/Support Files/Info.plist";
+				INFOPLIST_FILE = "ScratchUI/Support Files/App Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
