@@ -8,7 +8,7 @@
 import UIKit
 
 /**
- TODO:
+ # TODO:
  - support sort alphabetically
  - support delete, add and modify
  - support swiftData persistance
@@ -18,10 +18,9 @@ import UIKit
  - add pull to refresh
  - Bar item toggle to show contacts as collection view with its profile pictures (pre fetched)
 - Get all data fetching off main thread an then move the UI updates to main thread
- */
+*/
 
 
-/// #Markdown
 final class ContactsTableViewController: UITableViewController {
     private let source = ContactsDataSource()
 
@@ -46,6 +45,9 @@ extension ContactsTableViewController {
         navigationController?.isNavigationBarHidden = false
         let optionMenu = UIBarButtonItem(title: "Options", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems())
         navigationItem.rightBarButtonItem = optionMenu
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 
     @objc private func menuItems () -> UIMenu {

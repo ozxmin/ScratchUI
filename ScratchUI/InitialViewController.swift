@@ -47,18 +47,3 @@ final class InitialViewController: UINavigationController {
         ])
     }
 }
-
-extension InitialViewController {
-    private func loadXib() {
-//        let nib = UINib(nibName: "HealthQuestionnaireView", bundle: bundle)
-//        if let nibView = nib.instantiate(withOwner: self, options: nil).first as? UIView {
-//            nibView.translatesAutoresizingMaskIntoConstraints = false
-//            view.backgroundColor = UIColor.clear
-//            view.addSubview(nibView)
-//            nibView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//            nibView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//            nibView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//            nibView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//        }
-    }
-}
