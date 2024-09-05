@@ -9,17 +9,17 @@ import UIKit
 
 /**
  # TODO:
- - support sort alphabetically
- - support delete, add and modify
- - support swiftData persistance
  - Instead of first name, chose another field to show in the table and sortby that field
  - Support re arrenging cells (disables sorted alphabetically)
  - Support search filtering, desireably fuzzy match, and search all fields
  - add pull to refresh
  - Bar item toggle to show contacts as collection view with its profile pictures (pre fetched)
-- Get all data fetching off main thread an then move the UI updates to main thread
-*/
+- Get all data fetching off main thread an then move the UI updates to main  thread
+ - support sort alphabetically
+ - support delete, add and modify
+ - support swiftData persistance
 
+*/
 
 final class ContactsTableViewController: UITableViewController {
     private let source = ContactsDataSource()
@@ -83,7 +83,12 @@ extension ContactsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let childVC = ContactDetailViewController()
-        show(childVC, sender: nil)
+        let contactDetail = ContactDetailViewController()
+        let key = source.sortedSections[indexPath.section]
+        let contact = source.contacts[key]?[indexPath.row]
+        contactDetail.contact = contact
+
+        show(contactDetail, sender: contact)
+
     }
 }

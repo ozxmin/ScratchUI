@@ -10,7 +10,7 @@ import UIKit
 // MARK: -
 final class ContactsDataSource: NSObject {
     private let dataManager: ContactsDataManager
-    private let contacts: Dictionary<String, [ContactEntity]>
+    let contacts: Dictionary<String, [ContactEntity]>
     var sortedSections: [String] {
         Array(contacts.keys.sorted())
     }
