@@ -43,12 +43,8 @@ final class ContactsTableViewController: UITableViewController {
 // MARK: - Navigation Bar
 extension ContactsTableViewController {
     private func configureNavigationBar() {
-
         navigationController?.isNavigationBarHidden = false
-        navigationController?.isToolbarHidden = false
-
         let optionMenu = UIBarButtonItem(title: "Options", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems())
-
         navigationItem.rightBarButtonItem = optionMenu
     }
 
@@ -74,14 +70,14 @@ extension ContactsTableViewController {
 extension ContactsTableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UILabel(frame: .zero)
-        header.text = source.sections[section]
+        header.text = source.sortedSections[section]
         header.font = UIFont.boldSystemFont(ofSize: 20)
         header.backgroundColor = .systemGray
         return header
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        source.sections[section]
+        source.sortedSections[section]
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

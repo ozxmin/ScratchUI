@@ -47,7 +47,7 @@ final class InitialViewController: UINavigationController {
         appearance.configureWithDefaultBackground()
         navigationBar.standardAppearance = appearance
         navigationBar.compactAppearance = appearance
-//        navigationBar.scrollEdgeAppearance = appearance
+
     }
 
     /// If self where UIViewController

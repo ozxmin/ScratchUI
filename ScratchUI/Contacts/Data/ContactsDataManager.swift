@@ -9,6 +9,7 @@ import Foundation
 
 final class ContactsDataManager {
     // TODO: - Get off main thread
+   
     func unsortedKeys() -> Dictionary<String, [ContactEntity]> {
         let array = decodeJsonData()
         let grouped = Dictionary(grouping: array) { String($0.name.first?.uppercased() ?? "#") }
@@ -16,8 +17,8 @@ final class ContactsDataManager {
     }
 
     func sortedAndKeyed() -> Dictionary<String, [ContactEntity]> {
-        let array = decodeJsonData().sorted { $0.name < $1.name }
-        let grouped = Dictionary(grouping: array) { String($0.name.first?.uppercased() ?? "#") }
+        let alphabetically = decodeJsonData().sorted { $0.name < $1.name }
+        let grouped = Dictionary(grouping: alphabetically) { String($0.name.first?.uppercased() ?? "#") }
         return grouped
     }
 
