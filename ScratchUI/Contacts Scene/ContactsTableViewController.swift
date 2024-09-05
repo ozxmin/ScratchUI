@@ -47,7 +47,7 @@ extension ContactsTableViewController {
         navigationItem.rightBarButtonItem = optionMenu
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
     }
 
     @objc private func menuItems () -> UIMenu {

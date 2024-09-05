@@ -9,8 +9,7 @@ import UIKit
 
 class MenuTableViewController: UITableViewController {
 
-//    let items: KeyValuePairs<String, UIViewController.Type> = ["Contacts": ContactTableViewController.self]
-    let demos = Demos.allCases
+    let scenes = Scene.allCases
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +20,8 @@ class MenuTableViewController: UITableViewController {
 //        selectDemo(option: .contacts)
     }
 
-    func selectDemo(option: Demos) {
-        guard let position = option.index() else {
+    func selectDemo(option: Scene) {
+        guard let position = option.index else {
             return
         }
         tableView(tableView, didSelectRowAt: IndexPath(row: position, section: 0))
@@ -31,20 +30,24 @@ class MenuTableViewController: UITableViewController {
 
 // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        demos.count
+        scenes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let name = demos[indexPath.row].rawValue.name
-        cell.textLabel?.text = name
+        var content = cell.defaultContentConfiguration()
+        content.textProperties.font = UIFont.preferredFont(forTextStyle: .title2)
+        content.text = scenes[indexPath.row].title
+
+        cell.contentConfiguration = content
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //navigationController?.pushViewController(ContactTableViewController(), animated: true)
 //        show(ContactTableViewController(), sender: nil)
-        let screen = demos[indexPath.row].rawValue.screen.init()
+        let screen = scenes[indexPath.row].create()
         show(screen, sender: nil)
     }
 
@@ -62,7 +65,7 @@ extension MenuTableViewController {
     }
 
     func menuItems () -> UIMenu {
-        let addMenuItems = UIMenu(title: "", options: .displayInline, children: [
+        let addMenuItems = UIMenu(title: "", options: .displayAsPalette, children: [
             UIAction (title: "Copy", image: UIImage (systemName: "doc") ) { (_) in
                 print ("Copy")
             },

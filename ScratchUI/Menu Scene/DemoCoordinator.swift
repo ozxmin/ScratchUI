@@ -7,65 +7,64 @@
 
 import UIKit
 
-struct DemoInfo: Hashable, RawRepresentable, ExpressibleByStringLiteral {
-    var rawValue: RawValue {
-        screen
-    }
-    typealias RawValue = UIViewController.Type
+@dynamicMemberLookup
+enum Scene: String, CaseIterable {
+    case contacts = "Contacts"
+    case details = "Details"
 
-    let name: String
-    let screen: RawValue
-
-    init(stringLiteral: StringLiteralType) {
-        name = String(stringLiteral)
-        switch stringLiteral {
-            case "ContactTableViewController": screen = ContactsTableViewController.self
-            default: screen = ContactDetailViewController.self
-        }
-    }
-
-    init?(rawValue: RawValue) {
-        screen = rawValue
-        name = String(describing: rawValue)
-    }
-
-    static func == (lhs: DemoInfo, rhs: DemoInfo) -> Bool {
-        lhs.screen.self == rhs.screen.self
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(String(describing: screen))
-    }
-}
-
-enum Demos: DemoInfo, CaseIterable {
-    case contacts
-    case test
-    //case three = DemoInfo(rawValue: ContactTableViewController.self)
-    //case dream = ContactTableViewController.self
-    var rawValue: DemoInfo {
+    var repo: Repository {
         switch self {
-            case .contacts: return DemoInfo(rawValue: ContactsTableViewController.self)!
-            case .test: return DemoInfo(rawValue: ContactDetailViewController.self)!
+            case .contacts: return make(ContactsTableViewController.self)
+            case .details: return make(ContactDetailViewController.self)
+        }
+        
+        func make(_ view: UIViewController.Type) -> Repository {
+            Repository(self.rawValue, view)
         }
     }
 
-    init?(rawValue: DemoInfo) {
-        switch rawValue.screen {
-            case is ContactsTableViewController.Type: self = .contacts
-            case is ContactDetailViewController.Type: self = .test
-            default: return nil
+    func create() -> UIViewController {
+        let view = repo.view.init()
+        view.title = repo.title
+        return view
+    }
+
+    func create(scene: Scene) -> UIViewController {
+        scene.create()
+    }
+
+    func create(at index: Int) -> UIViewController? {
+        Scene[index]?.create()
+    }
+
+    struct Repository {
+        let title: String
+        let view: UIViewController.Type
+        let dependencies: Any?
+
+        init(_ title: String, _ view: UIViewController.Type) {
+            self.title = title
+            self.view = view
+            self.dependencies = nil
         }
     }
 
-    static subscript(index: Int) -> Demos? {
-        guard index >= 0 && index < Self.allCases.count else {
+/// - Helpers
+    static subscript(index: Int) -> Scene? {
+        guard index >= 0 && index < allCases.count else {
             return nil
         }
-        return Self.allCases[index]
+        return allCases[index]
     }
 
-    func index() -> Int? {
-        return Self.allCases.firstIndex(of: self)
+    var index: Int? {
+        Self.allCases.firstIndex(of: self)
     }
+
+    subscript<T>(dynamicMember member: KeyPath<Repository, T>) -> T {
+        repo[keyPath: member]
+    }
+
+
+
 }
