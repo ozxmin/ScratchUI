@@ -89,6 +89,5 @@ extension ContactsTableViewController {
         contactDetail.contact = contact
 
         show(contactDetail, sender: contact)
-
     }
 }

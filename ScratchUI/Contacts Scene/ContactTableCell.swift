@@ -23,7 +23,7 @@ final class ContactTableCell: UITableViewCell {
 
     private func setListConfiguration() {
         content = defaultContentConfiguration()
-        content?.textProperties.color = .black
+        content?.textProperties.color = UIColor.label
         contentConfiguration = content
     }
 
@@ -40,5 +40,19 @@ final class ContactTableCell: UITableViewCell {
         let normalWord = NSMutableAttributedString(string: " \(normal)", attributes: normalAttribute)
         boldWord.append(normalWord)
         return boldWord
+    }
+}
+
+
+
+struct CellConfigurator<Model> {
+    let title: KeyPath<Model, String>
+    let subtitle: KeyPath<Model, String>
+
+
+    func configure(_ cell: UITableViewCell, for model: Model) {
+        cell.textLabel?.text = model[keyPath: title]
+        cell.detailTextLabel?.text = model[keyPath: subtitle]
+
     }
 }

@@ -14,6 +14,8 @@
 		C93ACCED2C609A5500208CB6 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCEC2C609A5500208CB6 /* InitialViewController.swift */; };
 		C93ACCF22C609A5700208CB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C93ACCF12C609A5700208CB6 /* Assets.xcassets */; };
 		C93ACCF52C609A5700208CB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C93ACCF32C609A5700208CB6 /* LaunchScreen.storyboard */; };
+		C94896F32C8A7A4600F36CDE /* ContactsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94896F22C8A7A4600F36CDE /* ContactsCollectionViewController.swift */; };
+		C94896F52C8A7B2900F36CDE /* ContactCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94896F42C8A7B2900F36CDE /* ContactCollectionCell.swift */; };
 		C960521B2C869FDC00A6DF85 /* ContactsUITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C960521A2C869FDC00A6DF85 /* ContactsUITableViewDataSource.swift */; };
 		C96104202C76A57A00F8C284 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961041F2C76A57A00F8C284 /* UIExtension.swift */; };
 		C961044D2C76E22500F8C284 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961044C2C76E22500F8C284 /* ContactsTableViewController.swift */; };
@@ -24,6 +26,7 @@
 		C961045B2C78061C00F8C284 /* ContactDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96104592C78061C00F8C284 /* ContactDetailViewController.xib */; };
 		C961045E2C78319C00F8C284 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C961045C2C78319C00F8C284 /* MenuTableViewController.swift */; };
 		C961045F2C78319C00F8C284 /* MenuTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C961045D2C78319C00F8C284 /* MenuTableViewController.xib */; };
+		C9A2B2BB2C90F3EF00C88856 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A2B2BA2C90F3EF00C88856 /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,8 @@
 		C93ACCF12C609A5700208CB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C93ACCF42C609A5700208CB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C93ACCF62C609A5700208CB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C94896F22C8A7A4600F36CDE /* ContactsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCollectionViewController.swift; sourceTree = "<group>"; };
+		C94896F42C8A7B2900F36CDE /* ContactCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionCell.swift; sourceTree = "<group>"; };
 		C960521A2C869FDC00A6DF85 /* ContactsUITableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsUITableViewDataSource.swift; sourceTree = "<group>"; };
 		C961041F2C76A57A00F8C284 /* UIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtension.swift; sourceTree = "<group>"; };
 		C961044C2C76E22500F8C284 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +51,7 @@
 		C96104592C78061C00F8C284 /* ContactDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailViewController.xib; sourceTree = "<group>"; };
 		C961045C2C78319C00F8C284 /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		C961045D2C78319C00F8C284 /* MenuTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuTableViewController.xib; sourceTree = "<group>"; };
+		C9A2B2BA2C90F3EF00C88856 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,8 @@
 				C96104562C77EE5E00F8C284 /* ContactTableCell.swift */,
 				C96104582C78061C00F8C284 /* ContactDetailViewController.swift */,
 				C96104592C78061C00F8C284 /* ContactDetailViewController.xib */,
+				C94896F22C8A7A4600F36CDE /* ContactsCollectionViewController.swift */,
+				C94896F42C8A7B2900F36CDE /* ContactCollectionCell.swift */,
 			);
 			path = "Contacts Scene";
 			sourceTree = "<group>";
@@ -135,6 +143,7 @@
 				C961041F2C76A57A00F8C284 /* UIExtension.swift */,
 				C93ACCF12C609A5700208CB6 /* Assets.xcassets */,
 				C909FE272C63416400766D10 /* RestAPI */,
+				C9A2B2BA2C90F3EF00C88856 /* Utilities.swift */,
 			);
 			path = "Support Files";
 			sourceTree = "<group>";
@@ -221,14 +230,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C94896F52C8A7B2900F36CDE /* ContactCollectionCell.swift in Sources */,
 				C93ACCED2C609A5500208CB6 /* InitialViewController.swift in Sources */,
 				C90D7BAB2C89355100FDF54A /* DemoCoordinator.swift in Sources */,
+				C9A2B2BB2C90F3EF00C88856 /* Utilities.swift in Sources */,
 				C909FE292C63419C00766D10 /* NetworkClient.swift in Sources */,
 				C96104202C76A57A00F8C284 /* UIExtension.swift in Sources */,
 				C93ACCE92C609A5500208CB6 /* AppDelegate.swift in Sources */,
 				C961044D2C76E22500F8C284 /* ContactsTableViewController.swift in Sources */,
 				C96104552C770BB700F8C284 /* ContactsDataManager.swift in Sources */,
 				C96104572C77EE5E00F8C284 /* ContactTableCell.swift in Sources */,
+				C94896F32C8A7A4600F36CDE /* ContactsCollectionViewController.swift in Sources */,
 				C960521B2C869FDC00A6DF85 /* ContactsUITableViewDataSource.swift in Sources */,
 				C961045E2C78319C00F8C284 /* MenuTableViewController.swift in Sources */,
 				C961045A2C78061C00F8C284 /* ContactDetailViewController.swift in Sources */,

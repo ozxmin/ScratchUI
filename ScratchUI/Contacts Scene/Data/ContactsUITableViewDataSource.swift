@@ -29,7 +29,7 @@ extension ContactsDataSource: UITableViewDataSource {
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sortedSections
+        sortedSections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -38,14 +38,29 @@ extension ContactsDataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: ContactTableCell.classID(), for: indexPath) as? ContactTableCell else {
-            fatalError()
-        }        
+
+        let cell: ContactTableCell = tableView.dequeue(for: indexPath)
+
         let currentSection = sortedSections[indexPath.section]
         guard let contact = contacts[currentSection]?[indexPath.row] else { fatalError() }
+
+        let conf = CellConfigurator<ContactEntity>(title: \.name, subtitle: \.lastName)
+        conf.configure(cell, for: contact)
+
 
         cell.fillIn(with: contact)
         return cell
     }
 }
+
+
+extension UITableView {
+    func dequeue<Cell: UITableViewCell>(for indexPath: IndexPath, cell: Cell? = nil) -> Cell {
+        let cellid = Cell.classID()
+        guard let cell = dequeueReusableCell(withIdentifier: cellid, for: indexPath) as? Cell else {
+            fatalError(#function)
+        }
+        return cell
+    }
+}
+
