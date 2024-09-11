@@ -43,16 +43,34 @@ final class ContactTableCell: UITableViewCell {
     }
 }
 
-
-
-struct CellConfigurator<Model> {
-    let title: KeyPath<Model, String>
-    let subtitle: KeyPath<Model, String>
-
-
-    func configure(_ cell: UITableViewCell, for model: Model) {
-        cell.textLabel?.text = model[keyPath: title]
-        cell.detailTextLabel?.text = model[keyPath: subtitle]
-
-    }
-}
+//func bind<Model>(title: KeyPath<Model, String>, model: Model) {
+//    self.textLabel?.text = model[keyPath: title]
+//}
+//
+//struct CellConfigurator<Model> {
+//    let title: KeyPath<Model, String>
+//    let subtitle: KeyPath<Model, String>
+//
+//    func configure(_ cell: UITableViewCell, for model: Model) {
+//        cell.textLabel?.text = model[keyPath: title]
+//        cell.detailTextLabel?.text = model[keyPath: subtitle]
+//
+//    }
+//}
+//
+//func set() {
+//    let configurator = Configurator<ContactEntity>(\.name, \.lastName)
+//}
+//
+//func setUI(config: Configurator<some Any>) {
+//    textLabel?.text = config.name
+//}
+//
+//struct Configurator<Model> {
+//    let name: KeyPath<Model, String>
+//    let lastName: KeyPath<Model, String>
+//    init(_ name: KeyPath<Model, String>, _ lastName: KeyPath<Model, String>) {
+//        self.name = name
+//        self.lastName = lastName
+//    }
+//}

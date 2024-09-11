@@ -10,14 +10,15 @@ import UIKit
 // MARK: -
 final class ContactsDataSource: NSObject {
     private let dataManager: ContactsDataManager
-    let contacts: Dictionary<String, [ContactEntity]>
     var sortedSections: [String] {
-        Array(contacts.keys.sorted())
+        dataManager.sortedSections
     }
-
+    var contacts: [String: [ContactEntity]] {
+        dataManager.contacts
+    }
+    
     override init() {
         dataManager = ContactsDataManager()
-        contacts = dataManager.sortedAndKeyed()
         super.init()
     }
 }
@@ -25,34 +26,26 @@ final class ContactsDataSource: NSObject {
 // MARK: - UITableViewDataSource
 extension ContactsDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        sortedSections.count
+        dataManager.contacts.count
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        sortedSections
+        dataManager.sortedSections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionIndex = sortedSections[section]
-        return contacts[sectionIndex]?.count ?? 0
+        let sectionIndex = dataManager.sortedSections[section]
+        return dataManager.contacts[sectionIndex]?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell: ContactTableCell = tableView.dequeue(for: indexPath)
-
-        let currentSection = sortedSections[indexPath.section]
-        guard let contact = contacts[currentSection]?[indexPath.row] else { fatalError() }
-
-        let conf = CellConfigurator<ContactEntity>(title: \.name, subtitle: \.lastName)
-        conf.configure(cell, for: contact)
-
+        let contact = dataManager.getElement(at: indexPath)
 
         cell.fillIn(with: contact)
         return cell
     }
 }
-
 
 extension UITableView {
     func dequeue<Cell: UITableViewCell>(for indexPath: IndexPath, cell: Cell? = nil) -> Cell {

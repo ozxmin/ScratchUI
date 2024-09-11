@@ -9,14 +9,24 @@ import Foundation
 
 final class ContactsDataManager {
     // TODO: - Get off main thread
-   
-    func unsortedKeys() -> Dictionary<String, [ContactEntity]> {
+    lazy var contacts = sortedAndKeyed()
+    var sortedSections: [String] {
+        Array(sortedAndKeyed().keys.sorted())
+    }
+
+    func getElement(at indexPath: IndexPath) -> ContactEntity {
+        let currentSection = sortedSections[indexPath.section]
+        guard let contact = contacts[currentSection]?[indexPath.row] else { fatalError(#function) }
+        return contact
+    }
+
+    private func unsortedKeys() -> Dictionary<String, [ContactEntity]> {
         let array = decodeJsonData()
         let grouped = Dictionary(grouping: array) { String($0.name.first?.uppercased() ?? "#") }
         return grouped
     }
 
-    func sortedAndKeyed() -> Dictionary<String, [ContactEntity]> {
+    private func sortedAndKeyed() -> Dictionary<String, [ContactEntity]> {
         let alphabetically = decodeJsonData().sorted { $0.name < $1.name }
         let grouped = Dictionary(grouping: alphabetically) { String($0.name.first?.uppercased() ?? "#") }
         return grouped
