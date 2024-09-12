@@ -125,12 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				C96104532C7707DD00F8C284 /* Data */,
-				C961044C2C76E22500F8C284 /* ContactsTableViewController.swift */,
-				C96104562C77EE5E00F8C284 /* ContactTableCell.swift */,
-				C96104582C78061C00F8C284 /* ContactDetailViewController.swift */,
-				C96104592C78061C00F8C284 /* ContactDetailViewController.xib */,
-				C94896F22C8A7A4600F36CDE /* ContactsCollectionViewController.swift */,
-				C94896F42C8A7B2900F36CDE /* ContactCollectionCell.swift */,
+				C9A2B2BC2C91715500C88856 /* Views */,
 			);
 			path = "Contacts Scene";
 			sourceTree = "<group>";
@@ -155,6 +150,35 @@
 				C960521A2C869FDC00A6DF85 /* ContactsUITableViewDataSource.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		C9A2B2BC2C91715500C88856 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C9A2B2BE2C91719000C88856 /* List */,
+				C9A2B2BD2C91717F00C88856 /* Collection */,
+				C96104582C78061C00F8C284 /* ContactDetailViewController.swift */,
+				C96104592C78061C00F8C284 /* ContactDetailViewController.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C9A2B2BD2C91717F00C88856 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				C94896F22C8A7A4600F36CDE /* ContactsCollectionViewController.swift */,
+				C94896F42C8A7B2900F36CDE /* ContactCollectionCell.swift */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		C9A2B2BE2C91719000C88856 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				C961044C2C76E22500F8C284 /* ContactsTableViewController.swift */,
+				C96104562C77EE5E00F8C284 /* ContactTableCell.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
