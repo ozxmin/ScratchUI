@@ -16,45 +16,59 @@ class ContactsCollectionViewController: UICollectionViewController {
 
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
 
+    init() {
+        let layout = ContactsCollectionViewController.createLayout()
+        super.init(collectionViewLayout: layout)
+    }
+
+    required init?(coder: NSCoder) {
+        assertionFailure("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func loadView() {
         super.loadView()
         configureHierarchy()
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureDataSource()
     }
 
-    private func createLayout() -> UICollectionViewLayout {
+    static func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.2), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.2))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+
         let layout = UICollectionViewCompositionalLayout(section: section)
+        
         return layout
     }
 
     private func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: Self.createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .black
         view.addSubview(collectionView)
     }
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ContactCollectionCell, Int> { (cell, indexPath, identifier) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, Int> { (cell, indexPath, identifier) in
             // Populate the cell with our item description.
-            cell.label.text = "\(identifier)"
+            let label = UILabel(frame: CGRect(origin: .zero, size: cell.contentView.bounds.size))
+            label.text = "\(indexPath) \(identifier)"
+            label.font = UIFont.preferredFont(forTextStyle: .title1)
+
+            cell.contentView.addSubview(label)
+
             cell.contentView.backgroundColor = UIColor(displayP3Red: 100.0 / 255.0, green: 149.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
             cell.layer.borderColor = UIColor.black.cgColor
             cell.layer.borderWidth = 1
-            cell.label.textAlignment = .center
-            cell.label.font = UIFont.preferredFont(forTextStyle: .title1)
         }
 
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: collectionView) {
@@ -67,7 +81,7 @@ class ContactsCollectionViewController: UICollectionViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         snapshot.appendSections([.main])
         snapshot.appendItems(Array(0..<94))
-        dataSource.apply(snapshot, animatingDifferences: false)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
     // MARK: UICollectionViewDataSource

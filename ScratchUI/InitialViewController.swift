@@ -13,7 +13,7 @@ final class InitialViewController: UINavigationController {
         super.viewDidLoad()
         view.backgroundColor = .magenta
 
-        configureNavigationBar(with: self.navigationBar)
+        configureNavigationBar(with: navigationBar)
     }
     
     private func configureNavigationBar(with navigationBar: UINavigationBar) {
@@ -25,6 +25,7 @@ final class InitialViewController: UINavigationController {
     }
 
     /// If self where UIViewController
+    @available(*, renamed: "configureNavigationBar()")
     private func configureAsViewController() {
         let tableViewController = MenuTableViewController()
         let navigationController = UINavigationController(rootViewController: tableViewController)

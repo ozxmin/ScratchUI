@@ -17,7 +17,7 @@ class MenuTableViewController: UITableViewController {
         view.backgroundColor = .systemGroupedBackground
         title = "Menu"
         configureBars()
-//        selectDemo(option: .contacts)
+        selectDemo(option: .collection)
     }
 
     func selectDemo(option: Scene) {
