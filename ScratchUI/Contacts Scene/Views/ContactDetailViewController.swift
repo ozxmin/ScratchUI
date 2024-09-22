@@ -13,7 +13,6 @@ final class ContactDetailViewController: UIViewController {
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var lastName: UILabel!
 
-    @IBOutlet var firstNames: [UILabel]!
     var contact: ContactEntity?
 
     override func viewWillAppear(_ animated: Bool) {
@@ -31,10 +30,7 @@ final class ContactDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        firstNames.forEach { $0.text = contact?.name}
+        firstName.text = contact?.name
         lastName.text = contact?.lastName
-
-
-
     }
 }
