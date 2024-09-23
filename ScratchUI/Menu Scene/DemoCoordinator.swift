@@ -28,7 +28,7 @@ enum Scene: String, CaseIterable {
     var repo: Repository {
         switch self {
             case .contacts: return make(ContactsTableViewController.self)
-            case .details: return make(ContactDetailViewController.self)
+            case .details: return make(ContactDetailsViewController.self)
             case .collection: return make(ContactsCollectionViewController.self)
         }
         

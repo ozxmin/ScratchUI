@@ -1,13 +1,13 @@
 //
-//  ContactDetailViewController.swift
+//  ContactDetailsViewController.swift
 //  ScratchUI
 //
-//  Created by Ozmin Vazquez on 22/08/24.
+//  Created by Ozmin Vazquez on 22/09/24.
 //
 
 import UIKit
 
-final class ContactDetailViewController: UIViewController {
+class ContactDetailsViewController: UIViewController {
 
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var firstName: UILabel!
@@ -17,10 +17,6 @@ final class ContactDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.style = .editor
-        navigationItem.title = "Test"
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -32,5 +28,10 @@ final class ContactDetailViewController: UIViewController {
         super.viewDidLoad()
         firstName.text = contact?.name
         lastName.text = contact?.lastName
+        title = "Detail"
+        navigationController?.navigationBar.prefersLargeTitles = false
+
+
     }
+
 }
