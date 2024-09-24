@@ -22,7 +22,7 @@ import UIKit
 */
 
 final class ContactsTableViewController: UITableViewController {
-    private let source = ContactsDataSource()
+    private let source = ContactsTableDataSource()
 
     override func loadView() {
         super.loadView()
@@ -30,12 +30,6 @@ final class ContactsTableViewController: UITableViewController {
 
         configureTableDelagete()
         configureNavigationBar()
-    }
-
-    private func configureTableDelagete() {
-        tableView.dataSource = source
-        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.classID())
-        tableView.backgroundColor = .systemGreen
     }
 }
 
@@ -70,6 +64,12 @@ extension ContactsTableViewController {
 
 // MARK: - TableViewDelagate
 extension ContactsTableViewController {
+    private func configureTableDelagete() {
+        tableView.dataSource = source
+        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.classID())
+        tableView.backgroundColor = .systemGreen
+    }
+
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UILabel(frame: .zero)
         header.text = source.sortedSections[section]

@@ -33,7 +33,6 @@ class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITab
             guard let label = child.label else { return nil }
             let textLabel = String(describing: label)
             let textValue = String(describing: child.value)
-            let labelValue = child.label ?? ""
 
             return (textLabel, textValue)
         }

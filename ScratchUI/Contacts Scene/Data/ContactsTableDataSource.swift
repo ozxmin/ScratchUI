@@ -1,5 +1,5 @@
 //
-//  ContactsUITableViewDataSource.swift
+//  ContactsTableDataSource.swift
 //  ScratchUI
 //
 //  Created by Ozmin Vazquez on 02/09/24.
@@ -8,7 +8,7 @@
 import UIKit
 
 // MARK: -
-final class ContactsDataSource: NSObject {
+final class ContactsTableDataSource: NSObject {
     private let dataManager: ContactsDataManager
     var sortedSections: [String] {
         dataManager.sortedSections
@@ -24,7 +24,7 @@ final class ContactsDataSource: NSObject {
 }
 
 // MARK: - UITableViewDataSource
-extension ContactsDataSource: UITableViewDataSource {
+extension ContactsTableDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         dataManager.contacts.count
     }
