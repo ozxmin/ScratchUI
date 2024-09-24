@@ -86,7 +86,7 @@ extension ContactsTableViewController {
         let contactDetail = ContactDetailsViewController()
         let key = source.sortedSections[indexPath.section]
         let contact = source.contacts[key]?[indexPath.row]
-        contactDetail.contact = contact
+        contactDetail.entity = contact
 
         show(contactDetail, sender: contact)
     }

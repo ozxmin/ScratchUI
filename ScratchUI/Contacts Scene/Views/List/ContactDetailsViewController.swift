@@ -14,59 +14,51 @@ class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var lastName: UILabel!
     @IBOutlet weak var additionalInfo: UITableView!
 
-    var contact: ContactEntity?
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
+    var entity: ContactEntity?
+    var contact: [(String, String)]?
+    var contactMirror: Mirror?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         additionalInfo?.delegate = self
         additionalInfo?.dataSource = self
 
-        firstName.text = contact?.name
-        lastName.text = contact?.lastName
+        firstName.text = entity?.name
+        lastName.text = entity?.lastName
         title = "Detail"
-        navigationController?.navigationBar.prefersLargeTitles = false
+
+        guard let entity else { return }
+        contactMirror = Mirror(reflecting: entity)
+        contact = contactMirror?.children.compactMap { child in
+            guard let label = child.label else { return nil }
+            let textLabel = String(describing: label)
+            let textValue = String(describing: child.value)
+            let labelValue = child.label ?? ""
+
+            return (textLabel, textValue)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "Additional Information"
     }
 
     // MARK: - UITableViewDataSource methods
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 // Static table with one section, modify as needed
+        return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3 // Static number of rows, modify as needed
+        return contactMirror?.children.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
 
-        // Configure cell content for static cells
-        switch indexPath.row {
-            case 0:
-                cell.textLabel?.text = "Static Row 1"
-            case 1:
-                cell.textLabel?.text = "Static Row 2"
-            case 2:
-                cell.textLabel?.text = "Static Row 3"
-            default:
-                break
+        guard let (label, value) = contact?[indexPath.row] else {
+            return cell
         }
-
+        cell.textLabel?.text = "\(label): \(value)"
         return cell
     }
-
-    // MARK: - UITableViewDelegate methods
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Handle row selection
-    }
-
-
 }
