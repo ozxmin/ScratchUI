@@ -48,6 +48,11 @@ struct ContactEntity: Identifiable, Codable, Hashable {
     let address: String
     let email: String
     let dateAdded: String
+    let gender: String
+    let ethereumAddress: String?
+    let companyName: String?
+    let country: String?
+    let normalDistVal: Double?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -58,6 +63,10 @@ struct ContactEntity: Identifiable, Codable, Hashable {
         case address
         case email
         case dateAdded = "date_added"
+        case gender
+        case ethereumAddress = "ethereum_address"
+        case companyName = "company_name"
+        case country
+        case normalDistVal = "normal_dist_val"
     }
 }
-
