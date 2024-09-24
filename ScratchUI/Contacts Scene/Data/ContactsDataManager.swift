@@ -44,7 +44,7 @@ struct ContactEntity: Identifiable, Codable, Hashable {
     let name: String
     let lastName: String
     let phone: String
-    let avatar: String
+    let avatar: String?
     let address: String
     let email: String
     let dateAdded: String
