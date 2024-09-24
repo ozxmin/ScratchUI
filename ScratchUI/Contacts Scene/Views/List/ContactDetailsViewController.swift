@@ -13,29 +13,20 @@ class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var lastName: UILabel!
     @IBOutlet weak var additionalInfo: UITableView!
-
-    var entity: ContactEntity?
-    var contact: [(String, String)]?
-    var contactMirror: Mirror?
+    var detail: ContactDetailsDisplay?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         additionalInfo?.delegate = self
         additionalInfo?.dataSource = self
-
-        firstName.text = entity?.name
-        lastName.text = entity?.lastName
         title = "Detail"
+        fillInfo(with: detail!)
+    }
 
-        guard let entity else { return }
-        contactMirror = Mirror(reflecting: entity)
-        contact = contactMirror?.children.compactMap { child in
-            guard let label = child.label else { return nil }
-            let textLabel = String(describing: label)
-            let textValue = String(describing: child.value)
-
-            return (textLabel, textValue)
-        }
+    private func fillInfo(with contact: ContactDetailsDisplay) {
+//        avatarImage.image = contact.avatar
+        firstName.text = contact.name
+        lastName.text = contact.lastName
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -48,16 +39,16 @@ class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactMirror?.children.count ?? 0
+        return detail?.details.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
 
-        guard let (label, value) = contact?[indexPath.row] else {
+        guard let (label, value) = detail?.details[indexPath.row] else {
             return cell
         }
-        cell.textLabel?.text = "\(label): \(value)"
+        cell.textLabel?.text = "\(label): \(value ?? "empty")"
         return cell
     }
 }

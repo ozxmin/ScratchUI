@@ -84,9 +84,8 @@ extension ContactsTableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let contactDetail = ContactDetailsViewController()
-        let key = source.sortedSections[indexPath.section]
-        let contact = source.contacts[key]?[indexPath.row]
-        contactDetail.entity = contact
+        let contact = source.contactDetails(for: indexPath)
+        contactDetail.detail = contact
 
         show(contactDetail, sender: contact)
     }

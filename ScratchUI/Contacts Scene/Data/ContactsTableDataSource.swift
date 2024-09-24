@@ -21,6 +21,16 @@ final class ContactsTableDataSource: NSObject {
         dataManager = ContactsDataManager()
         super.init()
     }
+
+    func getContact(at indexPath: IndexPath) -> ContactEntity {
+        dataManager.getElement(at: indexPath)
+    }
+
+    func contactDetails(for indexPath: IndexPath) -> ContactDetailsDisplay {
+        let contact = dataManager.getElement(at: indexPath)
+        let details = ContactDetailsDisplay(entity: contact)
+        return details
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -57,3 +67,35 @@ extension UITableView {
     }
 }
 
+struct ContactDetailsDisplay {
+    let name: String
+    let lastName: String
+    let avatar: URL?
+    let details: [(label: String, value: String?)]
+    init(entity: ContactEntity) {
+        name = entity.name
+        lastName = entity.lastName
+
+        guard let avatar = entity.avatar, let avatarURL = URL(string: avatar) else {
+            assert(false, "avator entity is nil")
+        }
+        self.avatar = avatarURL
+
+        let contactMirror = Mirror(reflecting: entity)
+
+        let labelValue = contactMirror.children.compactMap { child -> (String, String)? in
+            guard let label = child.label else { return nil }
+            switch label {
+                case "avatar", "id", "name", "lastName": return nil
+                default: break
+            }
+
+            let textLabel = String(describing: label)
+            let textValue = String(describing: child.value)
+
+            return (textLabel, textValue)
+        }
+        details = labelValue
+    }
+
+}
