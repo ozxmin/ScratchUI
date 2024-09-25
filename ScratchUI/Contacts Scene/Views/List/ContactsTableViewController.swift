@@ -72,14 +72,14 @@ extension ContactsTableViewController {
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UILabel(frame: .zero)
-        header.text = source.sortedSections[section]
+        header.text = source.sections()[section]
         header.font = UIFont.boldSystemFont(ofSize: 20)
         header.backgroundColor = .systemGray
         return header
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        source.sortedSections[section]
+        source.sections()[section]
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

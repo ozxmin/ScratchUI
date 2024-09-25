@@ -10,20 +10,18 @@ import UIKit
 // MARK: -
 final class ContactsTableDataSource: NSObject {
     private let dataManager: ContactsDataManager
-    var sortedSections: [String] {
-        dataManager.sortedSections
-    }
-    var contacts: [String: [ContactEntity]] {
-        dataManager.contacts
-    }
-    
+
     override init() {
         dataManager = ContactsDataManager()
         super.init()
     }
+}
 
-    func getContact(at indexPath: IndexPath) -> ContactEntity {
-        dataManager.getElement(at: indexPath)
+// MARK: - ContactsTableView
+
+extension ContactsTableDataSource {
+    func sections() -> [String] {
+        dataManager.sortedSections()
     }
 
     func contactDetails(for indexPath: IndexPath) -> ContactDetailsDisplay {
@@ -36,16 +34,16 @@ final class ContactsTableDataSource: NSObject {
 // MARK: - UITableViewDataSource
 extension ContactsTableDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        dataManager.contacts.count
+        dataManager.sortedContacts().count
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        dataManager.sortedSections
+        dataManager.sortedSections()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionIndex = dataManager.sortedSections[section]
-        return dataManager.contacts[sectionIndex]?.count ?? 0
+        let sectionIndex = dataManager.sortedSections()[section]
+        return dataManager.sortedContacts()[sectionIndex]?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

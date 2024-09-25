@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - Utilities
 
+
 extension Bundle {
     func decode<T: Decodable>(_ file: String) -> T {
         guard let url = self.url(forResource: file, withExtension: "json") else {
@@ -76,4 +77,12 @@ extension CharacterSet {
         }
         return result
     }
+}
+
+
+func log(_ message: String) {
+#if DEBUG
+    print(message)
+#endif
+
 }
