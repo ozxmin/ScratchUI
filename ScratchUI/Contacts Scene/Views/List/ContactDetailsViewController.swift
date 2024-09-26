@@ -24,7 +24,7 @@ class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     private func fillInfo(with contact: ContactDetailsDisplay) {
-//        avatarImage.image = contact.avatar
+        //avatarImage.image = contact.avatar
         firstName.text = contact.name
         lastName.text = contact.lastName
     }
@@ -48,7 +48,7 @@ class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITab
         guard let (label, value) = detail?.details[indexPath.row] else {
             return cell
         }
-        cell.textLabel?.text = "\(label): \(value ?? "empty")"
+        cell.textLabel?.text = "\(label): \(value)"
         return cell
     }
 }

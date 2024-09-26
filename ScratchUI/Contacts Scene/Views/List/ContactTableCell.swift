@@ -28,7 +28,7 @@ final class ContactTableCell: UITableViewCell {
     }
 
     func fillIn(with contact: ContactEntity) {
-        content?.attributedText = styleBoldAndNormal(bold: contact.name, normal: contact.lastName)
+        content?.attributedText = styleBoldAndNormal(bold: contact.firstName, normal: contact.lastName)
         contentConfiguration = content
     }
 

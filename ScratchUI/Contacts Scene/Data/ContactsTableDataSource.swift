@@ -66,28 +66,48 @@ extension UITableView {
 }
 
 struct ContactDetailsDisplay {
+    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
+
     let name: String
     let lastName: String
     let avatar: URL?
-    let details: [(label: String, value: String)]
-    init(entity: ContactEntity) {
-        name = entity.name
-        lastName = entity.lastName
+    var details: [(label: String, value: String)]
 
-        guard let avatar = entity.avatar, let avatarURL = URL(string: avatar) else {
+    init(entity: ContactEntity) {
+        guard let entityAvatar = entity.avatar, let avatarURL = URL(string: entityAvatar) else {
             assert(false, "avator entity is nil")
         }
-        self.avatar = avatarURL
+
+        avatar = avatarURL
+        name = entity.firstName
+        lastName = entity.lastName
+
 
         let contactMirror = Mirror(reflecting: entity)
+        let reflection = contactMirror.reflectionToStrings(excluding: exclusions)
 
-        details = contactMirror.reflectionToStrings(excluding: "avatar", "id", "name", "lastName", "ethereumAddress")
+        details = reflection.map { item in
+            return (Self.format(label: item.label), item.value)
+        }
     }
 
+    private static func format(label: String) -> String {
+        assert(!label.isEmpty, "label should not be empty")
+
+        // Insert a space before every uppercase letter, except the first one
+        let formatted = label.reduce("") { result, character in
+            if character.isUppercase {
+                return result + " " + String(character)
+            }
+            return result + String(character)
+        }
+        // Capitalize the first letter and lowercase the rest
+        return formatted.prefix(1).capitalized + formatted.dropFirst()
+    }
 }
 
 extension Mirror {
-    func reflectionToStrings(excluding excluded: String...) -> [(label: String, value: String)] {
+    func reflectionToStrings(excluding excluded: [String]) -> [(label: String, value: String)] {
 
         let childToString = { (child: Child) -> (String, String)? in
             guard let label = child.label,

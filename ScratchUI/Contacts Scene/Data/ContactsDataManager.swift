@@ -37,14 +37,14 @@ extension ContactsDataManager {
 //Helpers
 extension ContactsDataManager {
     private func sortedAndKeyed() -> Dictionary<String, [ContactEntity]> {
-        let alphabetically = decodeJsonData().sorted { $0.name < $1.name }
-        let grouped = Dictionary(grouping: alphabetically) { String($0.name.first?.uppercased() ?? "#") }
+        let alphabetically = decodeJsonData().sorted { $0.firstName < $1.firstName }
+        let grouped = Dictionary(grouping: alphabetically) { String($0.firstName.first?.uppercased() ?? "#") }
         return grouped
     }
 
     private func unsortedKeys() -> Dictionary<String, [ContactEntity]> {
         let array = decodeJsonData()
-        let grouped = Dictionary(grouping: array) { String($0.name.first?.uppercased() ?? "#") }
+        let grouped = Dictionary(grouping: array) { String($0.firstName.first?.uppercased() ?? "#") }
         return grouped
     }
 
