@@ -21,9 +21,11 @@ extension Bundle {
         }
 
         let decoder = JSONDecoder()
-        let formatter = DateFormatter()
 
+        let formatter = DateFormatter()
         formatter.dateFormat = "y-MM-dd"
+
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .formatted(formatter)
 
         do {

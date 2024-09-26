@@ -57,7 +57,7 @@ extension ContactsDataManager {
 
 struct ContactEntity: Identifiable, Codable, Hashable {
     let id: Int
-    let name: String
+    let firstName: String
     let lastName: String
     let phone: String
     let avatar: String?
@@ -69,20 +69,4 @@ struct ContactEntity: Identifiable, Codable, Hashable {
     let companyName: String?
     let country: String?
     let normalDistVal: Double?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name = "first_name"
-        case lastName = "last_name"
-        case phone
-        case avatar
-        case address
-        case email
-        case dateAdded = "date_added"
-        case gender
-        case ethereumAddress = "ethereum_address"
-        case companyName = "company_name"
-        case country
-        case normalDistVal = "normal_dist_val"
-    }
 }
