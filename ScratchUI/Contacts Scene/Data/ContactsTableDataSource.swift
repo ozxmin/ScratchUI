@@ -69,7 +69,7 @@ struct ContactDetailsDisplay {
     let name: String
     let lastName: String
     let avatar: URL?
-    let details: [(label: String, value: String?)]
+    let details: [(label: String, value: String)]
     init(entity: ContactEntity) {
         name = entity.name
         lastName = entity.lastName
@@ -81,19 +81,27 @@ struct ContactDetailsDisplay {
 
         let contactMirror = Mirror(reflecting: entity)
 
-        let labelValue = contactMirror.children.compactMap { child -> (String, String)? in
-            guard let label = child.label else { return nil }
-            switch label {
-                case "avatar", "id", "name", "lastName": return nil
-                default: break
+        details = contactMirror.reflectionToStrings(excluding: "avatar", "id", "name", "lastName", "ethereumAddress")
+    }
+
+}
+
+extension Mirror {
+    func reflectionToStrings(excluding excluded: String...) -> [(label: String, value: String)] {
+
+        let childToString = { (child: Child) -> (String, String)? in
+            guard let label = child.label,
+                  let optinalValue = child.value as? String? else {
+                return nil
             }
-
-            let textLabel = String(describing: label)
-            let textValue = String(describing: child.value)
-
-            return (textLabel, textValue)
+            if excluded.contains(label) { return nil }
+            let value = optinalValue ?? "---"
+            return (label, value)
         }
-        details = labelValue
+
+        let labelValue = children.compactMap(childToString)
+
+        return labelValue
     }
 
 }
