@@ -46,8 +46,9 @@ class MenuTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //navigationController?.pushViewController(ContactTableViewController(), animated: true)
-//        show(ContactTableViewController(), sender: nil)
-        let screen = scenes[indexPath.row].create()
+
+        let scene = scenes[indexPath.row]
+        let screen = scene.create()
         show(screen, sender: nil)
     }
 

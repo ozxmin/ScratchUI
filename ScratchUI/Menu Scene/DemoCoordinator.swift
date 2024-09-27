@@ -12,7 +12,6 @@ enum Either<T, U> {
     case that(U)
 }
 
-
 // TODO:
 // Use reflection to make it easier to add new scene cases.
 // Desired output: Just add a case to have everything working

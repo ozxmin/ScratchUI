@@ -52,7 +52,6 @@ extension ContactsDataManager {
         let contacts: [ContactEntity] = Bundle.main.decode("contacts_mock_data")
         return contacts
     }
-
 }
 
 struct ContactEntity: Identifiable, Codable, Hashable {

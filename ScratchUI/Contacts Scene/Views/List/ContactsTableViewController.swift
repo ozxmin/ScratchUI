@@ -83,10 +83,11 @@ extension ContactsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //TODO: - Use coordinator instead
         let contactDetail = ContactDetailsViewController()
         let contact = source.contactDetails(for: indexPath)
         contactDetail.detail = contact
 
-        show(contactDetail, sender: contact)
+        show(contactDetail, sender: nil)
     }
 }

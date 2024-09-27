@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+/* TODO: - the property detail is acting as a data source. Asking for updated data wouldn't work. Remove the detail property and use a proper data source. Title should be in the DisplayObject */
+
+class ContactDetailsViewController: UIViewController {
 
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var firstName: UILabel!
@@ -28,12 +30,14 @@ class ContactDetailsViewController: UIViewController, UITableViewDelegate, UITab
         firstName.text = contact.name
         lastName.text = contact.lastName
     }
+}
 
+// MARK: - UITableViewDataSource methods
+extension ContactDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         "Additional Information"
     }
 
-    // MARK: - UITableViewDataSource methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
