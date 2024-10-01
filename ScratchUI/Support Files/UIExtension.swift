@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    static func classID() -> String {
-        String(describing: self)
+    static var identifier: String {
+        String(describing: Self.self)
     }
 }

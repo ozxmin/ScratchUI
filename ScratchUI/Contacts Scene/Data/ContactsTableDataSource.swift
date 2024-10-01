@@ -7,7 +7,6 @@
 
 import UIKit
 
-// MARK: -
 final class ContactsTableDataSource: NSObject {
     private let dataManager: ContactsDataManager
 
@@ -24,7 +23,7 @@ extension ContactsTableDataSource {
         dataManager.sortedSections()
     }
 
-    func contactDetails(for indexPath: IndexPath) -> ContactDetailsDisplay {
+    func getDetailsDisplay(for indexPath: IndexPath) -> ContactDetailsDisplay {
         let contact = dataManager.getElement(at: indexPath)
         let details = ContactDetailsDisplay(entity: contact)
         return details
@@ -49,7 +48,6 @@ extension ContactsTableDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ContactTableCell = tableView.dequeue(for: indexPath)
         let contact = dataManager.getElement(at: indexPath)
-
         cell.fillIn(with: contact)
         return cell
     }
@@ -57,7 +55,7 @@ extension ContactsTableDataSource: UITableViewDataSource {
 
 extension UITableView {
     func dequeue<Cell: UITableViewCell>(for indexPath: IndexPath, cell: Cell? = nil) -> Cell {
-        let cellid = Cell.classID()
+        let cellid = Cell.identifier
         guard let cell = dequeueReusableCell(withIdentifier: cellid, for: indexPath) as? Cell else {
             fatalError(#function)
         }
@@ -74,14 +72,9 @@ struct ContactDetailsDisplay {
     var details: [(label: String, value: String)]
 
     init(entity: ContactEntity) {
-        guard let entityAvatar = entity.avatar, let avatarURL = URL(string: entityAvatar) else {
-            assert(false, "avator entity is nil")
-        }
-
-        avatar = avatarURL
         name = entity.firstName
         lastName = entity.lastName
-
+        avatar = URL(string: entity.avatar ?? "")
 
         let contactMirror = Mirror(reflecting: entity)
         let reflection = contactMirror.reflectionToStrings(excluding: exclusions)
@@ -108,7 +101,6 @@ struct ContactDetailsDisplay {
 
 extension Mirror {
     func reflectionToStrings(excluding excluded: [String]) -> [(label: String, value: String)] {
-
         let childToString = { (child: Child) -> (String, String)? in
             guard let label = child.label,
                   let optinalValue = child.value as? String? else {

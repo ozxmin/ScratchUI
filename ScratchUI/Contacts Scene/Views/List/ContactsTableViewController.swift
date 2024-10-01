@@ -26,22 +26,24 @@ final class ContactsTableViewController: UITableViewController {
 
     override func loadView() {
         super.loadView()
-        title = "Contacts"
-
-        configureTableDelagete()
+        configureTableDelagetes()
         configureNavigationBar()
     }
 }
 
-// MARK: - Navigation Bar
+// MARK: - Navigation Bar + Menu
 extension ContactsTableViewController {
     private func configureNavigationBar() {
+        title = "Contacts"
+        tableView.backgroundColor = .systemGreen
         navigationController?.isNavigationBarHidden = false
+
         let optionMenu = UIBarButtonItem(title: "Options", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems())
-        navigationItem.rightBarButtonItem = optionMenu
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
+
         navigationItem.scrollEdgeAppearance = appearance
+        navigationItem.rightBarButtonItem = optionMenu
     }
 
     @objc private func menuItems () -> UIMenu {
@@ -64,12 +66,13 @@ extension ContactsTableViewController {
 
 // MARK: - TableViewDelagate
 extension ContactsTableViewController {
-    private func configureTableDelagete() {
+    private func configureTableDelagetes() {
+        tableView.delegate = self
         tableView.dataSource = source
-        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.classID())
-        tableView.backgroundColor = .systemGreen
+        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.identifier)
     }
 
+    // TODO: - Change implementation to use content configurator
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UILabel(frame: .zero)
         header.text = source.sections()[section]
@@ -84,10 +87,9 @@ extension ContactsTableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: - Use coordinator instead
-        let contactDetail = ContactDetailsViewController()
-        let contact = source.contactDetails(for: indexPath)
-        contactDetail.detail = contact
+        let contactDetailVC = ContactDetailsViewController()
+        contactDetailVC.detail = source.getDetailsDisplay(for: indexPath)
 
-        show(contactDetail, sender: nil)
+        show(contactDetailVC, sender: nil)
     }
 }

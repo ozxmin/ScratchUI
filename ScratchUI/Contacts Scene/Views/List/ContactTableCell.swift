@@ -8,28 +8,33 @@
 import UIKit
 
 final class ContactTableCell: UITableViewCell {
+    lazy var content: UIListContentConfiguration? = setListConfiguration() {
+        didSet { contentConfiguration = content }
+    }
+
+    var contentL: UIListContentConfiguration {
+        get { defaultContentConfiguration() }
+        set { contentConfiguration = newValue }
+    }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    var content: UIListContentConfiguration?
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         accessoryType = .disclosureIndicator
-        setListConfiguration()
     }
 
-    private func setListConfiguration() {
-        content = defaultContentConfiguration()
-        content?.textProperties.color = UIColor.label
-        contentConfiguration = content
+    private func setListConfiguration() -> UIListContentConfiguration {
+        var content = defaultContentConfiguration()
+        content.textProperties.color = UIColor.label
+        content.textProperties.adjustsFontForContentSizeCategory = true
+        return content
     }
 
     func fillIn(with contact: ContactEntity) {
         content?.attributedText = styleBoldAndNormal(bold: contact.firstName, normal: contact.lastName)
-        contentConfiguration = content
     }
 
     private func styleBoldAndNormal(bold: String, normal: String) -> NSAttributedString {

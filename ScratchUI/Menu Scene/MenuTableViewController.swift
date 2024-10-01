@@ -21,12 +21,9 @@ class MenuTableViewController: UITableViewController {
     }
 
     func selectDemo(option: Scene) {
-        guard let position = option.index else {
-            return
-        }
+        guard let position = option.index else { return }
         tableView(tableView, didSelectRowAt: IndexPath(row: position, section: 0))
     }
-
 
 // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,7 +33,9 @@ class MenuTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
-        content.textProperties.font = UIFont.preferredFont(forTextStyle: .title2)
+        content.textProperties.font = .preferredFont(forTextStyle: .title2)
+        content.textProperties.adjustsFontForContentSizeCategory = true
+
         content.text = scenes[indexPath.row].title
 
         cell.contentConfiguration = content
