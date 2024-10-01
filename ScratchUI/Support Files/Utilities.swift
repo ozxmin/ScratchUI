@@ -89,9 +89,9 @@ func log(_ message: String) {
 
 }
 
+// TODO: - Convert to property wrapper. Takes self, and excluded. Returs array keyvaluepairs
 extension Mirror {
     func reflectionToStrings(excluding excluded: [String]) -> [(label: String, value: String)] {
-
         let childToString = { (child: Child) -> (String, String)? in
             guard let label = child.label,
                   let value = child.value as? String? else {

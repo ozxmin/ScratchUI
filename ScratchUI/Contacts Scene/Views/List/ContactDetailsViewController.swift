@@ -26,25 +26,21 @@ class ContactDetailsViewController: UIViewController {
     }
 
     private func fillInfo(with contact: ContactDetailsDisplay) {
-        //avatarImage.image = contact.avatar
         firstName.text = contact.name
         lastName.text = contact.lastName
-        guard let url = contact.avatarURL else {
-            return
-        }
         Task {
-            let imageData = await fetchData(from: url)
-            avatarImage.image = UIImage(data: imageData!)
+            if let imageData = await fetchData(from: contact.avatarURL) {
+                avatarImage.image = UIImage(data: imageData)
+            }
+
         }
     }
 
-    func fetchData(from url: URL) async -> Data? {
+    func fetchData(from url: URL?) async -> Data? {
+        guard let url else { return nil }
         do {
             let response = try? await URLSession.shared.data(for: URLRequest(url: url))
-            if let data = response?.0 {
-                return data
-            }
-            return nil
+            return response?.0
         }
     }
 

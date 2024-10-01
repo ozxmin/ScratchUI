@@ -12,8 +12,8 @@ enum Either<T, U> {
     case that(U)
 }
 
-// TODO:
-// Use reflection to make it easier to add new scene cases.
+// TODO: - Use reflection to make it easier to add new scene cases.
+// -
 // Desired output: Just add a case to have everything working
 // i.e.: Add a case, raw type is an a repository instance. The rawtype is the title.
 // the mirror fills in the repo computed variable

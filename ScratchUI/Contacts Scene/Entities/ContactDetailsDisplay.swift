@@ -7,6 +7,11 @@
 
 import Foundation
 
+// TODO: - create property wrapper for data fetching
+// when annotating a property with the @DataFetcher it's initilized with a url. if its valid,
+// the fetching will start and set the property as Result<Data, Error>
+
+
 actor ContactDetailsDisplay {
     let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
 
@@ -19,7 +24,7 @@ actor ContactDetailsDisplay {
     init(entity: ContactEntity) {
         name = entity.firstName
         lastName = entity.lastName
-        avatarURL = URL(string: entity.avatar ?? "")
+        avatarURL = URL(string: (entity.avatar ?? ""))
         let contactMirror = Mirror(reflecting: entity)
         let reflection = contactMirror.reflectionToStrings(excluding: exclusions)
 
