@@ -19,17 +19,35 @@ class ContactDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        additionalInfo?.delegate = self
-        additionalInfo?.dataSource = self
         title = "Detail"
         fillInfo(with: detail!)
+        additionalInfo?.delegate = self
+        additionalInfo?.dataSource = self
     }
 
     private func fillInfo(with contact: ContactDetailsDisplay) {
         //avatarImage.image = contact.avatar
         firstName.text = contact.name
         lastName.text = contact.lastName
+        guard let url = contact.avatarURL else {
+            return
+        }
+        Task {
+            let imageData = await fetchData(from: url)
+            avatarImage.image = UIImage(data: imageData!)
+        }
     }
+
+    func fetchData(from url: URL) async -> Data? {
+        do {
+            let response = try? await URLSession.shared.data(for: URLRequest(url: url))
+            if let data = response?.0 {
+                return data
+            }
+            return nil
+        }
+    }
+
 }
 
 // MARK: - UITableViewDataSource methods
