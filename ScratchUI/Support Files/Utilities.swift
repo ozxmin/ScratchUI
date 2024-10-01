@@ -88,3 +88,20 @@ func log(_ message: String) {
 #endif
 
 }
+
+extension Mirror {
+    func reflectionToStrings(excluding excluded: [String]) -> [(label: String, value: String)] {
+
+        let childToString = { (child: Child) -> (String, String)? in
+            guard let label = child.label,
+                  let value = child.value as? String? else {
+                return nil
+            }
+            if excluded.contains(label) { return nil }
+            return (label, (value ?? "---"))
+        }
+
+        let labelValue = children.compactMap(childToString)
+        return labelValue
+    }
+}

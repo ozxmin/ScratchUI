@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C909FE292C63419C00766D10 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C909FE282C63419C00766D10 /* NetworkClient.swift */; };
+		C90B48C62CAB85AA0066E2BE /* ContactDetailsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */; };
+		C90B48C82CAB85F90066E2BE /* ContactEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C72CAB85F90066E2BE /* ContactEntity.swift */; };
 		C90D7BAB2C89355100FDF54A /* DemoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90D7BAA2C89355100FDF54A /* DemoCoordinator.swift */; };
 		C93ACCE92C609A5500208CB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCE82C609A5500208CB6 /* AppDelegate.swift */; };
 		C93ACCEB2C609A5500208CB6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCEA2C609A5500208CB6 /* SceneDelegate.swift */; };
@@ -31,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		C909FE282C63419C00766D10 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsDisplay.swift; sourceTree = "<group>"; };
+		C90B48C72CAB85F90066E2BE /* ContactEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEntity.swift; sourceTree = "<group>"; };
 		C90D7BAA2C89355100FDF54A /* DemoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCoordinator.swift; sourceTree = "<group>"; };
 		C93ACCE52C609A5500208CB6 /* ScratchUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScratchUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93ACCE82C609A5500208CB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +75,15 @@
 				C909FE282C63419C00766D10 /* NetworkClient.swift */,
 			);
 			path = RestAPI;
+			sourceTree = "<group>";
+		};
+		C90B48C42CAB85770066E2BE /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				C90B48C72CAB85F90066E2BE /* ContactEntity.swift */,
+				C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		C90D7BA82C8933C400FDF54A /* Menu Scene */ = {
@@ -124,6 +137,7 @@
 		C961044B2C76E20700F8C284 /* Contacts Scene */ = {
 			isa = PBXGroup;
 			children = (
+				C90B48C42CAB85770066E2BE /* Entities */,
 				C96104532C7707DD00F8C284 /* Data */,
 				C9A2B2BC2C91715500C88856 /* Views */,
 			);
@@ -261,6 +275,7 @@
 				C909FE292C63419C00766D10 /* NetworkClient.swift in Sources */,
 				C96104202C76A57A00F8C284 /* UIExtension.swift in Sources */,
 				C969339E2C9FFEE60043F05E /* ContactDetailsViewController.swift in Sources */,
+				C90B48C82CAB85F90066E2BE /* ContactEntity.swift in Sources */,
 				C93ACCE92C609A5500208CB6 /* AppDelegate.swift in Sources */,
 				C961044D2C76E22500F8C284 /* ContactsTableViewController.swift in Sources */,
 				C96104552C770BB700F8C284 /* ContactsDataManager.swift in Sources */,
@@ -268,6 +283,7 @@
 				C94896F32C8A7A4600F36CDE /* ContactsCollectionViewController.swift in Sources */,
 				C960521B2C869FDC00A6DF85 /* ContactsTableDataSource.swift in Sources */,
 				C961045E2C78319C00F8C284 /* MenuTableViewController.swift in Sources */,
+				C90B48C62CAB85AA0066E2BE /* ContactDetailsDisplay.swift in Sources */,
 				C93ACCEB2C609A5500208CB6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
