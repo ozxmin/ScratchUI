@@ -82,7 +82,7 @@ extension CharacterSet {
 }
 
 
-func log(_ message: String) {
+func log<T>(_ message: T) {
 #if DEBUG
     print(message)
 #endif
