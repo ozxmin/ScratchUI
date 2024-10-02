@@ -16,11 +16,14 @@ class ContactDetailsViewController: UIViewController {
     @IBOutlet weak var lastName: UILabel!
     @IBOutlet weak var additionalInfo: UITableView!
     var detail: ContactDetailsDisplay?
+    var data: Data?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Detail"
-        fillInfo(with: detail!)
+        if detail != nil {
+            fillInfo(with: detail!)
+        }
         additionalInfo?.delegate = self
         additionalInfo?.dataSource = self
     }
@@ -30,6 +33,7 @@ class ContactDetailsViewController: UIViewController {
         lastName.text = contact.lastName
         Task {
             if let imageData = await fetchData(from: contact.avatarURL) {
+                self.data = imageData
                 createAvatar(from: imageData)
             }
         }
@@ -43,15 +47,17 @@ class ContactDetailsViewController: UIViewController {
         imageView.center = avatarHolder.center
         avatarHolder.addSubview(imageView)
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTap))
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
     }
 
-    @objc func handleTap() {
-        let swiftUIView = AvatarImageView()
-        let hostingController = UIHostingController(rootView: swiftUIView)
-        show(hostingController, sender: nil)
+    @objc func avatarTap() {
+        if let data, let detail {
+            let swiftUIView = AvatarImageView(placeholder: data, details: detail)
+            let hostingController = UIHostingController(rootView: swiftUIView)
+            show(hostingController, sender: nil)
+        }
     }
 
     private func fetchData(from url: URL?) async -> Data? {
@@ -68,7 +74,7 @@ extension ContactDetailsViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
