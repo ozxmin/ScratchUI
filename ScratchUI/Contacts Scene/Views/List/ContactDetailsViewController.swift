@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 /* TODO: - the property detail is acting as a data source. Asking for updated data wouldn't work. Remove the detail property and use a proper data source. Title should be in the DisplayObject */
 
@@ -48,6 +49,9 @@ class ContactDetailsViewController: UIViewController {
     }
 
     @objc func handleTap() {
+        let swiftUIView = AvatarImageView()
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        show(hostingController, sender: nil)
     }
 
     private func fetchData(from url: URL?) async -> Data? {
@@ -90,4 +94,3 @@ extension UIImageView {
         self.clipsToBounds = true
     }
 }
-

@@ -10,6 +10,7 @@
 		C909FE292C63419C00766D10 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C909FE282C63419C00766D10 /* NetworkClient.swift */; };
 		C90B48C62CAB85AA0066E2BE /* ContactDetailsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */; };
 		C90B48C82CAB85F90066E2BE /* ContactEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C72CAB85F90066E2BE /* ContactEntity.swift */; };
+		C90B48CA2CACDDB40066E2BE /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C92CACDDA80066E2BE /* AvatarImageView.swift */; };
 		C90D7BAB2C89355100FDF54A /* DemoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90D7BAA2C89355100FDF54A /* DemoCoordinator.swift */; };
 		C93ACCE92C609A5500208CB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCE82C609A5500208CB6 /* AppDelegate.swift */; };
 		C93ACCEB2C609A5500208CB6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93ACCEA2C609A5500208CB6 /* SceneDelegate.swift */; };
@@ -35,6 +36,7 @@
 		C909FE282C63419C00766D10 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsDisplay.swift; sourceTree = "<group>"; };
 		C90B48C72CAB85F90066E2BE /* ContactEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEntity.swift; sourceTree = "<group>"; };
+		C90B48C92CACDDA80066E2BE /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		C90D7BAA2C89355100FDF54A /* DemoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCoordinator.swift; sourceTree = "<group>"; };
 		C93ACCE52C609A5500208CB6 /* ScratchUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScratchUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93ACCE82C609A5500208CB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		C9A2B2BC2C91715500C88856 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C90B48C92CACDDA80066E2BE /* AvatarImageView.swift */,
 				C9A2B2BE2C91719000C88856 /* List */,
 				C9A2B2BD2C91717F00C88856 /* Collection */,
 			);
@@ -277,6 +280,7 @@
 				C969339E2C9FFEE60043F05E /* ContactDetailsViewController.swift in Sources */,
 				C90B48C82CAB85F90066E2BE /* ContactEntity.swift in Sources */,
 				C93ACCE92C609A5500208CB6 /* AppDelegate.swift in Sources */,
+				C90B48CA2CACDDB40066E2BE /* AvatarImageView.swift in Sources */,
 				C961044D2C76E22500F8C284 /* ContactsTableViewController.swift in Sources */,
 				C96104552C770BB700F8C284 /* ContactsDataManager.swift in Sources */,
 				C96104572C77EE5E00F8C284 /* ContactTableCell.swift in Sources */,
