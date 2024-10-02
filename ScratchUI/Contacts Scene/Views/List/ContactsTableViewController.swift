@@ -49,15 +49,15 @@ extension ContactsTableViewController {
     @objc private func menuItems () -> UIMenu {
         let options = [
             UIAction (title: "Copy", image: UIImage (systemName: "doc") ) { _ in
-                print ("Copy") },
+                log("Copy") },
             UIAction (title: "Share", image: UIImage (systemName: "square.and.arrow.up")) { _ in
-                print ("Share") },
+                log("Share") },
             UIAction (title: "Favorite", image: UIImage(systemName: "suit.heart")){ _ in
-                print ("Favorite") },
+                log("Favorite") },
             UIAction (title: "Show All Photos", image: UIImage (systemName: "photo.on.rectangle")) { _ in
-                print ("Show All Photos") },
+                log("Show All Photos") },
             UIAction(title: "Delete", image: UIImage (systemName: "trash"), attributes: .destructive) { _ in
-                print ("Delete") }
+                log("Delete") }
         ]
         let menu = UIMenu(title: "", options: .displayInline, children: options)
         return menu

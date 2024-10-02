@@ -44,13 +44,10 @@ class MenuTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //navigationController?.pushViewController(ContactTableViewController(), animated: true)
-
         let scene = scenes[indexPath.row]
         let screen = scene.create()
         show(screen, sender: nil)
     }
-
 }
 
 
@@ -67,12 +64,11 @@ extension MenuTableViewController {
     func menuItems () -> UIMenu {
         let addMenuItems = UIMenu(title: "", options: .displayAsPalette, children: [
             UIAction (title: "Copy", image: UIImage (systemName: "doc") ) { (_) in
-                print ("Copy")
+                log("Copy")
             },
             UIAction (title: "Share", image: UIImage (systemName: "square.and.arrow.up")) { (_) in
-                print ("Share")
+                log("Share")
             }])
         return addMenuItems
     }
-
 }
