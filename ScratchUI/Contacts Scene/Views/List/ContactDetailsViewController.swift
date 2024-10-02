@@ -10,8 +10,7 @@ import UIKit
 /* TODO: - the property detail is acting as a data source. Asking for updated data wouldn't work. Remove the detail property and use a proper data source. Title should be in the DisplayObject */
 
 class ContactDetailsViewController: UIViewController {
-
-    @IBOutlet weak var avatarImage: UIImageView!
+    @IBOutlet weak var avatarHolder: UIView!
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var lastName: UILabel!
     @IBOutlet weak var additionalInfo: UITableView!
@@ -30,20 +29,32 @@ class ContactDetailsViewController: UIViewController {
         lastName.text = contact.lastName
         Task {
             if let imageData = await fetchData(from: contact.avatarURL) {
-                avatarImage.image = UIImage(data: imageData)
+                createAvatar(from: imageData)
             }
-
         }
     }
 
-    func fetchData(from url: URL?) async -> Data? {
+    private func createAvatar(from data: Data) {
+        let imageView = UIImageView(image: UIImage(data: data))
+        let imageSize = avatarHolder.frame.height
+        imageView.frame.size = CGSize(width: imageSize, height: imageSize)
+        imageView.applyCircleMask()
+        imageView.center = avatarHolder.center
+        avatarHolder.addSubview(imageView)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+    }
+
+    @objc func handleTap() {
+    }
+
+    private func fetchData(from url: URL?) async -> Data? {
         guard let url else { return nil }
-        do {
-            let response = try? await URLSession.shared.data(for: URLRequest(url: url))
-            return response?.0
-        }
+        let response = try? await URLSession.shared.data(for: URLRequest(url: url))
+        return response?.0
     }
-
 }
 
 // MARK: - UITableViewDataSource methods
@@ -62,7 +73,6 @@ extension ContactDetailsViewController: UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-
         guard let (label, value) = detail?.details[indexPath.row] else {
             return cell
         }
@@ -70,3 +80,14 @@ extension ContactDetailsViewController: UITableViewDelegate, UITableViewDataSour
         return cell
     }
 }
+
+extension UIImageView {
+    func applyCircleMask() {
+        let circleRadious = min(self.frame.size.width, self.frame.size.height) / 2
+        self.layer.cornerRadius = circleRadious
+        self.layer.borderColor = UIColor.systemBlue.cgColor
+        self.layer.borderWidth = 2
+        self.clipsToBounds = true
+    }
+}
+
