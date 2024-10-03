@@ -51,7 +51,7 @@ class MenuTableViewController: UITableViewController {
 }
 
 
-// MARK: - Appearance
+// MARK: - Menu Appearance
 
 extension MenuTableViewController {
     private func configureBars() {

@@ -8,11 +8,16 @@
 import Foundation
 
 // TODO: - create property wrapper for data fetching
-// when annotating a property with the @DataFetcher it's initilized with a url. if its valid,
+// when annotating a property with the @DataFetcher it's init with a url. if its valid,
 // the fetching will start and set the property as Result<Data, Error>
 
+enum InfoLevel {
+    enum Basic { }
+    enum Detailed { }
+}
 
-actor ContactDetailsDisplay {
+struct ContactDisplay<Info> {
+
     let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
 
     let name: String
@@ -20,11 +25,13 @@ actor ContactDetailsDisplay {
     let avatarURL: URL?
     var details: [(label: String, value: String)]
     var avatarData: Data?
+    var size: Int?
 
-    init(entity: ContactEntity) {
+    init(_ entity: ContactEntity) {
         name = entity.firstName
         lastName = entity.lastName
         avatarURL = URL(string: (entity.avatar ?? ""))
+
         let contactMirror = Mirror(reflecting: entity)
         let reflection = contactMirror.reflectionToStrings(excluding: exclusions)
 
@@ -47,7 +54,7 @@ actor ContactDetailsDisplay {
     }
 }
 
-extension ContactDetailsDisplay {
+extension ContactDisplay {
     func fetchData(from url: URL) async -> Data? {
         do {
             let response = try? await URLSession.shared.data(for: URLRequest(url: url))
@@ -58,12 +65,3 @@ extension ContactDetailsDisplay {
         }
     }
 }
-
-
-
-//
-//@propertyWrapper
-//class DataFetcher {
-//    var wrappedValue: <#Value#>
-//
-//}

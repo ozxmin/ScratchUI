@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-// TODO: - Implment zoomable and panable
+// TODO: - Implement zoomable and pan-able 
 struct AvatarImageView: View {
-    private var placeHolderimage: Image
+    private var placeHolderImage: Image
     private var url: URL?
 
-    init(placeholder: Data, details: ContactDetailsDisplay) {
-        placeHolderimage = Image(uiImage: UIImage(data: placeholder)!)
+    init<T>(placeholder: Data, details: ContactDisplay<T>) {
+        self.placeHolderImage = Image(uiImage: UIImage(data: placeholder)!)
         url = details.avatarURL ?? nil
     }
 
@@ -26,7 +26,7 @@ struct AvatarImageView: View {
             } placeholder: {
                 ZStack {
                     ProgressView()
-                    placeHolderimage
+                    placeHolderImage
                 }
             }
         }

@@ -10,8 +10,8 @@ import UIKit
 /**
  # TODO:
  - Instead of first name, chose another field to show in the table and sortby that field
- - Support re arrenging cells (disables sorted alphabetically)
- - Support search filtering, desireably fuzzy match, and search all fields
+ - Support re arranging cells (disables sorted alphabetically)
+ - Support search filtering, desirably fuzzy match, and search all fields
  - add pull to refresh
  - Bar item toggle to show contacts as collection view with its profile pictures (pre fetched)
 - Get all data fetching off main thread an then move the UI updates to main  thread
@@ -26,7 +26,7 @@ final class ContactsTableViewController: UITableViewController {
 
     override func loadView() {
         super.loadView()
-        configureTableDelagetes()
+        configureTableDelegates()
         configureNavigationBar()
     }
 }
@@ -64,9 +64,9 @@ extension ContactsTableViewController {
     }
 }
 
-// MARK: - TableViewDelagate
+// MARK: - TableViewDelegate
 extension ContactsTableViewController {
-    private func configureTableDelagetes() {
+    private func configureTableDelegates() {
         tableView.delegate = self
         tableView.dataSource = source
         tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.identifier)
@@ -88,7 +88,8 @@ extension ContactsTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: - Use coordinator instead
         let contactDetailVC = ContactDetailsViewController()
-        contactDetailVC.detail = source.getDetailsDisplay(for: indexPath)
+        let contact: ContactDisplay<InfoLevel.Detailed> = source.getDetailsDisplay(for: indexPath)
+        contactDetailVC.detail = contact
 
         show(contactDetailVC, sender: nil)
     }

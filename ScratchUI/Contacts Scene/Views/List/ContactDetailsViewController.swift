@@ -15,7 +15,7 @@ class ContactDetailsViewController: UIViewController {
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var lastName: UILabel!
     @IBOutlet weak var additionalInfo: UITableView!
-    var detail: ContactDetailsDisplay?
+    var detail: ContactDisplay<InfoLevel.Detailed>?
     var data: Data?
 
     override func viewDidLoad() {
@@ -28,7 +28,7 @@ class ContactDetailsViewController: UIViewController {
         additionalInfo?.dataSource = self
     }
 
-    private func fillInfo(with contact: ContactDetailsDisplay) {
+    private func fillInfo(with contact: ContactDisplay<InfoLevel.Detailed>) {
         firstName.text = contact.name
         lastName.text = contact.lastName
         Task {

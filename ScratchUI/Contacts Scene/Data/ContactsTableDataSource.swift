@@ -23,9 +23,9 @@ extension ContactsTableDataSource {
         dataManager.sortedSections()
     }
 
-    func getDetailsDisplay(for indexPath: IndexPath) -> ContactDetailsDisplay {
+    func getDetailsDisplay<T>(for indexPath: IndexPath) -> ContactDisplay<T> {
         let contact = dataManager.getElement(at: indexPath)
-        let details = ContactDetailsDisplay(entity: contact)
+        let details: ContactDisplay<T> = .init(contact)
         return details
     }
 }

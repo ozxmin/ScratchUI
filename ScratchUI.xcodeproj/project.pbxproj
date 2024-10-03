@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C909FE292C63419C00766D10 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C909FE282C63419C00766D10 /* NetworkClient.swift */; };
-		C90B48C62CAB85AA0066E2BE /* ContactDetailsDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */; };
+		C90B48C62CAB85AA0066E2BE /* ContactDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C52CAB85AA0066E2BE /* ContactDisplay.swift */; };
 		C90B48C82CAB85F90066E2BE /* ContactEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C72CAB85F90066E2BE /* ContactEntity.swift */; };
 		C90B48CA2CACDDB40066E2BE /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B48C92CACDDA80066E2BE /* AvatarImageView.swift */; };
 		C90D7BAB2C89355100FDF54A /* DemoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90D7BAA2C89355100FDF54A /* DemoCoordinator.swift */; };
@@ -34,7 +34,7 @@
 
 /* Begin PBXFileReference section */
 		C909FE282C63419C00766D10 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
-		C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsDisplay.swift; sourceTree = "<group>"; };
+		C90B48C52CAB85AA0066E2BE /* ContactDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDisplay.swift; sourceTree = "<group>"; };
 		C90B48C72CAB85F90066E2BE /* ContactEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEntity.swift; sourceTree = "<group>"; };
 		C90B48C92CACDDA80066E2BE /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		C90D7BAA2C89355100FDF54A /* DemoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCoordinator.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				C90B48C72CAB85F90066E2BE /* ContactEntity.swift */,
-				C90B48C52CAB85AA0066E2BE /* ContactDetailsDisplay.swift */,
+				C90B48C52CAB85AA0066E2BE /* ContactDisplay.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -287,7 +287,7 @@
 				C94896F32C8A7A4600F36CDE /* ContactsCollectionViewController.swift in Sources */,
 				C960521B2C869FDC00A6DF85 /* ContactsTableDataSource.swift in Sources */,
 				C961045E2C78319C00F8C284 /* MenuTableViewController.swift in Sources */,
-				C90B48C62CAB85AA0066E2BE /* ContactDetailsDisplay.swift in Sources */,
+				C90B48C62CAB85AA0066E2BE /* ContactDisplay.swift in Sources */,
 				C93ACCEB2C609A5500208CB6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
