@@ -38,13 +38,16 @@ struct AvatarImageView: View {
 
     func buildScreenWithAsyncImage(from url: URL) -> some View {
         return AsyncImage(url: url) { phase in
-            if let image = phase.image {
-                image.resizable().scaledToFill()
-
-            } else if phase.error != nil {
-                failedFetchImage.resizable()
-            } else {
-                loadingImage
+            switch phase {
+                case .empty:
+                    loadingImage
+                case .success(let image):
+                    ZoomablePannableImage(image: image)
+                case .failure(let error):
+                    let _ = log(error)
+                    failedFetchImage
+                @unknown default:
+                    loadingImage
             }
         }
     }
@@ -63,46 +66,58 @@ struct AvatarImageView: View {
     }
 }
 
-
 struct ZoomablePannableImage: View {
+    let image: Image
+
     @State private var scale: CGFloat = 1.0
     @State private var lastScale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
     @State private var lastOffset: CGSize = .zero
-    @State var image: Image
+
+    var minScale: CGFloat = 1.0
+    var maxScale: CGFloat = 5.0
+
     var body: some View {
         GeometryReader { geometry in
             image
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .scaleEffect(scale)
                 .offset(offset)
                 .gesture(
-                    MagnificationGesture()
-                        .onChanged { value in
-                            let delta = value / lastScale
-                            lastScale = value
-                            scale *= delta
-                        }
-                        .onEnded { _ in
-                            lastScale = 1.0
-                        }
-                )
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            offset = CGSize(
-                                width: lastOffset.width + value.translation.width,
-                                height: lastOffset.height + value.translation.height
-                            )
-                        }
-                        .onEnded { _ in
-                            lastOffset = offset
-                        }
+                    SimultaneousGesture(
+                        MagnificationGesture()
+                            .onChanged { value in
+                                let delta = value / lastScale
+                                lastScale = value
+                                scale = min(max(scale * delta, minScale), maxScale)
+                            }
+                            .onEnded { _ in
+                                lastScale = 1.0
+                            },
+                        DragGesture()
+                            .onChanged { value in
+                                let newOffset = CGSize(
+                                    width: lastOffset.width + value.translation.width / scale,
+                                    height: lastOffset.height + value.translation.height / scale
+                                )
+                                offset = limitOffset(newOffset, in: geometry)
+                            }
+                            .onEnded { _ in
+                                lastOffset = offset
+                            }
+                    )
                 )
                 .frame(width: geometry.size.width, height: geometry.size.width)
+                .clipped()
         }
     }
-}
 
-#Preview {
-    AvatarImageView()
+    private func limitOffset(_ offset: CGSize, in geometry: GeometryProxy) -> CGSize {
+        let maxOffset = (scale - 1) * geometry.size.width / 2
+        return CGSize(
+            width: min(max(offset.width, -maxOffset), maxOffset),
+            height: min(max(offset.height, -maxOffset), maxOffset)
+        )
+    }
 }
