@@ -44,6 +44,23 @@ extension Bundle {
     }
 }
 
+extension String {
+    func camelCaseToReadable() -> Self {
+        assert(!self.isEmpty, "label should not be empty")
+
+        let formatted = self.reduce("") { result, character in
+            if character.isUppercase {
+                return result + " " + String(character)
+            }
+            return result + String(character)
+        }
+        // Capitalize the first letter and lowercase the rest
+        return formatted.prefix(1).capitalized + formatted.dropFirst()
+    }
+}
+
+
+
 extension CharacterSet {
     // stackoverflow.com/questions/69495317/how-to-get-localized-alphabet-swift-ios
     /// gets all the letters in a locale's alphabet

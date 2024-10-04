@@ -12,7 +12,7 @@ final class ContactsDataManager {
     private lazy var contacts: [String : [ContactEntity]] = sortValues()
     private lazy var sectionsSorted: [String] = Array(contacts.keys.sorted())
     private var needsRefreshCounter = 0
-    //url constant declarations (host)
+    //Define URL components and inject URL Components in Data Manager
 }
 
 //Interface

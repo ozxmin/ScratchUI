@@ -11,50 +11,67 @@ import Foundation
 // when annotating a property with the @DataFetcher it's init with a url. if its valid,
 // the fetching will start and set the property as Result<Data, Error>
 
-enum InfoLevel {
+enum Info {
     enum Basic { }
     enum Detailed { }
 }
 
-struct ContactDisplay<Info> {
+struct ContactDisplay<InfoLevel> {
 
-    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
+    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"] //Inject
 
     let name: String
     let lastName: String
-    let avatarURL: URL?
-    var details: [(label: String, value: String)]
+    var details: [(label: String, value: String)]?
     var avatarData: Data?
-    var size: Int?
+
+    private var avatarURL: URLComponents?
+
 
     init(_ entity: ContactEntity) {
         name = entity.firstName
         lastName = entity.lastName
-        avatarURL = URL(string: (entity.avatar ?? ""))
+        avatarURL = formatURLComponents(from: entity.avatar)
 
-        let contactMirror = Mirror(reflecting: entity)
-        let reflection = contactMirror.reflectionToStrings(excluding: exclusions)
-
-        details = reflection.map { item in
-            return (Self.format(label: item.label), item.value)
+        if InfoLevel.self == Info.Detailed.self {
+            details = propertiesToDisplayable(subject: entity)
         }
     }
 
-    private static func format(label: String) -> String {
-        assert(!label.isEmpty, "label should not be empty")
-        // Insert a space before every uppercase letter, except the first one
-        let formatted = label.reduce("") { result, character in
-            if character.isUppercase {
-                return result + " " + String(character)
-            }
-            return result + String(character)
-        }
-        // Capitalize the first letter and lowercase the rest
-        return formatted.prefix(1).capitalized + formatted.dropFirst()
+    func getImageURL(size: Int? = nil) -> URL? {
+        formatURLComponents(from: avatarURL?.string, imageSize: size)?.url
+    }
+
+    private func formatURLComponents(from string: String?, imageSize: Int? = nil) -> URLComponents? {
+        guard let url = URL(string: string ?? "") else { return nil }
+        var size = 20
+        if InfoLevel.self == Info.Basic.self { size = 50 }
+        if InfoLevel.self == Info.Detailed.self { size = 100 }
+        if let imageSize { size = imageSize }
+
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        let sizeQuery = "size=\(size)x\(size)&set=set1"
+        urlComponents?.query = sizeQuery
+        return urlComponents
     }
 }
 
+// Displayable
+
 extension ContactDisplay {
+
+    func propertiesToDisplayable<T>(subject: T) -> [(String, String)] {
+        let contactMirror = Mirror(reflecting: subject)
+        let reflection = contactMirror.reflectionToStrings(excluding: exclusions)
+
+        let details = reflection.map { item in
+            return (item.label.camelCaseToReadable(), item.value)
+        }
+
+        return details
+    }
+
+
     func fetchData(from url: URL) async -> Data? {
         do {
             let response = try? await URLSession.shared.data(for: URLRequest(url: url))

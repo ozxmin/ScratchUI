@@ -15,7 +15,7 @@ class ContactDetailsViewController: UIViewController {
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var lastName: UILabel!
     @IBOutlet weak var additionalInfo: UITableView!
-    var detail: ContactDisplay<InfoLevel.Detailed>?
+    var detail: ContactDisplay<Info.Detailed>?
     var data: Data?
 
     override func viewDidLoad() {
@@ -28,11 +28,12 @@ class ContactDetailsViewController: UIViewController {
         additionalInfo?.dataSource = self
     }
 
-    private func fillInfo(with contact: ContactDisplay<InfoLevel.Detailed>) {
+    private func fillInfo(with contact: ContactDisplay<Info.Detailed>) {
         firstName.text = contact.name
         lastName.text = contact.lastName
         Task {
-            if let imageData = await fetchData(from: contact.avatarURL) {
+            let url = contact.getImageURL()
+            if let imageData = await fetchData(from: url) {
                 self.data = imageData
                 createAvatar(from: imageData)
             }
@@ -78,25 +79,15 @@ extension ContactDetailsViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return detail?.details.count ?? 0
+        return detail?.details?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        guard let (label, value) = detail?.details[indexPath.row] else {
+        guard let (label, value) = detail?.details?[indexPath.row] else {
             return cell
         }
         cell.textLabel?.text = "\(label): \(value)"
         return cell
-    }
-}
-
-extension UIImageView {
-    func applyCircleMask() {
-        let circleRadious = min(self.frame.size.width, self.frame.size.height) / 2
-        self.layer.cornerRadius = circleRadious
-        self.layer.borderColor = UIColor.systemBlue.cgColor
-        self.layer.borderWidth = 2
-        self.clipsToBounds = true
     }
 }

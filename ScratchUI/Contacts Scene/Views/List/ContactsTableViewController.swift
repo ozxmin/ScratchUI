@@ -88,7 +88,7 @@ extension ContactsTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: - Use coordinator instead
         let contactDetailVC = ContactDetailsViewController()
-        let contact: ContactDisplay<InfoLevel.Detailed> = source.getDetailsDisplay(for: indexPath)
+        let contact: ContactDisplay<Info.Detailed> = source.getDetailsDisplay(for: indexPath)
         contactDetailVC.detail = contact
 
         show(contactDetailVC, sender: nil)
