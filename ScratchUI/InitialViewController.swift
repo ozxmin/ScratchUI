@@ -12,7 +12,6 @@ final class InitialViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .magenta
-
         configureNavigationBar(with: navigationBar)
     }
     

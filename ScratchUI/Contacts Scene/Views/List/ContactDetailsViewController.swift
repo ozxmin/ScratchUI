@@ -32,8 +32,10 @@ class ContactDetailsViewController: UIViewController {
         firstName.text = contact.name
         lastName.text = contact.lastName
         Task {
+            printQ(1)
             let url = contact.getImageURL()
             if let imageData = await fetchData(from: url) {
+                printQ(2)
                 self.data = imageData
                 createAvatar(from: imageData)
             }
@@ -53,6 +55,7 @@ class ContactDetailsViewController: UIViewController {
         imageView.isUserInteractionEnabled = true
     }
 
+    @MainActor
     @objc func avatarTap() {
         if let data, let detail {
             let swiftUIView = AvatarImageView(placeholder: data, details: detail)
@@ -61,9 +64,12 @@ class ContactDetailsViewController: UIViewController {
         }
     }
 
+    //TODO: - This method dosent belong in a view
     private func fetchData(from url: URL?) async -> Data? {
         guard let url else { return nil }
+        printQ(3)
         let response = try? await URLSession.shared.data(for: URLRequest(url: url))
+        printQ(4)
         return response?.0
     }
 }
