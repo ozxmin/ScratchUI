@@ -6,5 +6,4 @@ xcuserdata/
 *.xcuserstate
 UserInterfaceState.xcuserstate
 */xcschememanagement.plist
-
-/ScratchUI.xcodeproj/project.xcworkspace/xcshareddata
+*/project.xcworkspace/xcshareddata
