@@ -7,31 +7,23 @@
 
 import SwiftUI
 
-// TODO: - Implement zoomable and pan-able 
-struct AvatarImageView: View {
-#if DEBUG
-    @available(*, renamed: "init(placeholder:details:)", message: "This initializer is just for previewing")
-    init() {
-        placeHolderImage = Image(systemName: "person.crop.circle.fill")
-        url = URL(string:"")
-    }
-#else
-    @available(*, unavailable, message: "This initializer is not available in production")
-    init() {
-        fatalError("This initializer should not be used in production")
-    }
-#endif
-
+// TODO: - Implement zoomable and pannable
+struct AvatarView: View {
+    
     private var placeHolderImage: Image
     private var url: URL?
 
-    init<T>(placeholder: Data, details: ContactDisplay<T>) {
+    init<Level>(placeholder: Data, details: ContactDisplay<Level>) {
         self.placeHolderImage = Image(uiImage: UIImage(data: placeholder)!)
         url = details.getImageURL(size: 700)
     }
 
     var body: some View {
-        if let url { buildScreenWithAsyncImage(from: url) }
+        ZStack {
+            Color.gray
+                .edgesIgnoringSafeArea(.all)
+            if let url { buildScreenWithAsyncImage(from: url) }
+        }
     }
 
 /*---**/
@@ -120,4 +112,24 @@ struct ZoomablePannableImage: View {
             height: min(max(offset.height, -maxOffset), maxOffset)
         )
     }
+}
+
+
+extension AvatarView {
+#if DEBUG
+    @available(*, renamed: "init(placeholder:details:)", message: "This initializer is just for previewing")
+    init() {
+        placeHolderImage = Image(systemName: "person.crop.circle.fill")
+        url = URL(string:"")
+    }
+#else
+    @available(*, unavailable, message: "This initializer is not available in production")
+    init() {
+        fatalError("This initializer should not be used in production")
+    }
+#endif
+}
+
+#Preview {
+    AvatarView()
 }

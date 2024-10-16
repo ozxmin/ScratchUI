@@ -58,7 +58,7 @@ class ContactDetailsViewController: UIViewController {
     @MainActor
     @objc func avatarTap() {
         if let data, let detail {
-            let swiftUIView = AvatarImageView(placeholder: data, details: detail)
+            let swiftUIView = AvatarView(placeholder: data, details: detail)
             let hostingController = UIHostingController(rootView: swiftUIView)
             show(hostingController, sender: nil)
         }
