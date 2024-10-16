@@ -8,14 +8,14 @@
 import Foundation
 
 final class ContactsDataManager {
-    // TODO: - Get data fetching off main thread
+    //TODO: - Get data fetching off main thread
     private lazy var contacts: [String : [ContactEntity]] = sortValues()
     private lazy var sectionsSorted: [String] = Array(contacts.keys.sorted())
     private var needsRefreshCounter = 0
-    // Define URL components and inject URL Components in Data Manager change set to random 1-4
+    //TODO: - Define URL components and inject URL Components in Data Manager change set to random 1-4
 }
 
-// Interface
+// MARK: - Interface
 extension ContactsDataManager {
     func sortedSections() -> [String] {
         if needsRefreshCounter > 9 {
@@ -35,7 +35,7 @@ extension ContactsDataManager {
     }
 }
 
-//Helpers
+// MARK: - Helpers
 extension ContactsDataManager {
     private func sortValues() -> Dictionary<String, [ContactEntity]> {
         let alphabetically = decodeJsonData().sorted { $0.firstName < $1.firstName }

@@ -20,10 +20,10 @@ struct AvatarView: View {
 
     var body: some View {
         ZStack {
-            Color.gray
-                .edgesIgnoringSafeArea(.all)
+            Color.gray.edgesIgnoringSafeArea(.all)
             if let url { buildScreenWithAsyncImage(from: url) }
         }
+
     }
 
 /*---**/
@@ -46,15 +46,15 @@ struct AvatarView: View {
 
     var loadingImage: some View {
         ZStack {
-            placeHolderImage
-                .resizable()
-                .scaledToFit()
+            placeHolderImage.resizable().scaledToFit()
             ProgressView().controlSize(.extraLarge)
         }
-
     }
-    var failedFetchImage: Image {
-        Image(systemName: "person.crop.circle.fill").resizable()
+
+    var failedFetchImage: some View {
+        Image(systemName: "person.crop.circle.fill")
+            .resizable()
+            .scaledToFit()
     }
 }
 
@@ -119,8 +119,9 @@ extension AvatarView {
 #if DEBUG
     @available(*, renamed: "init(placeholder:details:)", message: "This initializer is just for previewing")
     init() {
-        placeHolderImage = Image(systemName: "person.crop.circle.fill")
-        url = URL(string:"")
+        placeHolderImage = Image(.avatarTest)
+        //TODO: - Explore that image api for avatars
+        url = .init(string: "https://avatars.githubusercontent.com/u/1?s=400&v=4")
     }
 #else
     @available(*, unavailable, message: "This initializer is not available in production")

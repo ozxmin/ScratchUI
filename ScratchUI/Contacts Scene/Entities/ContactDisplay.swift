@@ -17,8 +17,8 @@ enum Info {
 }
 
 struct ContactDisplay<InfoLevel> {
-
-    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"] //Inject
+    // TODO: - Inject exclusions
+    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
 
     let name: String
     let lastName: String
@@ -26,7 +26,6 @@ struct ContactDisplay<InfoLevel> {
     var avatarData: Data?
 
     private var avatarURL: URLComponents?
-
 
     init(_ entity: ContactEntity) {
         name = entity.firstName

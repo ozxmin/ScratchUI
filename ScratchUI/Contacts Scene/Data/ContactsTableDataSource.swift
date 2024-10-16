@@ -17,7 +17,6 @@ final class ContactsTableDataSource: NSObject {
 }
 
 // MARK: - ContactsTableView
-
 extension ContactsTableDataSource {
     func sections() -> [String] {
         dataManager.sortedSections()
