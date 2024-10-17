@@ -46,6 +46,7 @@ extension ContactsTableDataSource: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ContactTableCell = tableView.dequeue(for: indexPath)
+        let cell: ContactTableCell = tableView.dequeueItem(for: indexPath)
         let contact = dataManager.getElement(at: indexPath)
         cell.fillIn(with: contact)
         return cell
