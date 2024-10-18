@@ -13,6 +13,7 @@ import Foundation
 
 enum Info {
     enum Basic { }
+    enum Grid { }
     enum Detailed { }
 }
 

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+
+// UICollectionReusableView
 class ContactCollectionCell: UICollectionViewCell {
     let label = UILabel()
     static let reuseIdentifier = "text-cell-reuse-identifier"
