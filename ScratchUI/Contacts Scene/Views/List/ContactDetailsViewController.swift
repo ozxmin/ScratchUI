@@ -56,7 +56,7 @@ class ContactDetailsViewController: UIViewController {
     }
 
     @MainActor
-    @objc func avatarTap() {
+    @objc private func avatarTap() {
         if let data, let detail {
             let swiftUIView = AvatarView(placeholder: data, details: detail)
             let hostingController = UIHostingController(rootView: swiftUIView)

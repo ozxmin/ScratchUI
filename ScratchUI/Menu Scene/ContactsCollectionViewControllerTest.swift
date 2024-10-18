@@ -7,13 +7,13 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 class ContactsCollectionViewControllerTest: UICollectionViewController {
+
     enum Section {
         case main
     }
 
+    private let reuseIdentifier = "Cell"
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>! = nil
 
     init() {

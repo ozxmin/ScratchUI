@@ -66,7 +66,7 @@ class ContactCollectionViewCell: UICollectionViewCell {
         ])
     }
 
-    func configure(with contact: ContactDisplay<Info.Basic>) {
+    func configure(with contact: ContactDisplay<Info.Detailed>) {
         nameLabel.text = contact.name
         lastNameLabel.text = contact.lastName
         // TODO: Set avatar image when available

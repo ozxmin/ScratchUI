@@ -30,7 +30,7 @@ extension DequeueableConsumer {
         dequeueReusable(index: indexPath)
     }
 
-    func unwrap<Output: ReuseIdentifiable, Input: ReuseIdentifiable>(item: Input) -> Output {
+    fileprivate func unwrap<Output: ReuseIdentifiable, Input: ReuseIdentifiable>(item: Input) -> Output {
         guard let casted = item as? Output else {
             fatalError(#function)
         }

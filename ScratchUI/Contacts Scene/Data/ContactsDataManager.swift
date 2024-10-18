@@ -9,28 +9,28 @@ import Foundation
 
 final class ContactsDataManager {
     //TODO: - Get data fetching off main thread
-    private lazy var contacts: [String : [ContactEntity]] = sortValues()
-    private lazy var sectionsSorted: [String] = Array(contacts.keys.sorted())
+    private lazy var contactsSorted: [String : [ContactEntity]] = sortValues()
+    private lazy var sectionsSorted: [String] = Array(contactsSorted.keys.sorted())
     private var needsRefreshCounter = 0
     //TODO: - Define URL components and inject URL Components in Data Manager change set to random 1-4
 }
 
 // MARK: - Interface
 extension ContactsDataManager {
-    func sortedSections() -> [String] {
+    func getSortedSections() -> [String] {
         if needsRefreshCounter > 9 {
             log("needs refresh")
         }
         return sectionsSorted
     }
 
-    func sortedContacts() -> [String : [ContactEntity]] {
-        contacts
+    func getSortedContacts() -> [String : [ContactEntity]] {
+        contactsSorted
     }
 
     func getElement(at indexPath: IndexPath) -> ContactEntity {
-        let currentSection = sortedSections()[indexPath.section]
-        guard let contact = sortedContacts()[currentSection]?[indexPath.row] else { fatalError(#function) }
+        let currentSection = getSortedSections()[indexPath.section]
+        guard let contact = getSortedContacts()[currentSection]?[indexPath.row] else { fatalError(#function) }
         return contact
     }
 }

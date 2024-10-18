@@ -20,7 +20,7 @@ final class ContactsTableDataSource: NSObject {
 
 extension ContactsTableDataSource {
     func sections() -> [String] {
-        dataManager.sortedSections()
+        dataManager.getSortedSections()
     }
 
     func getDetailsDisplay<T>(for indexPath: IndexPath) -> ContactDisplay<T> {
@@ -34,16 +34,16 @@ extension ContactsTableDataSource {
 
 extension ContactsTableDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        dataManager.sortedContacts().count
+        dataManager.getSortedContacts().count
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        dataManager.sortedSections()
+        dataManager.getSortedSections()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionIndex = dataManager.sortedSections()[section]
-        return dataManager.sortedContacts()[sectionIndex]?.count ?? 0
+        let sectionIndex = dataManager.getSortedSections()[section]
+        return dataManager.getSortedContacts()[sectionIndex]?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,7 +68,7 @@ final class ContactsCollectionDataSource: NSObject {
 
 extension ContactsCollectionDataSource {
     func sections() -> [String] {
-        dataManager.sortedSections()
+        dataManager.getSortedSections()
     }
 
     func getDetailsDisplay<T>(for indexPath: IndexPath) -> ContactDisplay<T> {
@@ -82,23 +82,23 @@ extension ContactsCollectionDataSource {
 extension ContactsCollectionDataSource: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        dataManager.sortedSections().count
+        dataManager.getSortedSections().count
     }
 
     func indexTitles(for collectionView: UICollectionView) -> [String]? {
-        dataManager.sortedSections()
+        dataManager.getSortedSections()
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sectionIndex = dataManager.sortedSections()[section]
-        return dataManager.sortedContacts()[sectionIndex]?.count ?? 0
+        let sectionIndex = dataManager.getSortedSections()[section]
+        return dataManager.getSortedContacts()[sectionIndex]?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item: ContactCollectionViewCell = collectionView.dequeueItem(for: indexPath)
         let contact = dataManager.getElement(at: indexPath)
 
-        let details: ContactDisplay<Info.Basic> = .init(contact)
+        let details: ContactDisplay<Info.Detailed> = .init(contact)
         item.configure(with: details)
 
         return item
