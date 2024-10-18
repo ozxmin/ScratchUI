@@ -64,7 +64,7 @@ class ContactDetailsViewController: UIViewController {
         }
     }
 
-    //TODO: - This method dosent belong in a view
+    //TODO: - This method doesn't belong in a view
     private func fetchData(from url: URL?) async -> Data? {
         guard let url else { return nil }
         printQ(3)

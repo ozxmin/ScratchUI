@@ -23,6 +23,7 @@ import UIKit
 
 final class ContactsTableViewController: UITableViewController {
     private let source = ContactsTableDataSource()
+    private var isGridView = false
 
     override func loadView() {
         super.loadView()
@@ -35,7 +36,6 @@ final class ContactsTableViewController: UITableViewController {
 extension ContactsTableViewController {
     private func configureNavigationBar() {
         title = "Contacts"
-        tableView.backgroundColor = .systemGreen
         navigationController?.isNavigationBarHidden = false
 
         let optionMenu = UIBarButtonItem(title: "Options", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems())
@@ -46,21 +46,28 @@ extension ContactsTableViewController {
         navigationItem.rightBarButtonItem = optionMenu
     }
 
-    @objc private func menuItems () -> UIMenu {
+    private func menuItems () -> UIMenu {
         let options = [
-            UIAction (title: "Copy", image: UIImage (systemName: "doc") ) { _ in
-                log("Copy") },
-            UIAction (title: "Share", image: UIImage (systemName: "square.and.arrow.up")) { _ in
-                log("Share") },
-            UIAction (title: "Favorite", image: UIImage(systemName: "suit.heart")){ _ in
-                log("Favorite") },
-            UIAction (title: "Show All Photos", image: UIImage (systemName: "photo.on.rectangle")) { _ in
-                log("Show All Photos") },
+            UIAction(title: "Grid", image: UIImage(systemName: "square.grid.2x2"), handler: { [weak self] _ in
+                self?.switchToCollectionView()
+            }),
             UIAction(title: "Delete", image: UIImage (systemName: "trash"), attributes: .destructive) { _ in
                 log("Delete") }
         ]
         let menu = UIMenu(title: "", options: .displayInline, children: options)
         return menu
+    }
+
+    private func switchToCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        let itemWidth = (view.bounds.width - 40) / 3 // 3 items wide with 10 points spacing
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+
+        let collectionVC = ContactsCollectionViewController(collectionViewLayout: layout)
+        navigationController?.setViewControllers([collectionVC], animated: true)
     }
 }
 
@@ -69,7 +76,7 @@ extension ContactsTableViewController {
     private func configureTableDelegates() {
         tableView.delegate = self
         tableView.dataSource = source
-        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.identifier)
+        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.id)
     }
 
     // TODO: - Change implementation to use content configurator

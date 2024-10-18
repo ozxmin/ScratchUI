@@ -56,6 +56,7 @@ extension ContactsTableDataSource: UITableViewDataSource {
     }
 }
 
+
 final class ContactsCollectionDataSource: NSObject {
     private let dataManager: ContactsDataManager
 
@@ -94,8 +95,13 @@ extension ContactsCollectionDataSource: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ContactCollectionViewCell = collectionView.dequeueItem(for: indexPath)
-        return cell
+        let item: ContactCollectionViewCell = collectionView.dequeueItem(for: indexPath)
+        let contact = dataManager.getElement(at: indexPath)
+
+        let details: ContactDisplay<Info.Basic> = .init(contact)
+        item.configure(with: details)
+
+        return item
     }
 }
 
