@@ -58,6 +58,7 @@
 		C969339B2C9FFEE60043F05E /* ContactDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsViewController.swift; sourceTree = "<group>"; };
 		C969339C2C9FFEE60043F05E /* ContactDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailsViewController.xib; sourceTree = "<group>"; };
 		C99058092CC2140B00922AB5 /* ContactCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewCell.swift; sourceTree = "<group>"; };
+		C990580B2CC21A4700922AB5 /* TODOs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODOs.md; sourceTree = "<group>"; };
 		C9A2B2BA2C90F3EF00C88856 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		C9C555852CC073580001764A /* ContactsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +116,7 @@
 		C93ACCDC2C609A5500208CB6 = {
 			isa = PBXGroup;
 			children = (
+				C990580B2CC21A4700922AB5 /* TODOs.md */,
 				C93ACCE72C609A5500208CB6 /* ScratchUI */,
 				C93ACCE62C609A5500208CB6 /* Products */,
 			);
