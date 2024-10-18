@@ -7,39 +7,50 @@
 
 import UIKit
 
-
 protocol ReuseIdentifiable: UIView { }
 
 extension ReuseIdentifiable {
-    static var identifier: String {
+    static var id: String {
         String(describing: Self.self)
     }
 }
 
 extension UITableViewCell: ReuseIdentifiable { }
+extension UICollectionViewCell: ReuseIdentifiable { }
 
+// MARK: - DequeueableConsumer
 
 protocol DequeueableConsumer {
-    func dequeueItem<T: ReuseIdentifiable>(for indexPath: IndexPath, item: T?) -> T
+    func dequeueItem<T: ReuseIdentifiable>(for indexPath: IndexPath) -> T
     func dequeueReusable<U: ReuseIdentifiable>(index: IndexPath) -> U
 }
 
 extension DequeueableConsumer {
-    func dequeueItem<T: ReuseIdentifiable>(for indexPath: IndexPath, item: T? = nil) -> T {
-        let unit: T = dequeueReusable(index: indexPath)
-        return unit
+    func dequeueItem<T: ReuseIdentifiable>(for indexPath: IndexPath) -> T {
+        dequeueReusable(index: indexPath)
+    }
+
+    func unwrap<Output: ReuseIdentifiable, Input: ReuseIdentifiable>(item: Input) -> Output {
+        guard let casted = item as? Output else {
+            fatalError(#function)
+        }
+        return casted
     }
 }
-
 
 extension UITableView: DequeueableConsumer {
     func dequeueReusable<U: ReuseIdentifiable>(index: IndexPath) -> U {
-        guard let cell = self.dequeueReusableCell(withIdentifier: U.identifier, for: index) as? U else {
-            fatalError(#function)
-        }
-        return cell
+         unwrap(item: self.dequeueReusableCell(withIdentifier: U.id, for: index))
     }
 }
+
+extension UICollectionView: DequeueableConsumer {
+    func dequeueReusable<U: ReuseIdentifiable>(index: IndexPath) -> U {
+        unwrap(item: self.dequeueReusableCell(withReuseIdentifier: U.id, for: index))
+    }
+}
+
+// MARK: - UIImage
 
 extension UIImageView {
     func applyCircleMask() {
