@@ -11,7 +11,11 @@ import Foundation
 // when annotating a property with the @DataFetcher it's init with a url. if its valid,
 // the fetching will start and set the property as Result<Data, Error>
 
-enum Info {
+protocol InformationLevel {
+    associatedtype Basic
+}
+
+enum Info: InformationLevel {
     enum Basic { }
     enum Grid { }
     enum Detailed { }
@@ -23,7 +27,7 @@ struct ContactDisplay<InfoLevel> {
 
     let name: String
     let lastName: String
-    var details: [(label: String, value: String)]?
+    var details: [(label: String, value: String)]? //lazy.map?
     var avatarData: Data?
 
     private var avatarURL: URLComponents?

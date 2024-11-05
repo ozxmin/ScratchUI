@@ -13,4 +13,5 @@
 
 - Fix URL composition
 
-- fix go back binding (ctrl + alt + back arrow) 
+- Implement some sort of design pattern that allows the ContactDataSource to be SOLID:
+shouldn't import UIKit or use NSObject, should be able to support Collections and Tables  

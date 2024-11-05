@@ -33,8 +33,8 @@ final class ContactTableCell: UITableViewCell {
         return content
     }
 
-    func fillIn(with contact: ContactEntity) {
-        content?.attributedText = styleBoldAndNormal(bold: contact.firstName, normal: contact.lastName)
+    func fillIn(with contact: ContactDisplay<Info.Basic>) {
+        content?.attributedText = styleBoldAndNormal(bold: contact.name, normal: contact.lastName)
     }
 
     private func styleBoldAndNormal(bold: String, normal: String) -> NSAttributedString {

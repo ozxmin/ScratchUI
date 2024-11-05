@@ -8,7 +8,7 @@
 import UIKit
 
 class ContactsCollectionViewController: UICollectionViewController {
-    private let source = ContactsCollectionDataSource()
+    private let source = ContactsCollectionDataManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()

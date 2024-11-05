@@ -1,56 +1,45 @@
 //
-//  ContactDataManager.swift
+//  ContactsDataSource.swift
 //  ScratchUI
 //
-//  Created by Ozmin Vazquez on 22/08/24.
+//  Created by Ozmin Vazquez on 18/10/24.
 //
 
 import Foundation
 
-final class ContactsDataManager {
-    //TODO: - Get data fetching off main thread
-    private lazy var contactsSorted: [String : [ContactEntity]] = sortValues()
-    private lazy var sectionsSorted: [String] = Array(contactsSorted.keys.sorted())
-    private var needsRefreshCounter = 0
-    //TODO: - Define URL components and inject URL Components in Data Manager change set to random 1-4
+// TODO: - Don't use ui specific terms in the datasource
+
+protocol ProtocolSugar {
+    func section(at index: Int) -> String
+    func itemsIn(section: Int) -> [ContactEntity]
 }
 
-// MARK: - Interface
-extension ContactsDataManager {
-    func getSortedSections() -> [String] {
-        if needsRefreshCounter > 9 {
-            log("needs refresh")
-        }
-        return sectionsSorted
-    }
+protocol ContactsDataManagerProtocol {
+    var dataSource: ContactsDataSource { get }
 
-    func getSortedContacts() -> [String : [ContactEntity]] {
-        contactsSorted
-    }
-
-    func getElement(at indexPath: IndexPath) -> ContactEntity {
-        let currentSection = getSortedSections()[indexPath.section]
-        guard let contact = getSortedContacts()[currentSection]?[indexPath.row] else { fatalError(#function) }
-        return contact
-    }
+    func getDetailsDisplay<T>(for indexPath: IndexPath) -> ContactDisplay<T>
+    func sections() -> [String]
+    func numberOfItems(in section: Int) -> Int
 }
 
-// MARK: - Helpers
-extension ContactsDataManager {
-    private func sortValues() -> Dictionary<String, [ContactEntity]> {
-        let alphabetically = decodeJsonData().sorted { $0.firstName < $1.firstName }
-        let grouped = Dictionary(grouping: alphabetically) { String($0.firstName.first?.uppercased() ?? "#") }
-        return grouped
+extension ContactsDataManagerProtocol {
+    func section(at index: Int) -> String {
+        sections()[index]
     }
 
-    private func rawDictionary() -> Dictionary<String, [ContactEntity]> {
-        let array = decodeJsonData()
-        let grouped = Dictionary(grouping: array) { String($0.firstName.first?.uppercased() ?? "#") }
-        return grouped
+    func sections() -> [String] {
+        dataSource.getSortedSections()
     }
 
-    private func decodeJsonData() -> [ContactEntity] {
-        let contacts: [ContactEntity] = Bundle.main.decode("contacts_mock_data")
-        return contacts
+    func getDetailsDisplay<T>(for indexPath: IndexPath) -> ContactDisplay<T> {
+        let contact = dataSource.getContact(at: indexPath)
+        let details: ContactDisplay<T> = .init(contact)
+        return details
+    }
+
+    func numberOfItems(in section: Int) -> Int {
+        let sectionIndex = dataSource.getSortedSections()[section]
+        let sortedContacts = dataSource.sectionsAndContactsSorted()
+        return dataSource.sectionsAndContactsSorted()[sectionIndex]?.count ?? 0
     }
 }

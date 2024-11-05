@@ -99,6 +99,8 @@ extension CharacterSet {
 }
 
 func printQ(_ tag: Int) {
+    // TODO: - change to checkQueue
+    // if is not running on the main thread, launch warning
     if let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil)) {
         log("\(tag) - Running on queue: \(queueLabel)")
     } else {

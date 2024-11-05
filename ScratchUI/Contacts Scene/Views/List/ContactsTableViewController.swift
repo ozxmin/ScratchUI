@@ -9,7 +9,7 @@ import UIKit
 
 /**
  # TODO:
- - Instead of first name, chose another field to show in the table and sortby that field
+ - Instead of first name, chose another field to show in the table and sortBy that field
  - Support re arranging cells (disables sorted alphabetically)
  - Support search filtering, desirably fuzzy match, and search all fields
  - add pull to refresh
@@ -21,8 +21,40 @@ import UIKit
 
 */
 
+
+// a datasource protocol with a extension on
+// where self: UITableViewDataSource
+
+protocol MyTest { }
+class MyDataSource: NSObject, MyTest {
+    
+}
+
+extension MyTest where Self: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        UITableViewCell()
+    }
+
+}
+
+extension UITableViewDataSource where Self: MyDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        UITableViewCell()
+    }
+}
+
+
 final class ContactsTableViewController: UITableViewController {
-    private let source = ContactsTableDataSource()
+
+    private let source = ContactsTableDataManager()
     private var isGridView = false
 
     override func loadView() {
@@ -75,21 +107,21 @@ extension ContactsTableViewController {
 extension ContactsTableViewController {
     private func configureTableDelegates() {
         tableView.delegate = self
-        tableView.dataSource = source
+        tableView.dataSource = self
         tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.id)
     }
 
     // TODO: - Change implementation to use content configurator
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UILabel(frame: .zero)
-        header.text = source.sections()[section]
+        header.text = source.section(at: section)
         header.font = UIFont.boldSystemFont(ofSize: 20)
         header.backgroundColor = .systemGray
         return header
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        source.sections()[section]
+        source.section(at: section)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -99,5 +131,32 @@ extension ContactsTableViewController {
         contactDetailVC.detail = contact
 
         show(contactDetailVC, sender: nil)
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension ContactsTableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        source.sections().count
+    }
+
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        source.sections()
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        source.numberOfItems(in: section)
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //TODO: - Improve ergonomics on dequeueable items
+        // Just tell line 41 to verbose
+        // maybe just tell the info level (or the type: ContactTableCell)and it adapts what data is needed
+        let contact: ContactDisplay<Info.Basic> = source.getDetailsDisplay(for: indexPath)
+        let cell: ContactTableCell = tableView.dequeueItem(for: indexPath)
+
+        cell.fillIn(with: contact)
+
+        return cell
     }
 }
