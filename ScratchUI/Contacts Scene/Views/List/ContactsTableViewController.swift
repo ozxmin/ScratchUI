@@ -12,6 +12,9 @@ protocol ContactsViewProtocol {
     func setTitle(_ title: String)
     func isLoading(shown: Bool)
     func navigate(with contact: ContactDisplay<Info.Detailed>)
+    func layout(with style: LayoutStyle)
+    func setSections(sections: [String])
+    func setContacts(contacts: [[ContactDisplay<Info.Basic>]])
 }
 
 final class ContactsTableViewController: UITableViewController, ContactsViewProtocol {
@@ -31,9 +34,8 @@ final class ContactsTableViewController: UITableViewController, ContactsViewProt
     }()
 
     // make a custom data struct that acts as an array. Takes a subscript and returns that element. Elements are served on-demand, instead of setting all elements at once
-    private let sections: [String] = []
-    private let contacts: [[ContactDisplay<Info.Basic>]] = []
-    private var isGridView = false
+    private var sections: [String] = []
+    private var contacts: [[ContactDisplay<Info.Basic>]] = []
 
     override func loadView() {
         super.loadView()
@@ -45,10 +47,21 @@ final class ContactsTableViewController: UITableViewController, ContactsViewProt
 
 extension ContactsTableViewController {
     func isLoading(shown: Bool) {
-        if shown {
-            showLoading()
-        }
+        shown ? showLoading() : dismissLoader()
+    }
 
+    func layout(with style: LayoutStyle) {
+        if case .grid = style {
+            switchToCollectionView()
+        }
+    }
+
+    func setSections(sections: [String]) {
+        self.sections = sections
+    }
+
+    func setContacts(contacts: [[ContactDisplay<Info.Basic>]]) {
+        self.contacts = contacts
     }
 
     private func showLoading() {
@@ -101,7 +114,6 @@ extension ContactsTableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: - Use coordinator//router instead for navigating
-
         presenter?.didSelectItem(at: indexPath)
     }
 }
@@ -150,8 +162,9 @@ extension ContactsTableViewController {
 
     private func menuItems () -> UIMenu {
         let options = [
-            UIAction(title: "Grid", image: UIImage(systemName: "square.grid.2x2"), handler: { [weak self] _ in
-                self?.switchToCollectionView()
+            UIAction(title: "Grid", image: UIImage(systemName: "square.grid.2x2"), handler: { [weak self] action in
+                self?.presenter?.switchLayout()
+
             }),
             UIAction(title: "Delete", image: UIImage (systemName: "trash"), attributes: .destructive) { _ in
                 log("Delete") }
