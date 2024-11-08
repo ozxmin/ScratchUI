@@ -9,11 +9,6 @@ import Foundation
 
 // TODO: - Don't use ui specific terms in the datasource
 
-protocol ProtocolSugar {
-    func section(at index: Int) -> String
-    func itemsIn(section: Int) -> [ContactEntity]
-}
-
 protocol ContactsDataManagerProtocol {
     var dataSource: ContactsDataSource { get }
 

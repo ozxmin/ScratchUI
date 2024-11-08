@@ -25,7 +25,7 @@ extension ContactsDataSource {
         return sortedSections
     }
 
-    func sectionsAndContactsSorted() -> [String : [ContactEntity]] {
+    func sectionsAndContactsSorted() -> [String: [ContactEntity]] {
         sortedValues
     }
 

@@ -7,64 +7,134 @@
 
 import UIKit
 
-/**
- # TODO:
- - Instead of first name, chose another field to show in the table and sortBy that field
- - Support re arranging cells (disables sorted alphabetically)
- - Support search filtering, desirably fuzzy match, and search all fields
- - add pull to refresh
- - Bar item toggle to show contacts as collection view with its profile pictures (pre fetched)
-- Get all data fetching off main thread an then move the UI updates to main  thread
- - support sort alphabetically
- - support delete, add and modify
- - support swiftData persistance
-
-*/
-
-
-// a datasource protocol with a extension on
-// where self: UITableViewDataSource
-
-protocol MyTest { }
-class MyDataSource: NSObject, MyTest {
-    
+protocol ContactsViewProtocol {
+    func configureInitialView()
+    func setTitle(_ title: String)
+    func isLoading(shown: Bool)
+    func navigate(with contact: ContactDisplay<Info.Detailed>)
 }
 
-extension MyTest where Self: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
-    }
+final class ContactsTableViewController: UITableViewController, ContactsViewProtocol {
 
-}
+    var presenter: ContactsPresenterProtocol?
 
-extension UITableViewDataSource where Self: MyDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
-    }
+    private lazy var loaderView: UIActivityIndicatorView? = {
+        let loaderView = UIActivityIndicatorView(style: .large)
+        loaderView.center = view.center
+        loaderView.translatesAutoresizingMaskIntoConstraints = false
+        loaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        view.addSubview(loaderView)
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
-    }
-}
+        loaderView.hidesWhenStopped = true
 
+        return loaderView
+    }()
 
-final class ContactsTableViewController: UITableViewController {
-
-    private let source = ContactsTableDataManager()
+    // make a custom data struct that acts as an array. Takes a subscript and returns that element. Elements are served on-demand, instead of setting all elements at once
+    private let sections: [String] = []
+    private let contacts: [[ContactDisplay<Info.Basic>]] = []
     private var isGridView = false
 
     override func loadView() {
         super.loadView()
+        presenter?.onViewDidLoad()
+    }
+}
+
+// MARK: - View Conformance
+
+extension ContactsTableViewController {
+    func isLoading(shown: Bool) {
+        if shown {
+            showLoading()
+        }
+
+    }
+
+    private func showLoading() {
+        loaderView?.startAnimating()
+        view.isUserInteractionEnabled = false
+    }
+
+    private func dismissLoader() {
+        loaderView?.stopAnimating()
+        view.isUserInteractionEnabled = true
+    }
+
+    func configureInitialView() {
         configureTableDelegates()
         configureNavigationBar()
+    }
+    
+    func setTitle(_ title: String) {
+        navigationItem.title = title
+    }
+
+    func navigate(with contact: ContactDisplay<Info.Detailed>) {
+        let contactDetailVC = ContactDetailsViewController()
+        contactDetailVC.detail = contact
+
+        show(contactDetailVC, sender: nil)
+    }
+}
+
+// MARK: - TableViewDelegate
+extension ContactsTableViewController {
+    private func configureTableDelegates() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.id)
+    }
+
+    // TODO: - Change implementation to use content configurator
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UILabel(frame: .zero)
+        header.text = sections[section]
+        header.font = UIFont.boldSystemFont(ofSize: 20)
+        header.backgroundColor = .systemGray
+        return header
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        sections[section]
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //TODO: - Use coordinator//router instead for navigating
+
+        presenter?.didSelectItem(at: indexPath)
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension ContactsTableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        sections.count
+    }
+
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        sections
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        contacts[section].count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //TODO: - Improve ergonomics on dequeueable items
+        // Just tell line 41 to verbose
+        // maybe just tell the info level (or the type: ContactTableCell)and it adapts what data is needed
+        let contact: ContactDisplay<Info.Basic> = contacts[indexPath.section][indexPath.row]
+        let cell: ContactTableCell = tableView.dequeueItem(for: indexPath)
+
+        cell.fillIn(with: contact)
+
+        return cell
     }
 }
 
 // MARK: - Navigation Bar + Menu
+
 extension ContactsTableViewController {
     private func configureNavigationBar() {
         title = "Contacts"
@@ -100,63 +170,5 @@ extension ContactsTableViewController {
 
         let collectionVC = ContactsCollectionViewController(collectionViewLayout: layout)
         navigationController?.setViewControllers([collectionVC], animated: true)
-    }
-}
-
-// MARK: - TableViewDelegate
-extension ContactsTableViewController {
-    private func configureTableDelegates() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(ContactTableCell.self, forCellReuseIdentifier: ContactTableCell.id)
-    }
-
-    // TODO: - Change implementation to use content configurator
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UILabel(frame: .zero)
-        header.text = source.section(at: section)
-        header.font = UIFont.boldSystemFont(ofSize: 20)
-        header.backgroundColor = .systemGray
-        return header
-    }
-
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        source.section(at: section)
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //TODO: - Use coordinator instead
-        let contactDetailVC = ContactDetailsViewController()
-        let contact: ContactDisplay<Info.Detailed> = source.getDetailsDisplay(for: indexPath)
-        contactDetailVC.detail = contact
-
-        show(contactDetailVC, sender: nil)
-    }
-}
-
-// MARK: - UITableViewDataSource
-extension ContactsTableViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        source.sections().count
-    }
-
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        source.sections()
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        source.numberOfItems(in: section)
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //TODO: - Improve ergonomics on dequeueable items
-        // Just tell line 41 to verbose
-        // maybe just tell the info level (or the type: ContactTableCell)and it adapts what data is needed
-        let contact: ContactDisplay<Info.Basic> = source.getDetailsDisplay(for: indexPath)
-        let cell: ContactTableCell = tableView.dequeueItem(for: indexPath)
-
-        cell.fillIn(with: contact)
-
-        return cell
     }
 }

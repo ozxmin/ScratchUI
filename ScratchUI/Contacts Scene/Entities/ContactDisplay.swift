@@ -21,10 +21,10 @@ enum Info: InformationLevel {
     enum Detailed { }
 }
 
-struct ContactDisplay<InfoLevel> {
-    // TODO: - Inject exclusions
-    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
 
+struct ContactDisplay<InfoLevel> {
+    // TODO: - Inject exclusions in interactor
+    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
     let name: String
     let lastName: String
     var details: [(label: String, value: String)]? //lazy.map?
