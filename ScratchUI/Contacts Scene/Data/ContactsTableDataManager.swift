@@ -7,21 +7,13 @@
 
 import UIKit
 
-// MARK: - Contacts Table DataSource
-final class ContactsTableDataManager: ContactsDataManagerProtocol {
-    var dataSource: ContactsDataSource
-    init() {
-        dataSource = ContactsDataSource()
-    }
-}
-
 // MARK: - Contacts Collection Data Source
 
 final class ContactsCollectionDataManager: NSObject {
-    private let dataManager: ContactsDataSource
+    private let contactsDataSource: ContactsDataSource
 
     override init() {
-        dataManager = ContactsDataSource()
+        contactsDataSource = ContactsDataSource()
         super.init()
     }
 }
@@ -29,11 +21,11 @@ final class ContactsCollectionDataManager: NSObject {
 // MARK: - Extra
 extension ContactsCollectionDataManager {
     func sections() -> [String] {
-        dataManager.getSortedSections()
+        contactsDataSource.getSortedSections()
     }
 
     func getDetailsDisplay<T>(for indexPath: IndexPath) -> ContactDisplay<T> {
-        let contact = dataManager.getContact(at: indexPath)
+        let contact = contactsDataSource.getContact(at: indexPath)
         let details: ContactDisplay<T> = .init(contact)
         return details
     }
@@ -42,21 +34,21 @@ extension ContactsCollectionDataManager {
 extension ContactsCollectionDataManager: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        dataManager.getSortedSections().count
+        contactsDataSource.getSortedSections().count
     }
 
     func indexTitles(for collectionView: UICollectionView) -> [String]? {
-        dataManager.getSortedSections()
+        contactsDataSource.getSortedSections()
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sectionIndex = dataManager.getSortedSections()[section]
-        return dataManager.sectionsAndContactsSorted()[sectionIndex]?.count ?? 0
+        let sectionIndex = contactsDataSource.getSortedSections()[section]
+        return contactsDataSource.sectionsAndContactsSorted()[sectionIndex]?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item: ContactCollectionViewCell = collectionView.dequeueItem(for: indexPath)
-        let contact = dataManager.getContact(at: indexPath)
+        let contact = contactsDataSource.getContact(at: indexPath)
 
         let details: ContactDisplay<Info.Detailed> = .init(contact)
         item.configure(with: details)
