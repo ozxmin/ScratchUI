@@ -18,6 +18,7 @@ shouldn't import UIKit or use NSObject, should be able to support Collections an
 
 
 # Architecture
+- (technically) When creating modules, protocols should not be in the same files as the source code. It creates a source code dependency at the file level.
 
 ## Viper 
 
@@ -46,7 +47,7 @@ protocol InteractorProtocol {
 }
 
 
-/**
+
  # TODO:
  - Instead of first name, chose another field to show in the table and sortBy that field
  - Support re arranging cells (disables sorted alphabetically)
@@ -58,4 +59,5 @@ protocol InteractorProtocol {
  - support delete, add and modify
  - support swiftData persistance
 
-*/
+
+- For UITableViewController: make a custom data struct that acts as an array. Takes a subscript and returns that element. Elements are served on-demand, instead of setting all elements at once

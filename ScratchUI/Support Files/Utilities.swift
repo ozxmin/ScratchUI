@@ -22,6 +22,7 @@ extension Bundle {
 
         let decoder = JSONDecoder()
 
+        //move data formatting to datasource
         let formatter = DateFormatter()
         formatter.dateFormat = "y-MM-dd"
 
@@ -108,13 +109,11 @@ func printQ(_ tag: Int) {
     }
 }
 
-
-func log<T>(_ message: T) {
 #if DEBUG
+func log<T>(_ message: T) {
     print(message)
-#endif
-
 }
+#endif
 
 // TODO: - Convert to property wrapper. Takes self, and excluded. Returns array keyvaluepairs
 extension Mirror {

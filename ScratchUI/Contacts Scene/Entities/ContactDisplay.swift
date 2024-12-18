@@ -77,7 +77,8 @@ extension ContactDisplay {
 
     private func fetchData(from url: URL) async -> Data? {
         do {
-            let response = try? await URLSession.shared.data(for: URLRequest(url: url))
+            let request = URLRequest(url: url)
+            let response = try? await URLSession.shared.data(for: request)
             if let data = response?.0 {
                 return data
             }

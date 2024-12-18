@@ -15,7 +15,7 @@ enum Either<T, U> {
 // TODO: - Use reflection to make it easier to add new scene cases.
 // -
 // Desired output: Just add a case to have everything working
-// i.e.: Add a case, raw type is an a repository instance. The rawtype is the title.
+// i.e.: Add a case, raw type is an a repository instance. The raw-type is the title.
 // the mirror fills in the repo computed variable
 
 @dynamicMemberLookup
@@ -24,7 +24,7 @@ enum Scene: String, CaseIterable {
     case details = "Details"
     case collection = "Collection"
 
-    var repo: Repository {
+    private var repo: Repository {
         switch self {
             case .contacts: return make(ContactsTableViewController.self)
             case .details: return make(ContactDetailsViewController.self)
@@ -40,7 +40,7 @@ enum Scene: String, CaseIterable {
         guard case let .this(viewType) = repo.view else {
             return UIViewController()
         }
-        let view = viewType.init()
+        let view = viewType.init(dependencies: repo.dependencies)
         view.title = repo.title
         return view
     }
@@ -82,4 +82,16 @@ enum Scene: String, CaseIterable {
         Self.allCases.firstIndex(of: self)
     }
 
+}
+
+protocol Injectable {
+    init<D>(dependencies: D)
+}
+
+extension Injectable where Self: UIViewController {
+    init<D>(dependencies: D) {
+        self.init()
+    }
+}
+extension UIViewController: Injectable {
 }

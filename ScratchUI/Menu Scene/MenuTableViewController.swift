@@ -20,7 +20,7 @@ class MenuTableViewController: UITableViewController {
         selectDemo(option: .contacts)
     }
 
-    func selectDemo(option: Scene) {
+    private func selectDemo(option: Scene) {
         guard let position = option.index else { return }
         tableView(tableView, didSelectRowAt: IndexPath(row: position, section: 0))
     }
