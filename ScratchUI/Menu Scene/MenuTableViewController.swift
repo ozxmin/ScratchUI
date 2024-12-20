@@ -9,7 +9,7 @@ import UIKit
 
 class MenuTableViewController: UITableViewController {
 
-    let scenes = Scene.allCases
+    let scenes = Coordinator.allCases
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,7 @@ class MenuTableViewController: UITableViewController {
         selectDemo(option: .contacts)
     }
 
-    private func selectDemo(option: Scene) {
+    private func selectDemo(option: Coordinator) {
         guard let position = option.index else { return }
         tableView(tableView, didSelectRowAt: IndexPath(row: position, section: 0))
     }

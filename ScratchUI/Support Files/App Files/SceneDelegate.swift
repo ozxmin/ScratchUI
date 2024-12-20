@@ -10,17 +10,22 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
         window?.frame = UIScreen.main.bounds
         window?.makeKeyAndVisible()
         window?.backgroundColor = .cyan
-        
-        // let initialViewController = UINavigationController(rootViewController: MenuTableViewController())
-        let initialViewController = InitialViewController(rootViewController: MenuTableViewController())
-        window?.rootViewController = initialViewController
+        let menu = MenuTableViewController()
+        let initialVC = InitialViewController(rootViewController: menu)
+        //let initialVC = UINavigationController(rootViewController: menu)
+
+        window?.rootViewController = initialVC
     }
 
     func sceneDidDisconnect(_ scene: UIScene) { }
