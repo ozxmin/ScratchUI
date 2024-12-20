@@ -11,53 +11,68 @@ protocol ContactsViewProtocol {
     func configureInitialView()
     func setTitle(_ title: String)
     func isLoading(shown: Bool)
+    func setContacts(contacts: [[ContactDisplay<Info.Basic>]])
+    func setSections(sections: [String])
     func navigate(with contact: ContactDisplay<Info.Detailed>)
     func layout(with style: LayoutStyle)
-    func setSections(sections: [String])
-    func setContacts(contacts: [[ContactDisplay<Info.Basic>]])
 }
 
-final class ContactsTableViewController: UITableViewController, ContactsViewProtocol {
+typealias ContactsViewTC = UITableViewController & ContactsViewProtocol
+final class ContactsTableViewController: ContactsViewTC {
 
-    var presenter: ContactsPresenterProtocol?
-
-    private lazy var loaderView: UIActivityIndicatorView? = {
-        let loaderView = UIActivityIndicatorView(style: .large)
-        loaderView.center = view.center
-        loaderView.translatesAutoresizingMaskIntoConstraints = false
-        loaderView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        view.addSubview(loaderView)
-
-        loaderView.hidesWhenStopped = true
-
-        return loaderView
-    }()
-
-    // make a custom data struct that acts as an array. Takes a subscript and returns that element. Elements are served on-demand, instead of setting all elements at once
-    private var sections: [String] = []
+    private var presenter: ContactsPresenterProtocol!
     private var contacts: [[ContactDisplay<Info.Basic>]] = []
+    private var sections: [String] = []
 
     override func loadView() {
         super.loadView()
+        self.presenter = ContactsPresenter(view: self)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         presenter?.onViewDidLoad()
     }
+
+    // TODO: - Fix loader view not shown in proper place
+    private lazy var loaderView:
+    UIActivityIndicatorView? = {
+        let loader = UIActivityIndicatorView(style: .large)
+        loader.center = view.center
+        loader.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loader)
+        loader.centerXAnchor
+            .constraint(equalTo: view.centerXAnchor).isActive = true
+        loader.hidesWhenStopped = true
+
+        return loader
+    }()
 }
 
 // MARK: - View Conformance
 
 extension ContactsTableViewController {
+    func configureInitialView() {
+        configureTableDelegates()
+        configureNavigationBar()
+    }
+
+    func setTitle(_ title: String) {
+        navigationItem.title = title
+    }
+
+    func setSections(sections: [String]) {
+        self.sections = sections
+    }
+    
     func isLoading(shown: Bool) {
         shown ? showLoading() : dismissLoader()
     }
 
     func layout(with style: LayoutStyle) {
-        if case .grid = style {
+        if .grid ~= style {
             switchToCollectionView()
         }
-    }
-
-    func setSections(sections: [String]) {
-        self.sections = sections
     }
 
     func setContacts(contacts: [[ContactDisplay<Info.Basic>]]) {
@@ -74,21 +89,13 @@ extension ContactsTableViewController {
         view.isUserInteractionEnabled = true
     }
 
-    func configureInitialView() {
-        configureTableDelegates()
-        configureNavigationBar()
-    }
-    
-    func setTitle(_ title: String) {
-        navigationItem.title = title
-    }
-
     func navigate(with contact: ContactDisplay<Info.Detailed>) {
         let contactDetailVC = ContactDetailsViewController()
         contactDetailVC.detail = contact
 
         show(contactDetailVC, sender: nil)
     }
+
 }
 
 // MARK: - TableViewDelegate
@@ -114,7 +121,7 @@ extension ContactsTableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: - Use coordinator//router instead for navigating
-        presenter?.didSelectItem(at: indexPath)
+        presenter?.onDidSelectItem(at: indexPath)
     }
 }
 
@@ -137,8 +144,8 @@ extension ContactsTableViewController {
         // Just tell line 41 to verbose
         // maybe just tell the info level (or the type: ContactTableCell)and it adapts what data is needed
         let contact: ContactDisplay<Info.Basic> = contacts[indexPath.section][indexPath.row]
-        let cell: ContactTableCell = tableView.dequeueItem(for: indexPath)
 
+        let cell: ContactTableCell = tableView.dequeueItem(for: indexPath)
         cell.fillIn(with: contact)
 
         return cell
@@ -149,10 +156,9 @@ extension ContactsTableViewController {
 
 extension ContactsTableViewController {
     private func configureNavigationBar() {
-        title = "Contacts"
         navigationController?.isNavigationBarHidden = false
-
-        let optionMenu = UIBarButtonItem(title: "Options", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems())
+        let symbol = UIImage(systemName: "ellipsis.circle")
+        let optionMenu = UIBarButtonItem(title: "Options", image: symbol, menu: menuItems())
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
 
@@ -161,27 +167,41 @@ extension ContactsTableViewController {
     }
 
     private func menuItems () -> UIMenu {
+        let grid = UIImage(systemName: "square.grid.2x2")
+        let trash = UIImage(systemName: "trash")
         let options = [
-            UIAction(title: "Grid", image: UIImage(systemName: "square.grid.2x2"), handler: { [weak self] action in
-                self?.presenter?.switchLayout()
+            UIAction(title: "Grid", image: grid, handler: { [weak self] action in
+                log(action)
+                self?.presenter?.onSwitchLayout()
 
             }),
-            UIAction(title: "Delete", image: UIImage (systemName: "trash"), attributes: .destructive) { _ in
-                log("Delete") }
+            UIAction(title: "Delete", image: trash, attributes: .destructive) { _ in
+                log("Delete")
+            }
         ]
+
         let menu = UIMenu(title: "", options: .displayInline, children: options)
         return menu
     }
 
     private func switchToCollectionView() {
+        let flowLayout = createCollectionFlowLayout()
+        setCollectionView(layout: flowLayout)
+    }
+
+    private func setCollectionView(layout: UICollectionViewFlowLayout) {
+        //let collectionVC = ContactsCollectionViewController(collectionViewLayout: layout)
+        //navigationController?.setViewControllers([collectionVC], animated: true)
+    }
+
+    private func createCollectionFlowLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
         let itemWidth = (view.bounds.width - 40) / 3 // 3 items wide with 10 points spacing
         layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-
-        let collectionVC = ContactsCollectionViewController(collectionViewLayout: layout)
-        navigationController?.setViewControllers([collectionVC], animated: true)
+        return layout
     }
+
 }

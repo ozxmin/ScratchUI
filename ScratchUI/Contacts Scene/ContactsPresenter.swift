@@ -9,37 +9,51 @@ import Foundation
 
 protocol ContactsPresenterProtocol {
     func onViewDidLoad()
-    func switchLayout()
-    func didSelectItem(at indexPath: IndexPath)
+    func onSwitchLayout()
+    func onDidSelectItem(at indexPath: IndexPath)
 }
 
-class ContactsPresenter {
+class ContactsPresenter: ContactsPresenterProtocol {
     let title = "Contacts"
-    var layout: LayoutStyle = .list {
-        didSet { view?.layout(with: layout) }
-    }
+    var layout: LayoutStyle = .list { didSet { view?.layout(with: layout) } }
+    var loading: Bool = false { didSet { view?.isLoading(shown: loading) } }
 
     var view: ContactsViewProtocol?
-    var interactor: ContactsInteractorProtocol?
+    var interactor: ContactsInteractor!
+
+    init(view: ContactsViewProtocol) {
+        interactor = ContactsInteractor()
+        self.view = view
+    }
 }
 
 // Conformance
 extension ContactsPresenter {
     func onViewDidLoad() {
         bareSetUp()
-        dataFetching()
+        // TODO: deal with async requests
+        // a better way to handle loading screens
+        loading = true
+        // concurrent async
+        guard let entities = interactor.getContacts() else {
+            //show error
+            return
+        }
+        setTableData(contacts: entities)
+//        view?.setSections(sections: parseToSections(from: contacts))
+//        view?.setContacts(contacts: contacts)
+        loading = false
     }
 
-    func switchLayout() {
+    func onSwitchLayout() {
         layout.toggle()
     }
 
-    func didSelectItem(at indexPath: IndexPath) {
+    func onDidSelectItem(at indexPath: IndexPath) {
         //router stuff
         // create detailed display
-//        view?.navigate(with: <#T##ContactDisplay<Info.Detailed>#>)
+        //view?.navigate(with: ContactDisplay)
     }
-
 }
 
 extension ContactsPresenter {
@@ -49,26 +63,25 @@ extension ContactsPresenter {
         view?.setTitle(title)
     }
 
-    func dataFetching() {
-        // TODO: deal with async requests
-        // a better way to handle loading screens
-        view?.isLoading(shown: true)
-        // concurrent async
-        let contacts = getContacts()
-        view?.setContacts(contacts: contacts!)
-        let sections = getSections()
+    private func setTableData(contacts: [ContactEntity]) {
+        //data fetching
+        //parseToSections
+        //Sort contacts
+        //order contacts
+        //set sections array
+        //set ContactDisplay basic
+        let dict = Dictionary(grouping: contacts, by: { $0.lastName.first ?? "#"})
+        let sections: [String] = dict.keys.sorted().map { String($0) }
         view?.setSections(sections: sections)
-        view?.isLoading(shown: false)
-    }
-
-    private func getContacts() -> [[ContactDisplay<Info.Basic>]]? {
-//        interactor?.contacts //interactor objects
-        //create displayInfo
-        return nil
-    }
-
-    private func getSections() -> [String]{
-        [""]
+        let sortedRows: [[ContactEntity]] = dict.values.sorted { section1, section2 in
+            section1.first?.lastName.lowercased() ?? "" < section2.first?.lastName.lowercased() ?? ""
+        }.map { contacts in
+            contacts.sorted { $0.firstName.lowercased() < $1.firstName.lowercased() }
+        }
+        let basicInfo: [[ContactDisplay<Info.Basic>]] = sortedRows.map { sections in
+            sections.map { ContactDisplay($0) }
+        }
+        view?.setContacts(contacts: basicInfo)
     }
 }
 

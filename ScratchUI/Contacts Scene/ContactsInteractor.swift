@@ -7,6 +7,16 @@
 
 import Foundation
 
+protocol ContactsInteractorProtocol { }
+
+
 class ContactsInteractor {
-    
+    let dataManager: ContactsSupplier = ContactsTableDataManager()
+}
+
+extension ContactsInteractor {
+
+    func getContacts() -> [ContactEntity]? {
+        dataManager.getContactEntities()
+    }
 }
