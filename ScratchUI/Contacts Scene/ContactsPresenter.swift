@@ -70,13 +70,14 @@ extension ContactsPresenter {
         //order contacts
         //set sections array
         //set ContactDisplay basic
-        let dict = Dictionary(grouping: contacts, by: { $0.lastName.first ?? "#"})
+        let dict = Dictionary(grouping: contacts, by: { $0.lastName.first?.uppercased() ?? "#"})
         let sections: [String] = dict.keys.sorted().map { String($0) }
         view?.setSections(sections: sections)
+        
         let sortedRows: [[ContactEntity]] = dict.values.sorted { section1, section2 in
             section1.first?.lastName.lowercased() ?? "" < section2.first?.lastName.lowercased() ?? ""
         }.map { contacts in
-            contacts.sorted { $0.firstName.lowercased() < $1.firstName.lowercased() }
+            contacts.sorted { $0.lastName.lowercased() < $1.lastName.lowercased() }
         }
         let basicInfo: [[ContactDisplay<Info.Basic>]] = sortedRows.map { sections in
             sections.map { ContactDisplay($0) }
