@@ -1,5 +1,5 @@
 //
-//  ContactsDataSource.swift
+//  ContactsDataManager.swift
 //  ScratchUI
 //
 //  Created by Ozmin Vazquez on 18/10/24.
@@ -12,14 +12,11 @@ import Foundation
 // TODO: - Don't use ui specific terms in the datasource
 
 protocol ContactsDataManagerProtocol {
-    var dataSource: ContactsDataSource { get }
-}
-
-protocol ContactsSupplier {
     func getContactEntities() -> [ContactEntity]
 }
 
-final class ContactsTableDataManager: ContactsDataManagerProtocol, ContactsSupplier {
+
+final class ContactsDataManager: ContactsDataManagerProtocol  {
     let contactsURI = "contacts_mock_data"
     var dataSource: ContactsDataSource
     lazy var cachedData: [ContactEntity] = fetchData()
@@ -29,7 +26,7 @@ final class ContactsTableDataManager: ContactsDataManagerProtocol, ContactsSuppl
     }
 }
 
-extension ContactsTableDataManager {
+extension ContactsDataManager {
     func fetchData() -> [ContactEntity] {
         dataSource.getData(from: contactsURI)
     }

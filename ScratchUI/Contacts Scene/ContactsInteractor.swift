@@ -11,7 +11,11 @@ protocol ContactsInteractorProtocol { }
 
 
 class ContactsInteractor {
-    let dataManager: ContactsSupplier = ContactsTableDataManager()
+    let dataManager: ContactsDataManagerProtocol
+    init() {
+        dataManager = ContactsDataManager()
+    }
+
 }
 
 extension ContactsInteractor {

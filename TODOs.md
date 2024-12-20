@@ -1,5 +1,10 @@
 # To-Dos
 
+- Implement diffable data source
+- Implement refresh logic (fetch data again to keep ui "fresh")
+- compose VIPER screen in "router"
+- Make `setTableData(contacts: [ContactEntity])` operations parallel
+
 - Refactor Navigation Bar to be shared between grid and list
 - Fix hide navigation when switching to grid
 
@@ -15,7 +20,6 @@
 
 - Implement some sort of design pattern that allows the ContactDataSource to be SOLID:
 shouldn't import UIKit or use NSObject, should be able to support Collections and Tables  
-
 
 # Architecture
 - (technically) When creating modules, protocols should not be in the same files as the source code. It creates a source code dependency at the file level.
