@@ -18,8 +18,17 @@ enum Either<T, U> {
 // i.e.: Add a case, raw type is an a repository instance. The raw-type is the title.
 // the mirror fills in the repo computed variable
 
+//Router
+//Coordinator
+//Repository
+//Compose
+//Flows
+//Navigator
+//locator
+
 @dynamicMemberLookup
 enum Coordinator: String, CaseIterable {
+    case initial = "Initial"
     case contacts = "Contacts"
     case details = "Details"
     case collection = "Collection"
@@ -44,7 +53,41 @@ extension Coordinator {
 }
 
 
+enum Repository: String {
+    case initial = "Initial"
+    case contacts = "Contacts"
+    case details = "Details"
+    case collection = "Collection"
+}
 
-protocol Injectable {
-    init<D>(dependencies: D)
+enum Scene {
+    case initial
+    case contacts
+    case details
+    case collection
+}
+
+struct Coordinator2 {
+    static func make(scene: Repository) -> UIViewController? {
+        switch scene {
+            case .initial:
+                let dm = MenuDataManager()
+                let interactor = MenuInteractor()
+                interactor.dm = dm
+
+                let presenter = MenuPresenter()
+                presenter.interactor = interactor
+
+                let viewController = MenuTableViewController(presenter: presenter)
+
+                return viewController
+
+            case .contacts:
+                return nil
+            case .details:
+                return nil
+            case .collection:
+                return nil
+        }
+    }
 }

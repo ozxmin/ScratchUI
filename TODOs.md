@@ -3,6 +3,12 @@
 - Implement diffable data source
 - Implement refresh logic (fetch data again to keep ui "fresh")
 - compose VIPER screen in "router"
+
+
+- Analytics Engine Tracker
+- on viper implement dynamicKey memberlookup to viewState, so I can do:
+    view.set(\.title), view.set(\.contacts), view.set(\.tableData)
+
 - Make `setTableData(contacts: [ContactEntity])` operations parallel
 
 - Refactor Navigation Bar to be shared between grid and list

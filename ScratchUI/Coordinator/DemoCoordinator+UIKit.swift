@@ -10,6 +10,7 @@ import UIKit
 extension Coordinator {
     var repo: Repository {
         switch self {
+            case .initial: return make(MenuTableViewController.self)
             case .contacts: return make(ContactsTableViewController.self)
             case .details: return make(ContactDetailsViewController.self)
             case .collection: return make(ContactsCollectionViewControllerTest.self)
@@ -49,6 +50,10 @@ extension Coordinator {
         }
     }
 
+}
+
+protocol Injectable {
+    init<D>(dependencies: D)
 }
 
 extension Injectable where Self: UIViewController {

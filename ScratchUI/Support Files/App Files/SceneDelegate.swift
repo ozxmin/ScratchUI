@@ -21,10 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.frame = UIScreen.main.bounds
         window?.makeKeyAndVisible()
         window?.backgroundColor = .cyan
-        let menu = MenuTableViewController()
-        let initialVC = InitialViewController(rootViewController: menu)
-        //let initialVC = UINavigationController(rootViewController: menu)
 
+        let menuScene = Coordinator2.make(scene: .initial)
+        let initialVC = InitialViewController(rootViewController: menuScene!)
+        //let initialVC = UINavigationController(rootViewController: menu)
         window?.rootViewController = initialVC
     }
 
