@@ -10,6 +10,7 @@ import UIKit
 protocol MenuViewProtocol {
     func bareLayout()
     func setTitle(_ title: String)
+    func setTable(data: [Scene])
 }
 
 class MenuTableViewController: UITableViewController, MenuViewProtocol {
@@ -25,7 +26,6 @@ class MenuTableViewController: UITableViewController, MenuViewProtocol {
         super.viewDidLoad()
         presenter.onViewDidLoad()
     }
-
 }
 
 // MARK: - Helpers
@@ -39,7 +39,9 @@ extension MenuTableViewController {
 
 // MARK: - View Conformance
 extension MenuTableViewController {
-
+    func setTable(data: [Scene]) {
+//        sceneOptions = data
+    }
     func bareLayout() {
         configureBars()
         view.backgroundColor = .systemGroupedBackground
@@ -75,9 +77,10 @@ extension MenuTableViewController {
 // MARK: - Table delegates
 extension MenuTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let scene = scenes[indexPath.row]
-        let screen = scene.create()
-        show(screen, sender: nil)
+        presenter.onDidTapRow(at: indexPath)
+//        let scene = scenes[indexPath.row]
+//        let screen = scene.create()
+//        show(screen, sender: nil)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

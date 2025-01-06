@@ -20,11 +20,7 @@ class ContactsPresenter: ContactsPresenterProtocol {
 
     var view: ContactsViewProtocol?
     var interactor: ContactsInteractor!
-
-    init(view: ContactsViewProtocol) {
-        interactor = ContactsInteractor()
-        self.view = view
-    }
+    var router: ContactsRouter!
 }
 
 // Conformance

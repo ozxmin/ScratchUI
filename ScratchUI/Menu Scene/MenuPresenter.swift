@@ -15,21 +15,36 @@ protocol MenuPresenterInterface {
 class MenuPresenter: MenuPresenterInterface {
     var view: MenuViewProtocol!
     var interactor: MenuInteractorProtocol!
-    var router: RouterProtocol!
+    var router: MenuRouter!
 
-    let title = "Menu"
+    //private(set) var state: ViewState
+
+    class ViewState {
+        var title: String
+        var options: [Scene]
+        init(title: String, options: [Scene]) {
+            self.title = title
+            self.options = options
+        }
+    }
 }
 
 // MARK: - Conformance
 extension MenuPresenter {
     func onViewDidLoad() {
         view?.bareLayout()
-        view?.setTitle(title)
+        
     }
 
-    func onDidTapRow(at index: IndexPath) { }
-    func setTableData() { }
+    func onDidTapRow(at index: IndexPath) {
+        router.navigate(to: .contacts)
+        
+    }
+    func setTableData() {
+//        view?.setTable(data: scenes)
+    }
 }
+
 
 protocol MenuInteractorProtocol {
     func processData()
@@ -49,9 +64,5 @@ extension MenuInteractor {
     }
 }
 
-
 protocol MenuDataManagerProtocol { }
 class MenuDataManager: MenuDataManagerProtocol { }
-
-protocol RouterProtocol { }
-class Router: RouterProtocol { }

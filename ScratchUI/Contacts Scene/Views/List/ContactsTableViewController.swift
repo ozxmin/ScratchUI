@@ -20,13 +20,12 @@ protocol ContactsViewProtocol {
 typealias ContactsViewTC = UITableViewController & ContactsViewProtocol
 final class ContactsTableViewController: ContactsViewTC {
 
-    private var presenter: ContactsPresenterProtocol!
+    var presenter: ContactsPresenterProtocol!
     private var contacts: [[ContactDisplay<Info.Basic>]] = []
     private var sections: [String] = []
 
     override func loadView() {
         super.loadView()
-        self.presenter = ContactsPresenter(view: self)
     }
 
     override func viewDidLoad() {
