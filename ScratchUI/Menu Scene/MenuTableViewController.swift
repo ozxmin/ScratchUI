@@ -9,17 +9,17 @@ import UIKit
 
 protocol MenuViewProtocol {
     func bareLayout()
-    func setTitle(_ title: String)
-    func setTable(data: [Scene])
+    func setState(state: MenuPresenter.ViewState)
 }
 
 class MenuTableViewController: UITableViewController, MenuViewProtocol {
     var presenter: MenuPresenterInterface!
-    let scenes = Coordinator.allCases
+    var state: MenuPresenter.ViewState! //<T: Presenter> T.State
 
     convenience init(presenter: MenuPresenterInterface) {
         self.init()
         self.presenter = presenter
+
     }
     
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ class MenuTableViewController: UITableViewController, MenuViewProtocol {
 
 // MARK: - Helpers
 extension MenuTableViewController {
-    private func selectDemo(option: Coordinator) {
+    private func selectDemo(option: SceneOptions) {
         guard let position = option.index else { return }
         let index = IndexPath(row: position, section: 0)
         tableView(tableView, didSelectRowAt: index)
@@ -39,9 +39,10 @@ extension MenuTableViewController {
 
 // MARK: - View Conformance
 extension MenuTableViewController {
-    func setTable(data: [Scene]) {
-//        sceneOptions = data
+    func setState(state: MenuPresenter.ViewState) {
+        self.state = state
     }
+
     func bareLayout() {
         configureBars()
         view.backgroundColor = .systemGroupedBackground
@@ -84,7 +85,7 @@ extension MenuTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        scenes.count
+        state.options.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -93,7 +94,7 @@ extension MenuTableViewController {
         content.textProperties.font = .preferredFont(forTextStyle: .title2)
         content.textProperties.adjustsFontForContentSizeCategory = true
 
-        content.text = scenes[indexPath.row].title
+        content.text = state.options[indexPath.row].title
 
         cell.contentConfiguration = content
         cell.accessoryType = .disclosureIndicator

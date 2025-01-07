@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension Coordinator {
+extension SceneOptions {
     var repo: Repository {
         switch self {
             case .initial: return make(MenuTableViewController.self)
@@ -30,12 +30,12 @@ extension Coordinator {
         return view
     }
 
-    func create(scene: Coordinator) -> UIViewController {
+    func create(scene: SceneOptions) -> UIViewController {
         scene.create()
     }
 
     func create(at index: Int) -> UIViewController? {
-        Coordinator[index]?.create()
+        SceneOptions[index]?.create()
     }
 
     struct Repository {

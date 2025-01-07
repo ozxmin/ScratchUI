@@ -17,31 +17,35 @@ class MenuPresenter: MenuPresenterInterface {
     var interactor: MenuInteractorProtocol!
     var router: MenuRouter!
 
-    //private(set) var state: ViewState
+    private(set) var state: ViewState
 
     class ViewState {
         var title: String
-        var options: [Scene]
-        init(title: String, options: [Scene]) {
+        var options: [SceneOptions]
+        init(title: String, options: [SceneOptions]) {
             self.title = title
             self.options = options
         }
+    }
+
+    init() {
+        let title = "Menu"
+        let options = SceneOptions.allCases
+        state = ViewState(title: title, options: options)
     }
 }
 
 // MARK: - Conformance
 extension MenuPresenter {
     func onViewDidLoad() {
+        view?.setState(state: state)
         view?.bareLayout()
-        
     }
 
     func onDidTapRow(at index: IndexPath) {
-        router.navigate(to: .contacts)
-        
-    }
-    func setTableData() {
-//        view?.setTable(data: scenes)
+        let chosen = state.options[index.row]
+        router.navigate(to: chosen)
+
     }
 }
 
