@@ -38,6 +38,19 @@ class MenuCoordinator: CoordinatorProtocol  {
     func wire() -> UIViewController {
         let dm = MenuDataManager()
         let interactor = MenuInteractor()
+
+        let router2: GenericFlow<MenuFlows> = .init()
+        router2.navigates = { flow in
+            print("navigates")
+            switch flow {
+                case .collection:
+                    print(flow)
+                case .contacts:
+                    print(flow)
+                default: print(flow)
+            }
+        }
+
         let router = MenuRouter()
 
         router.transitionCompletion = { [weak self] sceneCoordinator in
@@ -50,7 +63,7 @@ class MenuCoordinator: CoordinatorProtocol  {
         let presenter = MenuPresenter()
         let vc = MenuTableViewController(presenter: presenter)
 
-        presenter.router = router
+        presenter.router = router2
         presenter.view = vc
         presenter.interactor = interactor
 
@@ -67,9 +80,11 @@ class MenuCoordinator: CoordinatorProtocol  {
 protocol RouterProtocol {
     associatedtype Flows
     func navigate(to flow: Flows)
+    var navigates: ((Flows) -> Void)? { get set }
 }
 
 class MenuRouter: RouterProtocol {
+    var navigates: ((MenuFlows) -> Void)?
     var transitionCompletion: ((CoordinatorProtocol) -> Void)?
     func navigate(to flow: MenuFlows) {
         switch flow {
@@ -86,3 +101,45 @@ class MenuRouter: RouterProtocol {
         transitionCompletion?(contactsCoordinator)
     }
 }
+
+/**
+
+Scene:
+ - coordinator
+ - flows declaration
+ - repository locator
+ - data passing
+ - wiring
+ - scene navigation
+ - navigation
+*/
+
+class GenericFlow<T> {
+    var navigates: ((T) -> Void)?
+}
+extension GenericFlow: RouterProtocol where T == MenuFlows {
+
+    func navigate(to flow: MenuFlows) {
+
+        switch flow {
+            case .collection: print("collections")
+            case .contacts:
+                print("contacts")
+            case .details: print("details")
+            default: print("default")
+        }
+    }
+}
+
+
+protocol Scene { }
+enum Flows<T: Scene> {
+    case profilePicture
+    indirect case settings(T)
+    indirect case home(Flows)
+
+    func navigate(to: Self) {
+
+    }
+}
+
