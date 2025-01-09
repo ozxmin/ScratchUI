@@ -9,7 +9,7 @@ import Foundation
 
 protocol MenuPresenterInterface {
     func onViewDidLoad()
-    func onDidTapRow(at index: IndexPath)
+    func onDidTapItem(at index: IndexPath)
 }
 
 class MenuPresenter: MenuPresenterInterface {
@@ -21,8 +21,8 @@ class MenuPresenter: MenuPresenterInterface {
 
     class ViewState {
         var title: String
-        var options: [SceneOptions]
-        init(title: String, options: [SceneOptions]) {
+        var options: [MenuFlows]
+        init(title: String, options: [MenuFlows]) {
             self.title = title
             self.options = options
         }
@@ -30,7 +30,7 @@ class MenuPresenter: MenuPresenterInterface {
 
     init() {
         let title = "Menu"
-        let options = SceneOptions.allCases
+        let options = MenuFlows.allCases
         state = ViewState(title: title, options: options)
     }
 }
@@ -42,7 +42,7 @@ extension MenuPresenter {
         view?.bareLayout()
     }
 
-    func onDidTapRow(at index: IndexPath) {
+    func onDidTapItem(at index: IndexPath) {
         let chosen = state.options[index.row]
         router.navigate(to: chosen)
 

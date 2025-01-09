@@ -7,33 +7,6 @@
 
 import UIKit
 
-protocol RouterProtocol {
-    associatedtype Flows
-    func navigate(to flow: Flows)
-}
-
-class MenuRouter: RouterProtocol {
-
-    var transitionCompletion: ((CoordinatorProtocol) -> Void)?
-    func navigate(to flow: SceneOptions) {
-        switch flow {
-            case .collection: print("collections")
-            case .contacts:
-                navigateToContacts()
-            case .details: print("details")
-            default: print("default")
-        }
-    }
-
-    private func navigateToContacts() {
-        let coordinator = ContactsCoordinator()
-        transitionCompletion?(coordinator)
-        coordinator.start()
-
-    }
-
-}
-
 protocol CoordinatorTP {
     func wire()
     func transition()
@@ -42,7 +15,7 @@ protocol CoordinatorTP {
 protocol CoordinatorProtocol: AnyObject {
     var parentCoordinator: CoordinatorProtocol? { get set }
     var navigator: UINavigationController? { get set }
-
+    func start()
 }
 
 class MenuCoordinator: CoordinatorProtocol  {
@@ -50,35 +23,39 @@ class MenuCoordinator: CoordinatorProtocol  {
     var parentCoordinator: CoordinatorProtocol?
     var childCoordinators: [CoordinatorProtocol] = []
     var navigator: UINavigationController?
+    var scene: UIViewController?
 
     init(navigationController: UINavigationController) {
         self.navigator = navigationController
+        scene = wire()
     }
 
+    //show 
     func start() {
-        let scene = wire()
-        navigator?.setViewControllers([scene], animated: false)
+        navigator?.setViewControllers([scene!], animated: false)
     }
 
     func wire() -> UIViewController {
         let dm = MenuDataManager()
         let interactor = MenuInteractor()
-        let menuRouter = MenuRouter()
-        menuRouter.transitionCompletion = { [weak self] contactCoordinator in
-            contactCoordinator.parentCoordinator = self
-            self?.childCoordinators.append(contactCoordinator)
-            contactCoordinator.navigator = self?.navigator
+        let router = MenuRouter()
+
+        router.transitionCompletion = { [weak self] sceneCoordinator in
+            sceneCoordinator.parentCoordinator = self
+            self?.childCoordinators.append(sceneCoordinator)
+            sceneCoordinator.navigator = self?.navigator
+            sceneCoordinator.start()
         }
 
         let presenter = MenuPresenter()
-        let viewController = MenuTableViewController(presenter: presenter)
+        let vc = MenuTableViewController(presenter: presenter)
 
-        presenter.router = menuRouter
-        presenter.view = viewController
+        presenter.router = router
+        presenter.view = vc
         presenter.interactor = interactor
 
         interactor.dm = dm
-        return viewController
+        return vc
     }
 
     func transition(to view: UIViewController) {
@@ -86,3 +63,26 @@ class MenuCoordinator: CoordinatorProtocol  {
     }
 }
 
+
+protocol RouterProtocol {
+    associatedtype Flows
+    func navigate(to flow: Flows)
+}
+
+class MenuRouter: RouterProtocol {
+    var transitionCompletion: ((CoordinatorProtocol) -> Void)?
+    func navigate(to flow: MenuFlows) {
+        switch flow {
+            case .collection: print("collections")
+            case .contacts:
+                contactsScene()
+            case .details: print("details")
+            default: print("default")
+        }
+    }
+
+    private func contactsScene() {
+        let contactsCoordinator = ContactsCoordinator()
+        transitionCompletion?(contactsCoordinator)
+    }
+}

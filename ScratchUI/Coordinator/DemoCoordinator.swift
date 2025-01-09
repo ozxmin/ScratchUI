@@ -30,7 +30,7 @@ enum Either<T, U> {
 
 
 @dynamicMemberLookup
-enum SceneOptions: String, CaseIterable {
+enum MenuFlows: String, CaseIterable {
     // Fix: Leaking presentation details (string)
     case initial = "Initial"
     case contacts = "Contacts"
@@ -39,12 +39,12 @@ enum SceneOptions: String, CaseIterable {
 }
 
 /// - Helpers
-extension SceneOptions {
+extension MenuFlows {
     subscript<T>(dynamicMember member: KeyPath<Repository, T>) -> T {
         repo[keyPath: member]
     }
 
-    static subscript(index: Int) -> SceneOptions? {
+    static subscript(index: Int) -> MenuFlows? {
         guard index >= 0 && index < allCases.count else {
             return nil
         }
@@ -57,7 +57,7 @@ extension SceneOptions {
 }
 
 struct Factory2 {
-    static func make(scene: SceneOptions) -> UIViewController? {
+    static func make(scene: MenuFlows) -> UIViewController? {
         switch scene {
             case .initial:
                 let dm = MenuDataManager()

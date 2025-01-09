@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension SceneOptions {
+extension MenuFlows {
     var repo: Repository {
         switch self {
             case .initial: return make(MenuTableViewController.self)
@@ -30,12 +30,12 @@ extension SceneOptions {
         return view
     }
 
-    func create(scene: SceneOptions) -> UIViewController {
+    func create(scene: MenuFlows) -> UIViewController {
         scene.create()
     }
 
     func create(at index: Int) -> UIViewController? {
-        SceneOptions[index]?.create()
+        MenuFlows[index]?.create()
     }
 
     struct Repository {
