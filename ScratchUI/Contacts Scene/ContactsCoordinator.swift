@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ContactsCoordinator: CoordinatorProtocol {
+final class ContactsCoordinator: CoordinatorProtocol {
     var childCoordinators: [CoordinatorProtocol] = []
     weak var parentCoordinator: CoordinatorProtocol?
     weak var navigator: UINavigationController?

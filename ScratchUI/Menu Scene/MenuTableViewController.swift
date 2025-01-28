@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol MenuViewProtocol {
+protocol MenuViewInterface {
     func bareLayout()
     func setState(state: MenuPresenter.ViewState)
 }
 
-class MenuTableViewController: UITableViewController, MenuViewProtocol {
+class MenuTableViewController: UITableViewController, MenuViewInterface {
     var presenter: MenuPresenterInterface!
     var state: MenuPresenter.ViewState! //<T: Presenter> T.State
 

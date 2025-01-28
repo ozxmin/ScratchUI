@@ -19,7 +19,6 @@ protocol CoordinatorProtocol: AnyObject {
 }
 
 class MenuCoordinator: CoordinatorProtocol  {
-
     var parentCoordinator: CoordinatorProtocol?
     var childCoordinators: [CoordinatorProtocol] = []
     var navigator: UINavigationController?
@@ -38,53 +37,60 @@ class MenuCoordinator: CoordinatorProtocol  {
     func wire() -> UIViewController {
         let dm = MenuDataManager()
         let interactor = MenuInteractor()
+        let presenter = MenuPresenter()
+        let vc = MenuTableViewController(presenter: presenter)
 
-        let router2: GenericFlow<MenuFlows> = .init()
-        router2.navigates = { flow in
-            print("navigates")
+        let router: Router<MenuFlows> = Router { flow in
             switch flow {
-                case .collection:
-                    print(flow)
                 case .contacts:
-                    print(flow)
+                    self.prepare(scene: ContactsCoordinator.self)
+
                 default: print(flow)
             }
         }
 
-        let router = MenuRouter()
+        presenter.router = router
+        presenter.view = vc
+        presenter.interactor = interactor
 
-        router.transitionCompletion = { [weak self] sceneCoordinator in
+        interactor.dm = dm
+
+        let router2 = MenuRouter()
+        router2.transitionCompletion = { [weak self] (sceneCoordinator: CoordinatorProtocol) in
             sceneCoordinator.parentCoordinator = self
             self?.childCoordinators.append(sceneCoordinator)
             sceneCoordinator.navigator = self?.navigator
             sceneCoordinator.start()
         }
 
-        let presenter = MenuPresenter()
-        let vc = MenuTableViewController(presenter: presenter)
-
-        presenter.router = router2
-        presenter.view = vc
-        presenter.interactor = interactor
-
-        interactor.dm = dm
         return vc
     }
 
     func transition(to view: UIViewController) {
         navigator?.show(view, sender: nil)
     }
+
+    func prepare<T: CoordinatorProtocol>(scene: T.Type) {
+        
+
+    }
 }
 
-
-protocol RouterProtocol {
+protocol RouterInterface<Flows> {
     associatedtype Flows
-    func navigate(to flow: Flows)
-    var navigates: ((Flows) -> Void)? { get set }
+    var flowTo: ((Flows) -> Void)? { get }
 }
 
-class MenuRouter: RouterProtocol {
-    var navigates: ((MenuFlows) -> Void)?
+struct Router<T>: RouterInterface {
+    let flowTo: ((T) -> Void)?
+    init(flowTo: @escaping (T) -> Void) {
+        self.flowTo = flowTo
+    }
+}
+
+
+class MenuRouter {
+    var flowTo: ((MenuFlows) -> Void)?
     var transitionCompletion: ((CoordinatorProtocol) -> Void)?
     func navigate(to flow: MenuFlows) {
         switch flow {
@@ -102,38 +108,7 @@ class MenuRouter: RouterProtocol {
     }
 }
 
-/**
-
-Scene:
- - coordinator
- - flows declaration
- - repository locator
- - data passing
- - wiring
- - scene navigation
- - navigation
-*/
-
-class GenericFlow<T> {
-    var navigates: ((T) -> Void)?
-}
-extension GenericFlow: RouterProtocol where T == MenuFlows {
-
-    func navigate(to flow: MenuFlows) {
-
-        switch flow {
-            case .collection: print("collections")
-            case .contacts:
-                print("contacts")
-            case .details: print("details")
-            default: print("default")
-        }
-    }
-}
-
-
-protocol Scene { }
-enum Flows<T: Scene> {
+enum Flows<T> {
     case profilePicture
     indirect case settings(T)
     indirect case home(Flows)
@@ -142,4 +117,3 @@ enum Flows<T: Scene> {
 
     }
 }
-

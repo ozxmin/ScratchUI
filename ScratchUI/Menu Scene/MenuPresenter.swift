@@ -13,9 +13,9 @@ protocol MenuPresenterInterface {
 }
 
 class MenuPresenter: MenuPresenterInterface {
-    var view: MenuViewProtocol!
-    var interactor: MenuInteractorProtocol!
-    var router: GenericFlow<MenuFlows>!
+    var view: MenuViewInterface!
+    var interactor: MenuInteractorInterface!
+    var router: Router<MenuFlows>!
 
     private(set) var state: ViewState
 
@@ -30,8 +30,7 @@ class MenuPresenter: MenuPresenterInterface {
 
     init() {
         let title = "Menu"
-        let options = MenuFlows.allCases
-        state = ViewState(title: title, options: options)
+        state = ViewState(title: title, options: MenuFlows.allCases)
     }
 }
 
@@ -44,18 +43,17 @@ extension MenuPresenter {
 
     func onDidTapItem(at index: IndexPath) {
         let chosen = state.options[index.row]
-        router.navigates?(chosen)
-
+        router.flowTo?(chosen)
     }
 }
 
 
-protocol MenuInteractorProtocol {
+protocol MenuInteractorInterface {
     func processData()
 }
-final class MenuInteractor: MenuInteractorProtocol {
+final class MenuInteractor: MenuInteractorInterface {
     let prop: String = "prop"
-    var dm: MenuDataManagerProtocol!
+    var dm = MenuDataManager()
 }
 
 // MARK: - Menu Interactor Conformance
