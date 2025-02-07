@@ -7,15 +7,6 @@
 
 import UIKit
 
-protocol CoordinatorProtocol: AnyObject {
-    typealias AnyCoordinator = (any CoordinatorProtocol)
-    associatedtype Screen
-
-    var screen: Screen { get }
-    var parentCoordinator: AnyCoordinator? { get set }
-    func start()
-    func wire()
-}
 
 protocol UIKitCoordinator: CoordinatorProtocol {
     var navigator: UINavigationController? { get set }
