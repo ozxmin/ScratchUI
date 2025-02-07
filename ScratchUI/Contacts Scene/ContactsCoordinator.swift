@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class ContactsCoordinator: CoordinatorProtocol {
+final class ContactsCoordinator: UIKitCoordinator {
     var screen = ContactsTableViewController()
 
     func wire() {

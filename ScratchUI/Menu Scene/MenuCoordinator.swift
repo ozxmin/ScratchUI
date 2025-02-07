@@ -8,8 +8,11 @@
 import UIKit
 
 
-protocol UIKitCoordinator: CoordinatorProtocol {
+protocol UIKitCoordinator: AnyObject {
+    typealias AnyCoordinator = UIKitCoordinator
     var navigator: UINavigationController? { get set }
+    var parentCoordinator: AnyCoordinator? { get set }
+    func start()
 }
 
 class MenuCoordinator: UIKitCoordinator {
@@ -48,7 +51,7 @@ class MenuCoordinator: UIKitCoordinator {
         interactor.dm = dm
 
         let router2 = MenuRouter()
-        router2.transitionCompletion = { [weak self] (sceneCoordinator: CoordinatorProtocol) in
+        router2.transitionCompletion = { [weak self] (sceneCoordinator: UIKitCoordinator) in
             sceneCoordinator.parentCoordinator = self
             self?.childCoordinators.append(sceneCoordinator)
             sceneCoordinator.start()
@@ -61,7 +64,7 @@ class MenuCoordinator: UIKitCoordinator {
         navigator?.show(view, sender: nil)
     }
 
-    func prepare<T: CoordinatorProtocol>(scene: T.Type) { }
+    func prepare<T: UIKitCoordinator>(scene: T.Type) { }
 }
 
 protocol RouterInterface<Flow> {
@@ -79,7 +82,7 @@ struct Router<T>: RouterInterface {
 
 class MenuRouter {
     var flowTo: ((MenuFlows) -> Void)?
-    var transitionCompletion: ((any CoordinatorProtocol) -> Void)?
+    var transitionCompletion: ((any UIKitCoordinator) -> Void)?
     func navigate(to flow: MenuFlows) {
         switch flow {
             case .collection: print("collections")
@@ -101,7 +104,5 @@ enum Flows<T> {
     indirect case settings(T)
     indirect case home(Flows)
 
-    func navigate(to: Self) {
-
-    }
+    func navigate(to flow: Self) { }
 }

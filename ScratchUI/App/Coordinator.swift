@@ -7,42 +7,35 @@
 
 import Foundation
 
-protocol CoordinatorProtocol: AnyObject {
-    typealias AnyCoordinator = (any CoordinatorProtocol)
-    associatedtype Screen
+protocol CoordinatorProtocol {
+    associatedtype Screen where Screen == Self.Screen
+    associatedtype Parent: CoordinatorProtocol
 
     var screen: Screen { get }
-    var parentCoordinator: AnyCoordinator? { get set }
+    var parentCoordinator: Parent? { get set }
     func start()
-    func wire()
 }
 
-
 class Coordinator<V, each T>: CoordinatorProtocol {
-
-    var parentCoordinator: AnyCoordinator?
-    var childCoordinators: [AnyCoordinator] = []
+    var parentCoordinator: Coordinator?
+    var childCoordinators: [Coordinator]?
 
     let manifest: Manifest<V, repeat each T>
-    lazy var screen: V = { manifest.wireElements() }()
+    lazy var screen: V = { manifest.wireElements }()
 
     init(scene: Manifest<V, repeat each T>) {
         self.manifest = scene
     }
 
-    func wire() { }
     func start() { }
 }
 
-
 class Manifest<V, each T> {
-    let elements: () -> (V, (repeat each T))
+    typealias Components = (V, (repeat each T))
+    let elements: () -> Components
+    var wireElements: V { elements().0 }
 
-    init(wirings elements: @escaping () -> (V, (repeat each T))) {
+    init(wirings elements: @escaping () -> Components) {
         self.elements = elements
-    }
-
-    func wireElements() -> V {
-        elements().0
     }
 }
