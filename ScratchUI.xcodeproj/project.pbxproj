@@ -6,22 +6,15 @@
 	objectVersion = 70;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		C921BB042CE54718008D40A2 /* Notes.md in Resources */ = {isa = PBXBuildFile; fileRef = C921BB032CE54718008D40A2 /* Notes.md */; };
-		C9FFBF002CC813F500BFFB20 /* TODOs.md in Resources */ = {isa = PBXBuildFile; fileRef = C9FFBEFF2CC813F500BFFB20 /* TODOs.md */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		C921BB032CE54718008D40A2 /* Notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Notes.md; sourceTree = "<group>"; };
 		C93ACCE52C609A5500208CB6 /* ScratchUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScratchUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9FFBEFF2CC813F500BFFB20 /* TODOs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODOs.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		C9745CA32D1625BF00A98C3E /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Support Files/App Files/Info.plist",
+				"Other/Support Files/Info.plist",
 			);
 			target = C93ACCE42C609A5500208CB6 /* ScratchUI */;
 		};
@@ -45,8 +38,6 @@
 		C93ACCDC2C609A5500208CB6 = {
 			isa = PBXGroup;
 			children = (
-				C921BB032CE54718008D40A2 /* Notes.md */,
-				C9FFBEFF2CC813F500BFFB20 /* TODOs.md */,
 				C9745C872D1625BF00A98C3E /* ScratchUI */,
 				C93ACCE62C609A5500208CB6 /* Products */,
 			);
@@ -121,8 +112,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9FFBF002CC813F500BFFB20 /* TODOs.md in Resources */,
-				C921BB042CE54718008D40A2 /* Notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +256,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86R5XVSPS7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ScratchUI/Support Files/App Files/Info.plist";
+				INFOPLIST_FILE = "ScratchUI/Other/Support Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -295,7 +284,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86R5XVSPS7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ScratchUI/Support Files/App Files/Info.plist";
+				INFOPLIST_FILE = "ScratchUI/Other/Support Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

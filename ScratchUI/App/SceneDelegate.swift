@@ -16,14 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-
         appCoordinator = makeMenuCoordinator()
-        guard let menuScreen = appCoordinator?.screen as? UIViewController else {return }
+        guard let menuScreen = appCoordinator?.screen as? UIViewController else {
+            return
+        }
 
-        let navigationVC = InitialViewController()
+        let navigationVC = RootNavigationController()
         configWindow(scene, setRoot: navigationVC)
         navigationVC.setViewControllers([menuScreen], animated: false)
-
     }
 }
 
@@ -66,7 +66,7 @@ extension SceneDelegate {
     }
 
     func makeAppCoordinator() {
-        let appManifest: Manifest = .init { (InitialViewController(), ()) }
+        let appManifest: Manifest = .init { (RootNavigationController(), ()) }
         appCoordinator = Coordinator(scene: appManifest)
     }
 
