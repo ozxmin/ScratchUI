@@ -17,21 +17,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
+        configWindow(scene)
+        concreteMenuCoordinator()
+    }
+}
+
+
+extension SceneDelegate {
+
+    func configWindow(_ scene: UIScene) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
-        let navigationVC = InitialViewController()
-        let coordinator = MenuCoordinator(navigationController: navigationVC)
-
-        coordinator.start()
-        self.appCoordinator = coordinator
-
         window = UIWindow(windowScene: windowScene)
         window?.frame = UIScreen.main.bounds
         window?.makeKeyAndVisible()
         window?.backgroundColor = .cyan
+    }
 
-//        let menuScene = Factory2.make(scene: .initial)
-//        let initialVC = InitialViewController(rootViewController: menuScene!)
+    func concreteMenuCoordinator() {
+        let navigationVC = InitialViewController()
         window?.rootViewController = navigationVC
+
+        let coordinator = MenuCoordinator(navigator: navigationVC)
+        coordinator.wire()
+        coordinator.start()
+        self.appCoordinator = coordinator
     }
 }

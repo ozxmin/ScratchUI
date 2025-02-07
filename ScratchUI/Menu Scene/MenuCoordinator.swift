@@ -7,34 +7,33 @@
 
 import UIKit
 
-protocol CoordinatorTP {
-    func wire()
-    func transition()
-}
-
 protocol CoordinatorProtocol: AnyObject {
     var parentCoordinator: CoordinatorProtocol? { get set }
-    var navigator: UINavigationController? { get set }
     func start()
+    func wire()
 }
 
-class MenuCoordinator: CoordinatorProtocol  {
+protocol UIKitCoordinator: CoordinatorProtocol {
+    var navigator: UINavigationController? { get set }
+}
+
+class MenuCoordinator: UIKitCoordinator {
+    var navigator: UINavigationController?
     var parentCoordinator: CoordinatorProtocol?
     var childCoordinators: [CoordinatorProtocol] = []
-    var navigator: UINavigationController?
-    var scene: UIViewController?
 
-    init(navigationController: UINavigationController) {
-        self.navigator = navigationController
-        scene = wire()
+    var screen: UIViewController?
+
+    init(navigator: UINavigationController) {
+        self.navigator = navigator
     }
 
     //show 
     func start() {
-        navigator?.setViewControllers([scene!], animated: false)
+        navigator?.setViewControllers([screen!], animated: false)
     }
 
-    func wire() -> UIViewController {
+    func wire() {
         let dm = MenuDataManager()
         let interactor = MenuInteractor()
         let presenter = MenuPresenter()
@@ -44,7 +43,6 @@ class MenuCoordinator: CoordinatorProtocol  {
             switch flow {
                 case .contacts:
                     self.prepare(scene: ContactsCoordinator.self)
-
                 default: print(flow)
             }
         }
@@ -52,33 +50,28 @@ class MenuCoordinator: CoordinatorProtocol  {
         presenter.router = router
         presenter.view = vc
         presenter.interactor = interactor
-
         interactor.dm = dm
 
         let router2 = MenuRouter()
         router2.transitionCompletion = { [weak self] (sceneCoordinator: CoordinatorProtocol) in
             sceneCoordinator.parentCoordinator = self
             self?.childCoordinators.append(sceneCoordinator)
-            sceneCoordinator.navigator = self?.navigator
             sceneCoordinator.start()
         }
 
-        return vc
+        screen = vc
     }
 
     func transition(to view: UIViewController) {
         navigator?.show(view, sender: nil)
     }
 
-    func prepare<T: CoordinatorProtocol>(scene: T.Type) {
-        
-
-    }
+    func prepare<T: CoordinatorProtocol>(scene: T.Type) { }
 }
 
-protocol RouterInterface<Flows> {
-    associatedtype Flows
-    var flowTo: ((Flows) -> Void)? { get }
+protocol RouterInterface<Flow> {
+    associatedtype Flow
+    var flowTo: ((Flow) -> Void)? { get }
 }
 
 struct Router<T>: RouterInterface {
@@ -103,8 +96,8 @@ class MenuRouter {
     }
 
     private func contactsScene() {
-        let contactsCoordinator = ContactsCoordinator()
-        transitionCompletion?(contactsCoordinator)
+//        let contactsCoordinator = ContactsCoordinator()
+//        transitionCompletion?(contactsCoordinator)
     }
 }
 

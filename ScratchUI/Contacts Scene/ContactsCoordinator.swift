@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 
 final class ContactsCoordinator: CoordinatorProtocol {
+    func wire() {
+        
+    }
+    
     var childCoordinators: [CoordinatorProtocol] = []
     weak var parentCoordinator: CoordinatorProtocol?
     weak var navigator: UINavigationController?
