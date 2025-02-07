@@ -80,8 +80,8 @@ struct Factory2 {
 
 class Coordinator<V, each T>: CoordinatorProtocol {
 
-    var parentCoordinator: CoordinatorProtocol?
-    var childCoordinators: [CoordinatorProtocol] = []
+    var parentCoordinator: AnyCoordinator?
+    var childCoordinators: [AnyCoordinator] = []
 
     let manifest: Manifest<V, repeat each T>
     lazy var screen: V = { manifest.wireElements() }()

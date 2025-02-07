@@ -8,7 +8,11 @@
 import UIKit
 
 protocol CoordinatorProtocol: AnyObject {
-    var parentCoordinator: CoordinatorProtocol? { get set }
+    typealias AnyCoordinator = (any CoordinatorProtocol)
+    associatedtype Screen
+
+    var screen: Screen { get }
+    var parentCoordinator: AnyCoordinator? { get set }
     func start()
     func wire()
 }
@@ -19,8 +23,8 @@ protocol UIKitCoordinator: CoordinatorProtocol {
 
 class MenuCoordinator: UIKitCoordinator {
     var navigator: UINavigationController?
-    var parentCoordinator: CoordinatorProtocol?
-    var childCoordinators: [CoordinatorProtocol] = []
+    var parentCoordinator: AnyCoordinator?
+    var childCoordinators: [AnyCoordinator] = []
 
     var screen: UIViewController?
 
@@ -84,7 +88,7 @@ struct Router<T>: RouterInterface {
 
 class MenuRouter {
     var flowTo: ((MenuFlows) -> Void)?
-    var transitionCompletion: ((CoordinatorProtocol) -> Void)?
+    var transitionCompletion: ((any CoordinatorProtocol) -> Void)?
     func navigate(to flow: MenuFlows) {
         switch flow {
             case .collection: print("collections")

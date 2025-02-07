@@ -9,19 +9,21 @@ import Foundation
 import UIKit
 
 final class ContactsCoordinator: CoordinatorProtocol {
+    var screen = ContactsTableViewController()
+
     func wire() {
         
     }
     
-    var childCoordinators: [CoordinatorProtocol] = []
-    weak var parentCoordinator: CoordinatorProtocol?
+    var childCoordinators: [AnyCoordinator] = []
+    weak var parentCoordinator: AnyCoordinator?
     weak var navigator: UINavigationController?
 
     func start() {
         let interactor = ContactsInteractor()
         let router = ContactsRouter()
         let presenter = ContactsPresenter()
-        let vc = ContactsTableViewController()
+        let vc = screen
 
         vc.presenter = presenter
 
