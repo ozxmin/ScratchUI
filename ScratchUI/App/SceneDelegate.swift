@@ -32,21 +32,9 @@ extension SceneDelegate {
     //make primary associated type for coordinator protocol, it being the type of the screen
     func makeMenuCoordinator() -> some CoordinatorProtocol {
 
-        let menuManifest: Manifest<
-            MenuViewInterface,
-            MenuPresenterInterface,
-            MenuInteractorInterface,
-            MenuDataManagerProtocol
-        >
+        let manifest = Manifest<MenuViewInterface, MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol>.self
 
-        menuManifest = .init(wirings: {
-            let router: Router<MenuFlows> = Router { flow in
-                switch flow {
-                    case .contacts: print(flow)
-                    default: print(flow)
-                }
-            }
-
+        let menuManifest = manifest.init {
             let dm = MenuDataManager()
             let interactor = MenuInteractor()
             let presenter = MenuPresenter()
@@ -54,10 +42,8 @@ extension SceneDelegate {
             interactor.dm = dm
             presenter.view = vc
             presenter.interactor = interactor
-            presenter.router = router
             return (vc, (presenter, interactor, dm))
-        })
-
+        }
         return Coordinator(scene: menuManifest)
     }
 
@@ -65,7 +51,7 @@ extension SceneDelegate {
     func configWindow(_ scene: UIScene, setRoot root: UIViewController) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.frame = UIScreen.main.bounds
+        window?.frame = windowScene.coordinateSpace.bounds
         window?.makeKeyAndVisible()
         window?.backgroundColor = .cyan
         window?.rootViewController = root
