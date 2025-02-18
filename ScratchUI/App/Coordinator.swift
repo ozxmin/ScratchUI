@@ -36,7 +36,7 @@ class Manifest<V, each T> {
     let elements: () -> Components
     var wireElements: V { elements().0 }
 
-    init(wirings elements: @escaping () -> Components) {
+    required init(wirings elements: @escaping () -> Components) {
         self.elements = elements
     }
 }
