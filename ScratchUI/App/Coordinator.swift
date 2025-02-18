@@ -42,14 +42,14 @@ class Manifest<V, each T> {
 }
 
 
-protocol SceneProtocol<Screen> {
+protocol ModuleProtocol<Screen> {
     associatedtype Screen
     associatedtype Dependencies
-    typealias Scene = (Screen, Dependencies)
-    var wiring: Scene { get }
+    typealias Module = (Screen, Dependencies)
+    var wiring: Module { get }
 }
 
-final class SceneCoordinator<Scene: SceneProtocol> {
+final class SceneCoordinator<Scene: ModuleProtocol> {
     var parentCoordinator: SceneCoordinator?
     var childCoordinator: [SceneCoordinator]?
     let scene: Scene
@@ -86,7 +86,7 @@ extension SceneCoordinator {
 }
 
 extension MenuFlows {
-    static func routing(flow: MenuFlows) -> any SceneProtocol.Type {
+    static func routing(flow: MenuFlows) -> any ModuleProtocol.Type {
         switch flow {
             case .contacts:
                 return MenuList<MenuTableViewController>.self
@@ -99,8 +99,8 @@ extension MenuFlows {
 final class MenuList<Screen> where Screen: MenuViewInterface {
     typealias Dependencies = (MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol)
 }
-extension MenuList: SceneProtocol where Screen == MenuTableViewController {
-    var wiring:  Scene {
+extension MenuList: ModuleProtocol where Screen == MenuTableViewController {
+    var wiring:  Module {
         let dm = MenuDataManager()
         let interactor = MenuInteractor()
         let presenter = MenuPresenter()
@@ -113,8 +113,8 @@ extension MenuList: SceneProtocol where Screen == MenuTableViewController {
 
 }
 
-class ContactsList: SceneProtocol {
-    var wiring: Scene {
+class ContactsList: ModuleProtocol {
+    var wiring: Module {
         return (ContactsTableViewController(), ContactsPresenter())
     }
     typealias Screen = ContactsViewProtocol
