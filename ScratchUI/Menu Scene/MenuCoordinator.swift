@@ -37,15 +37,6 @@ class MenuCoordinator: UIKitCoordinator {
         let presenter = MenuPresenter()
         let vc = MenuTableViewController(presenter: presenter)
 
-        let router: Router<MenuFlows> = Router { flow in
-            switch flow {
-                case .contacts:
-                    self.prepare(scene: ContactsCoordinator.self)
-                default: print(flow)
-            }
-        }
-
-        presenter.router = router
         presenter.view = vc
         presenter.interactor = interactor
         interactor.dm = dm
@@ -82,7 +73,7 @@ struct Router<T>: RouterInterface {
 
 class MenuRouter {
     var flowTo: ((MenuFlows) -> Void)?
-    var transitionCompletion: ((any UIKitCoordinator) -> Void)?
+    var transitionCompletion: ((UIKitCoordinator) -> Void)?
     func navigate(to flow: MenuFlows) {
         switch flow {
             case .collection: print("collections")

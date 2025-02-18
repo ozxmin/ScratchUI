@@ -15,7 +15,7 @@ protocol MenuPresenterInterface {
 class MenuPresenter: MenuPresenterInterface {
     var view: MenuViewInterface!
     var interactor: MenuInteractorInterface!
-    var router: Router<MenuFlows>!
+    var route: ((MenuFlows) -> ())?
 
     private(set) var state: ViewState
 
@@ -43,7 +43,7 @@ extension MenuPresenter {
 
     func onDidTapItem(at index: IndexPath) {
         let chosen = state.options[index.row]
-        router.flowTo?(chosen)
+        route?(chosen)
     }
 }
 
