@@ -9,23 +9,40 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    var appCoordinator: (any CoordinatorProtocol)?
+    var appCoordinator: SceneCoordinator<RootNavigationController>?
 
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-        appCoordinator = makeMenuCoordinator()
-        guard let menuScreen = appCoordinator?.screen as? UIViewController else {
-            return
-        }
+        let rootView = RootNavigationController()
+        configWindow(scene, setRoot: rootView)
 
-        let navigationVC = RootNavigationController()
-        configWindow(scene, setRoot: navigationVC)
-        navigationVC.setViewControllers([menuScreen], animated: false)
+        appCoordinator = SceneCoordinator(module: rootView)
+        appCoordinator?.start()
+
+
+
+//        appCoordinator = makeMenuCoordinator()
+//        guard let menuScreen = appCoordinator?.screen as? UIViewController else {
+//            return
+//        }
+//
+//        let navigationVC = RootNavigationController()
+//        configWindow(scene, setRoot: navigationVC)
+//        navigationVC.setViewControllers([menuScreen], animated: false)
     }
 }
+
+extension RootNavigationController: ModuleProtocol {
+    typealias Screen = RootNavigationController
+    typealias Dependencies = Void
+    var wiring: Module {
+        (self, ())
+    }
+}
+
 
 
 extension SceneDelegate {
@@ -55,11 +72,6 @@ extension SceneDelegate {
         window?.makeKeyAndVisible()
         window?.backgroundColor = .cyan
         window?.rootViewController = root
-    }
-
-    func makeAppCoordinator() {
-        let appManifest: Manifest = .init { (RootNavigationController(), ()) }
-        appCoordinator = Coordinator(scene: appManifest)
     }
 
     func makeConcreteMenuCoordinator(with navigator: UINavigationController) -> some UIKitCoordinator {
