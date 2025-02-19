@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate {
     func configWindow(_ scene: UIScene, setRoot root: UIViewController) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(windowScene: windowScene)
         window?.frame = windowScene.coordinateSpace.bounds
         window?.makeKeyAndVisible()
@@ -41,5 +41,9 @@ extension RootNavigationController: ManifestProtocol {
     typealias Dependencies = Void
     var wirings: Module {
         (self, ())
+    }
+    var completion: ((MenuFlows) -> ())? {
+        get {  return { _ in } }
+        set { }
     }
 }

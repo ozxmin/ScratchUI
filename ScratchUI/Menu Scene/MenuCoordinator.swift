@@ -54,22 +54,7 @@ class MenuCoordinator: UIKitCoordinator {
     func transition(to view: UIViewController) {
         navigator?.show(view, sender: nil)
     }
-
-    func prepare<T: UIKitCoordinator>(scene: T.Type) { }
 }
-
-protocol RouterInterface<Flow> {
-    associatedtype Flow
-    var flowTo: ((Flow) -> Void)? { get }
-}
-
-struct Router<T>: RouterInterface {
-    let flowTo: ((T) -> Void)?
-    init(flowTo: @escaping (T) -> Void) {
-        self.flowTo = flowTo
-    }
-}
-
 
 class MenuRouter {
     var flowTo: ((MenuFlows) -> Void)?
@@ -88,12 +73,4 @@ class MenuRouter {
 //        let contactsCoordinator = ContactsCoordinator()
 //        transitionCompletion?(contactsCoordinator)
     }
-}
-
-enum Flows<T> {
-    case profilePicture
-    indirect case settings(T)
-    indirect case home(Flows)
-
-    func navigate(to flow: Self) { }
 }
