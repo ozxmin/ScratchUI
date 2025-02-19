@@ -20,6 +20,7 @@ protocol SceneContainer: AnyObject {
     func request<T>(navigateTo scene: Coordinator<T>)
     var parent: SceneContainer? { get set }
     var children: [SceneContainer]? { get set }
+    func start()
 }
 
 final class Coordinator<Scene: ManifestProtocol>: SceneContainer {
@@ -65,7 +66,7 @@ extension Coordinator {
 extension Coordinator where Scene.Artifact == RootNavigationController {
     func start() {
         guard parent == nil else { return }
-        let child: Coordinator<MenuList> = .init()
+        let child = MenuFlows.routing(flow: .initial)
         child.parent = self
         children?.append(child)
         child.start()
@@ -100,11 +101,13 @@ final class ContactsList: ManifestProtocol {
 
 
 extension MenuFlows {
-    static func routing(flow: MenuFlows) -> any ManifestProtocol.Type {
+    static func routing(flow: MenuFlows) -> any SceneContainer {
         switch flow {
             case .contacts:
-                return ContactsList.self
-            default: return MenuList.self
+                return Coordinator<ContactsList>()
+            case .initial:
+                return Coordinator<MenuList>()
+            default: return Coordinator<ContactsList>()
         }
     }
 }
