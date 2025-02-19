@@ -17,8 +17,7 @@ protocol ContactsViewProtocol {
     func layout(with style: LayoutStyle)
 }
 
-typealias ContactsViewTC = UITableViewController & ContactsViewProtocol
-final class ContactsTableViewController: ContactsViewTC {
+final class ContactsTableViewController: UITableViewController {
 
     var presenter: ContactsPresenterProtocol!
     private var contacts: [[ContactDisplay<Info.Basic>]] = []
@@ -50,7 +49,7 @@ final class ContactsTableViewController: ContactsViewTC {
 
 // MARK: - View Conformance
 
-extension ContactsTableViewController {
+extension ContactsTableViewController: ContactsViewProtocol {
     func configureInitialView() {
         configureTableDelegates()
         configureNavigationBar()
