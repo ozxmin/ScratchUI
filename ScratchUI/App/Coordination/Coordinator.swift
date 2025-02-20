@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit //fix
 
 protocol SceneContainer: AnyObject {
     func request<T>(navigateTo scene: Coordinator<T>)
@@ -50,47 +49,6 @@ final class Coordinator<Scene: ManifestProtocol>: SceneContainer {
     }
 }
 
-//UIKit
-extension Coordinator {
-    func request<T>(navigateTo child: Coordinator<T>) {
-        switch (parent, children.isEmpty) {
-            case (.none, true): handleNavigation(navigator: screen, childScreen: child)
-            case (.none, false): push(navigator: screen, childScreen: child)
-            case (.some, _): parent?.request(navigateTo: child)
-        }
-    }
-
-    func push<T>(navigator: Scene.Artifact, childScreen: Coordinator<T>) {
-        let (navigator, vc) = cast(navigator: navigator, vc: childScreen)
-        navigator.show(vc, sender: nil)
-    }
-
-    func handleNavigation<T>(navigator: Scene.Artifact, childScreen: Coordinator<T>) {
-        let (navigator, vc) = cast(navigator: navigator, vc: childScreen)
-        navigator.setViewControllers([vc], animated: false)
-    }
-
-    private func cast<T>(navigator: Scene.Artifact, vc: Coordinator<T>) -> (UINavigationController, UIViewController) {
-        guard let navigatorVC = screen as? UINavigationController,
-              let childScreen = vc.screen as? UIViewController else {
-            preconditionFailure("casting should be possible")
-        }
-        return (navigatorVC, childScreen)
-    }
-}
-
-protocol ManifestProtocol {
-    associatedtype Artifact
-    associatedtype Dependencies
-
-    typealias Module = (Self.Artifact, Self.Dependencies)
-    var wirings: Module { get }
-
-    var completion: ((any SceneContainer) -> Void)? { get set }
-    init()
-}
-
-
 final class MenuManifest: ManifestProtocol {
     typealias Artifact = MenuViewInterface
     typealias Dependencies = (MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol)
@@ -112,7 +70,7 @@ final class MenuManifest: ManifestProtocol {
     }
 }
 
-final class MenuModule: ManifestProtocol {
+final class ContactsManifest: ManifestProtocol {
     var completion: ((any SceneContainer) -> Void)?
     
     typealias Artifact = ContactsViewProtocol
@@ -134,10 +92,10 @@ extension MenuFlows {
     var toScene: any SceneContainer {
         switch self {
             case .contacts:
-                return Coordinator<MenuModule>()
+                return Coordinator<ContactsManifest>()
             case .initial:
                 return Coordinator<MenuManifest>()
-            default: return Coordinator<MenuModule>()
+            default: return Coordinator<ContactsManifest>()
         }
 
     }
