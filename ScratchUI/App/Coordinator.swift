@@ -8,19 +8,11 @@
 import Foundation
 import UIKit //fix
 
-protocol ManifestProtocol {
-    associatedtype Artifact
-    associatedtype Dependencies
-    typealias Module = (Self.Artifact, Self.Dependencies)
-    var wirings: Module { get }
-    var completion: ((MenuFlows) -> ())? { get set }
-    init()
-}
 
 protocol SceneContainer: AnyObject {
     func request<T>(navigateTo scene: Coordinator<T>)
     var parent: SceneContainer? { get set }
-    var children: [SceneContainer] { get set }
+    var children: [SceneContainer] { get }
     func start()
 }
 
@@ -36,26 +28,16 @@ final class Coordinator<Scene: ManifestProtocol>: SceneContainer {
     }
     init(module: Scene) {
         self.scene = module
-        self.scene.completion = navFlow(_:)
+        scene.completion = navFlow(_:)
     }
 
     func navFlow(_ flow: MenuFlows) {
-        let flow = MenuFlows.routing(flow: flow)
-        flow.parent = self
-        children.append(flow)
-
-        flow.start()
-
-        print("self")
-        print(self)
-        print("flow:")
-        print(flow)
-        print("self.children:")
-        print(children)
-        print("child.parent:")
-        print(flow.parent)
-
+        let coordinator = MenuFlows.routeTo(flow)
+        coordinator.parent = self
+        children.append(coordinator)
+        coordinator.start()
     }
+
     func start() {
         parent?.request(navigateTo: self)
     }
@@ -67,54 +49,62 @@ final class Coordinator<Scene: ManifestProtocol>: SceneContainer {
         }
         self.children.remove(at: childIndex)
     }
-
-    func request<T>(navigateTo child: Coordinator<T>) {
-        if parent == nil {
-            if children.isEmpty {
-                handleNavigation(navigator: screen, childScreen: child)
-            } else {
-                push(navigator: screen, childScreen: child)
-            }
-        }
-        parent?.request(navigateTo: child)
-    }
 }
 
+//UIKit
 extension Coordinator {
+    func request<T>(navigateTo child: Coordinator<T>) {
+        switch (parent, children.isEmpty) {
+            case (.none, true): handleNavigation(navigator: screen, childScreen: child)
+            case (.none, false): push(navigator: screen, childScreen: child)
+            case (.some, _): parent?.request(navigateTo: child)
+        }
+    }
 
     func push<T>(navigator: Scene.Artifact, childScreen: Coordinator<T>) {
-        guard let navigatorVC = screen as? UINavigationController,
-              let childScreen = childScreen.screen as? UIViewController else {
-            preconditionFailure("casting should be possible")
-        }
-        navigatorVC.show(childScreen, sender: nil)
+        let (navigator, vc) = cast(navigator: navigator, vc: childScreen)
+        navigator.show(vc, sender: nil)
     }
 
     func handleNavigation<T>(navigator: Scene.Artifact, childScreen: Coordinator<T>) {
+        let (navigator, vc) = cast(navigator: navigator, vc: childScreen)
+        navigator.setViewControllers([vc], animated: false)
+    }
+
+    private func cast<T>(navigator: Scene.Artifact, vc: Coordinator<T>) -> (UINavigationController, UIViewController) {
         guard let navigatorVC = screen as? UINavigationController,
-              let childScreen = childScreen.screen as? UIViewController else {
+              let childScreen = vc.screen as? UIViewController else {
             preconditionFailure("casting should be possible")
         }
-        navigatorVC.setViewControllers([childScreen], animated: false)
+        return (navigatorVC, childScreen)
     }
 }
 
 extension Coordinator where Scene.Artifact == RootNavigationController {
     func start() {
         guard parent == nil else { return }
-        let child = MenuFlows.routing(flow: .initial)
+        let child = MenuFlows.routeTo(.initial)
         child.parent = self
         children.append(child)
         child.start()
     }
 }
 
+protocol ManifestProtocol {
+    associatedtype Artifact
+    associatedtype Dependencies
+    typealias Module = (Self.Artifact, Self.Dependencies)
+    var wirings: Module { get }
+    var completion: ((MenuFlows) -> ())? { get set }
+    init()
+}
+
+
 final class MenuList: ManifestProtocol {
     typealias Artifact = MenuViewInterface
     typealias Dependencies = (MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol)
 
     var completion: ((MenuFlows) -> Void)?
-
 
     var wirings: Module {
 
@@ -141,8 +131,15 @@ final class ContactsList: ManifestProtocol {
     init() { } //fix
 }
 
-extension MenuFlows {
-    static func routing(flow: MenuFlows) -> any SceneContainer {
+
+protocol Route {
+    associatedtype Flow where Flow == Self
+    associatedtype Container = SceneContainer
+    static func routeTo(_ flow: Flow) -> Container
+}
+
+extension MenuFlows: Route {
+    static func routeTo(_ flow: MenuFlows) -> Container {
         switch flow {
             case .contacts:
                 return Coordinator<MenuList>()
@@ -150,5 +147,6 @@ extension MenuFlows {
                 return Coordinator<MenuList>()
             default: return Coordinator<ContactsList>()
         }
+
     }
 }
