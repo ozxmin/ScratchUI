@@ -6,34 +6,21 @@
 //
 
 import Foundation
-import UIKit
 
-final class ContactsCoordinator: UIKitCoordinator {
-    var screen = ContactsTableViewController()
+final class ContactsManifest: ManifestProtocol {
+    var completion: ((any SceneContainer) -> Void)?
 
-    func wire() {
-        
-    }
-    
-    var childCoordinators: [AnyCoordinator] = []
-    weak var parentCoordinator: AnyCoordinator?
-    weak var navigator: UINavigationController?
+    typealias Artifact = ContactsViewProtocol
+    typealias Dependencies = (ContactsPresenterProtocol, ContactsInteractor)
 
-    func start() {
-        let interactor = ContactsInteractor()
-        let router = ContactsRouter()
+    var wirings: Module {
         let presenter = ContactsPresenter()
-        let vc = screen
+        let interactor = ContactsInteractor()
+        let vc = ContactsTableViewController()
 
-        vc.presenter = presenter
-
-        presenter.view = vc
         presenter.interactor = interactor
-        presenter.router = router
-        navigator?.show(vc, sender: nil)
+        presenter.view = vc
+        vc.presenter = presenter
+        return (vc, (presenter, interactor))
     }
-}
-
-class ContactsRouter {
-
 }

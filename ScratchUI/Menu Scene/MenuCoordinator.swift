@@ -5,72 +5,39 @@
 //  Created by Ozmin Vazquez on 06/01/25.
 //
 
-import UIKit
+import Foundation
 
+final class MenuManifest: ManifestProtocol {
+    typealias Artifact = MenuViewInterface
+    typealias Dependencies = (MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol)
 
-protocol UIKitCoordinator: AnyObject {
-    typealias AnyCoordinator = UIKitCoordinator
-    var navigator: UINavigationController? { get set }
-    var parentCoordinator: AnyCoordinator? { get set }
-    func start()
-}
+    var completion: ((any SceneContainer) -> Void)?
 
-class MenuCoordinator: UIKitCoordinator {
-    var navigator: UINavigationController?
-    var parentCoordinator: AnyCoordinator?
-    var childCoordinators: [AnyCoordinator] = []
-
-    var screen: UIViewController?
-
-    init(navigator: UINavigationController) {
-        self.navigator = navigator
-    }
-
-    //show 
-    func start() {
-        navigator?.setViewControllers([screen!], animated: false)
-    }
-
-    func wire() {
+    var wirings: Module {
         let dm = MenuDataManager()
         let interactor = MenuInteractor()
         let presenter = MenuPresenter()
         let vc = MenuTableViewController(presenter: presenter)
-
+        interactor.dm = dm
         presenter.view = vc
         presenter.interactor = interactor
-        interactor.dm = dm
-
-        let router2 = MenuRouter()
-        router2.transitionCompletion = { [weak self] (sceneCoordinator: UIKitCoordinator) in
-            sceneCoordinator.parentCoordinator = self
-            self?.childCoordinators.append(sceneCoordinator)
-            sceneCoordinator.start()
+        presenter.route = { [weak self] flow in
+            self?.completion?(flow.toScene)
         }
-
-        screen = vc
-    }
-
-    func transition(to view: UIViewController) {
-        navigator?.show(view, sender: nil)
+        return (vc, (presenter, interactor, dm))
     }
 }
 
-class MenuRouter {
-    var flowTo: ((MenuFlows) -> Void)?
-    var transitionCompletion: ((UIKitCoordinator) -> Void)?
-    func navigate(to flow: MenuFlows) {
-        switch flow {
-            case .collection: print("collections")
+extension MenuFlows {
+    var toScene: any SceneContainer {
+        switch self {
             case .contacts:
-                contactsScene()
-            case .details: print("details")
-            default: print("default")
+                return Coordinator<ContactsManifest>()
+            case .initial:
+                return Coordinator<MenuManifest>()
+            default: return Coordinator<ContactsManifest>()
         }
-    }
 
-    private func contactsScene() {
-//        let contactsCoordinator = ContactsCoordinator()
-//        transitionCompletion?(contactsCoordinator)
     }
 }
+

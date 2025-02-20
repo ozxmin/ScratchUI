@@ -20,7 +20,7 @@ class ContactsPresenter: ContactsPresenterProtocol {
 
     var view: ContactsViewProtocol?
     var interactor: ContactsInteractor!
-    var router: ContactsRouter!
+    // fix routing
 }
 
 // Conformance

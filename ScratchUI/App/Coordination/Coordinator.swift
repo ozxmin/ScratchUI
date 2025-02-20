@@ -20,10 +20,10 @@ final class Coordinator<Scene: ManifestProtocol>: SceneContainer {
     var scene: Scene
     lazy var screen: Scene.Artifact = { scene.wirings.0 }()
 
-    init() {
-        scene = Scene()
-        scene.completion = navFlow(_:)
+    convenience init() {
+        self.init(module: Scene())
     }
+
     init(module: Scene) {
         self.scene = module
         scene.completion = navFlow(_:)
@@ -48,56 +48,3 @@ final class Coordinator<Scene: ManifestProtocol>: SceneContainer {
         self.children.remove(at: childIndex)
     }
 }
-
-final class MenuManifest: ManifestProtocol {
-    typealias Artifact = MenuViewInterface
-    typealias Dependencies = (MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol)
-
-    var completion: ((any SceneContainer) -> Void)?
-
-    var wirings: Module {
-        let dm = MenuDataManager()
-        let interactor = MenuInteractor()
-        let presenter = MenuPresenter()
-        let vc = MenuTableViewController(presenter: presenter)
-        interactor.dm = dm
-        presenter.view = vc
-        presenter.interactor = interactor
-        presenter.route = { [weak self] flow in
-            self?.completion?(flow.toScene)
-        }
-        return (vc, (presenter, interactor, dm))
-    }
-}
-
-final class ContactsManifest: ManifestProtocol {
-    var completion: ((any SceneContainer) -> Void)?
-    
-    typealias Artifact = ContactsViewProtocol
-    typealias Dependencies = (ContactsPresenterProtocol, ContactsInteractor)
-
-    var wirings: Module {
-        let presenter = ContactsPresenter()
-        let interactor = ContactsInteractor()
-        let vc = ContactsTableViewController()
-
-        presenter.interactor = interactor
-        presenter.view = vc
-        vc.presenter = presenter
-        return (vc, (presenter, interactor))
-    }
-}
-
-extension MenuFlows {
-    var toScene: any SceneContainer {
-        switch self {
-            case .contacts:
-                return Coordinator<ContactsManifest>()
-            case .initial:
-                return Coordinator<MenuManifest>()
-            default: return Coordinator<ContactsManifest>()
-        }
-
-    }
-}
-
