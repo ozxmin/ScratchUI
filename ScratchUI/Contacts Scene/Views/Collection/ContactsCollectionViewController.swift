@@ -12,7 +12,7 @@ protocol Dummy {
     func contactDisplay<T>() -> T
 }
 
-class ContactsCollectionViewController: UICollectionViewController {
+final class ContactsCollectionViewController: UICollectionViewController {
     var  source: (UICollectionViewDataSource & Dummy)!
 
     override func viewDidLoad() {

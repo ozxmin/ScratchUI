@@ -12,14 +12,14 @@ protocol MenuPresenterInterface {
     func onDidTapItem(at index: IndexPath)
 }
 
-class MenuPresenter: MenuPresenterInterface {
+final class MenuPresenter: MenuPresenterInterface {
     var view: MenuViewInterface!
     var interactor: MenuInteractorInterface!
     var route: ((MenuFlows) -> ())?
 
     private(set) var state: ViewState
 
-    class ViewState {
+    final class ViewState {
         var title: String
         var options: [MenuFlows]
         init(title: String, options: [MenuFlows]) {
@@ -67,4 +67,4 @@ extension MenuInteractor {
 }
 
 protocol MenuDataManagerProtocol { }
-class MenuDataManager: MenuDataManagerProtocol { }
+final class MenuDataManager: MenuDataManagerProtocol { }

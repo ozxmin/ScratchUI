@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ContactsCollectionViewControllerTest: UICollectionViewController {
+final class ContactsCollectionViewControllerTest: UICollectionViewController {
 
     enum Section {
         case main

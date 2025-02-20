@@ -12,7 +12,7 @@ protocol MenuViewInterface {
     func setState(state: MenuPresenter.ViewState)
 }
 
-class MenuTableViewController: UITableViewController, MenuViewInterface {
+final class MenuTableViewController: UITableViewController, MenuViewInterface {
     var presenter: MenuPresenterInterface!
     var state: MenuPresenter.ViewState! //<T: Presenter> T.State
 

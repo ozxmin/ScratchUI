@@ -13,7 +13,7 @@ protocol ContactsPresenterProtocol {
     func onDidSelectItem(at indexPath: IndexPath)
 }
 
-class ContactsPresenter: ContactsPresenterProtocol {
+final class ContactsPresenter: ContactsPresenterProtocol {
     let title = "Contacts"
     var layout: LayoutStyle = .list { didSet { view?.layout(with: layout) } }
     var loading: Bool = false { didSet { view?.isLoading(shown: loading) } }
