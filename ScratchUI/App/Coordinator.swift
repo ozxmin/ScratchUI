@@ -79,16 +79,6 @@ extension Coordinator {
     }
 }
 
-extension Coordinator where Scene.Artifact == RootNavigationController {
-    func start() {
-        guard parent == nil else { return }
-        let child = MenuFlows.initial.toScene
-        child.parent = self
-        children.append(child)
-        child.start()
-    }
-}
-
 protocol ManifestProtocol {
     associatedtype Artifact
     associatedtype Dependencies
@@ -101,7 +91,7 @@ protocol ManifestProtocol {
 }
 
 
-final class MenuList: ManifestProtocol {
+final class MenuManifest: ManifestProtocol {
     typealias Artifact = MenuViewInterface
     typealias Dependencies = (MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol)
 
@@ -122,7 +112,7 @@ final class MenuList: ManifestProtocol {
     }
 }
 
-final class ContactsList: ManifestProtocol {
+final class MenuModule: ManifestProtocol {
     var completion: ((any SceneContainer) -> Void)?
     
     typealias Artifact = ContactsViewProtocol
@@ -144,10 +134,10 @@ extension MenuFlows {
     var toScene: any SceneContainer {
         switch self {
             case .contacts:
-                return Coordinator<ContactsList>()
+                return Coordinator<MenuModule>()
             case .initial:
-                return Coordinator<MenuList>()
-            default: return Coordinator<ContactsList>()
+                return Coordinator<MenuManifest>()
+            default: return Coordinator<MenuModule>()
         }
 
     }

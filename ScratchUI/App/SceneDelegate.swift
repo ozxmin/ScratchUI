@@ -9,7 +9,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    lazy var appCoordinator: Coordinator<RootNavigationController> = .init()
+    lazy var appCoordinator: Coordinator<RootModule> = .init()
 
     func scene(
         _ scene: UIScene,
@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         configWindow(scene, setRoot: appCoordinator.screen)
+        appCoordinator.navFlow(MenuFlows.initial.toScene)
         appCoordinator.start()
     }
 }
@@ -34,16 +35,9 @@ extension SceneDelegate {
 
 // MARK: - Coordination
 
-// Fix tying RootNavigationController to Module
-// create wrapper to easily make Modules
-extension RootNavigationController: ManifestProtocol {
-    typealias Artifact = RootNavigationController
-    typealias Dependencies = Void
-    var wirings: Module {
-        (self, ())
+final class RootModule: ManifestProtocol {
+    var wirings: (RootNavigationController, Void) {
+        (RootNavigationController(), ())
     }
-    var completion: ((any SceneContainer) -> ())? {
-        get {  return { _ in } }
-        set { }
-    }
+    var completion: ((any SceneContainer) -> Void)?
 }
