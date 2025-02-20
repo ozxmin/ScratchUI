@@ -8,7 +8,6 @@
 import Foundation
 import UIKit //fix
 
-
 protocol SceneContainer: AnyObject {
     func request<T>(navigateTo scene: Coordinator<T>)
     var parent: SceneContainer? { get set }
@@ -31,8 +30,8 @@ final class Coordinator<Scene: ManifestProtocol>: SceneContainer {
         scene.completion = navFlow(_:)
     }
 
-    func navFlow(_ flow: MenuFlows) {
-        let coordinator = MenuFlows.routeTo(flow)
+    func navFlow(_ flow: any SceneContainer) {
+        let coordinator = flow
         coordinator.parent = self
         children.append(coordinator)
         coordinator.start()
@@ -83,7 +82,7 @@ extension Coordinator {
 extension Coordinator where Scene.Artifact == RootNavigationController {
     func start() {
         guard parent == nil else { return }
-        let child = MenuFlows.routeTo(.initial)
+        let child = MenuFlows.initial.toScene
         child.parent = self
         children.append(child)
         child.start()
@@ -93,9 +92,11 @@ extension Coordinator where Scene.Artifact == RootNavigationController {
 protocol ManifestProtocol {
     associatedtype Artifact
     associatedtype Dependencies
+
     typealias Module = (Self.Artifact, Self.Dependencies)
     var wirings: Module { get }
-    var completion: ((MenuFlows) -> ())? { get set }
+
+    var completion: ((any SceneContainer) -> Void)? { get set }
     init()
 }
 
@@ -104,10 +105,9 @@ final class MenuList: ManifestProtocol {
     typealias Artifact = MenuViewInterface
     typealias Dependencies = (MenuPresenterInterface, MenuInteractorInterface, MenuDataManagerProtocol)
 
-    var completion: ((MenuFlows) -> Void)?
+    var completion: ((any SceneContainer) -> Void)?
 
     var wirings: Module {
-
         let dm = MenuDataManager()
         let interactor = MenuInteractor()
         let presenter = MenuPresenter()
@@ -115,32 +115,28 @@ final class MenuList: ManifestProtocol {
         interactor.dm = dm
         presenter.view = vc
         presenter.interactor = interactor
-        presenter.route = completion
-
+        presenter.route = { [weak self] flow in
+            self?.completion?(flow.toScene)
+        }
         return (vc, (presenter, interactor, dm))
     }
 }
 
 final class ContactsList: ManifestProtocol {
+    var completion: ((any SceneContainer) -> Void)?
+    
     typealias Artifact = ContactsViewProtocol
     typealias Dependencies = ContactsPresenterProtocol
-    var completion: ((MenuFlows) -> Void)?
+
     var wirings: Module {
         (ContactsTableViewController(), ContactsPresenter())
     }
     init() { } //fix
 }
 
-
-protocol Route {
-    associatedtype Flow where Flow == Self
-    associatedtype Container = SceneContainer
-    static func routeTo(_ flow: Flow) -> Container
-}
-
-extension MenuFlows: Route {
-    static func routeTo(_ flow: MenuFlows) -> Container {
-        switch flow {
+extension MenuFlows {
+    var toScene: any SceneContainer {
+        switch self {
             case .contacts:
                 return Coordinator<MenuList>()
             case .initial:

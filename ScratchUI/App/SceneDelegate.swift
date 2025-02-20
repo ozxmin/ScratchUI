@@ -42,7 +42,7 @@ extension RootNavigationController: ManifestProtocol {
     var wirings: Module {
         (self, ())
     }
-    var completion: ((MenuFlows) -> ())? {
+    var completion: ((any SceneContainer) -> ())? {
         get {  return { _ in } }
         set { }
     }
