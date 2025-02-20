@@ -126,19 +126,25 @@ final class ContactsList: ManifestProtocol {
     var completion: ((any SceneContainer) -> Void)?
     
     typealias Artifact = ContactsViewProtocol
-    typealias Dependencies = ContactsPresenterProtocol
+    typealias Dependencies = (ContactsPresenterProtocol, ContactsInteractor)
 
     var wirings: Module {
-        (ContactsTableViewController(), ContactsPresenter())
+        let presenter = ContactsPresenter()
+        let interactor = ContactsInteractor()
+        let vc = ContactsTableViewController()
+
+        presenter.interactor = interactor
+        presenter.view = vc
+        vc.presenter = presenter
+        return (vc, (presenter, interactor))
     }
-    init() { } //fix
 }
 
 extension MenuFlows {
     var toScene: any SceneContainer {
         switch self {
             case .contacts:
-                return Coordinator<MenuList>()
+                return Coordinator<ContactsList>()
             case .initial:
                 return Coordinator<MenuList>()
             default: return Coordinator<ContactsList>()
@@ -146,3 +152,4 @@ extension MenuFlows {
 
     }
 }
+
