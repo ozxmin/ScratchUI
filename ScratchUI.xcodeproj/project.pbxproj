@@ -23,7 +23,7 @@
 
 /* Begin PBXFileReference section */
 		C921BB032CE54718008D40A2 /* Notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Notes.md; sourceTree = "<group>"; };
-		C93ACCE52C609A5500208CB6 /* ScratchUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScratchUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C93ACCE52C609A5500208CB6 /* Scratch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scratch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A1E1452D69047E0058CFD6 /* iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FFBEFF2CC813F500BFFB20 /* TODOs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODOs.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -34,7 +34,7 @@
 			membershipExceptions = (
 				"Support Files/App Files/Info.plist",
 			);
-			target = C93ACCE42C609A5500208CB6 /* ScratchUI */;
+			target = C93ACCE42C609A5500208CB6 /* Scratch */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -75,7 +75,7 @@
 		C93ACCE62C609A5500208CB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C93ACCE52C609A5500208CB6 /* ScratchUI.app */,
+				C93ACCE52C609A5500208CB6 /* Scratch.app */,
 				C9A1E1452D69047E0058CFD6 /* iOS-Tests.xctest */,
 			);
 			name = Products;
@@ -84,9 +84,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C93ACCE42C609A5500208CB6 /* ScratchUI */ = {
+		C93ACCE42C609A5500208CB6 /* Scratch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C93ACCF92C609A5700208CB6 /* Build configuration list for PBXNativeTarget "ScratchUI" */;
+			buildConfigurationList = C93ACCF92C609A5700208CB6 /* Build configuration list for PBXNativeTarget "Scratch" */;
 			buildPhases = (
 				C93ACCE12C609A5500208CB6 /* Sources */,
 				C93ACCE22C609A5500208CB6 /* Frameworks */,
@@ -99,9 +99,9 @@
 			fileSystemSynchronizedGroups = (
 				C9745C872D1625BF00A98C3E /* ScratchUI */,
 			);
-			name = ScratchUI;
+			name = Scratch;
 			productName = ScratchUI;
-			productReference = C93ACCE52C609A5500208CB6 /* ScratchUI.app */;
+			productReference = C93ACCE52C609A5500208CB6 /* Scratch.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C9A1E1442D69047E0058CFD6 /* iOS-Tests */ = {
@@ -158,7 +158,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C93ACCE42C609A5500208CB6 /* ScratchUI */,
+				C93ACCE42C609A5500208CB6 /* Scratch */,
 				C9A1E1442D69047E0058CFD6 /* iOS-Tests */,
 			);
 		};
@@ -203,7 +203,7 @@
 /* Begin PBXTargetDependency section */
 		C9A1E14A2D69047E0058CFD6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C93ACCE42C609A5500208CB6 /* ScratchUI */;
+			target = C93ACCE42C609A5500208CB6 /* Scratch */;
 			targetProxy = C9A1E1492D69047E0058CFD6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -432,7 +432,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C93ACCF92C609A5700208CB6 /* Build configuration list for PBXNativeTarget "ScratchUI" */ = {
+		C93ACCF92C609A5700208CB6 /* Build configuration list for PBXNativeTarget "Scratch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C93ACCFA2C609A5700208CB6 /* Debug */,

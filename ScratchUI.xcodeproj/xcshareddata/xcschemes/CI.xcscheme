@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C93ACCE42C609A5500208CB6"
-               BuildableName = "ScratchUI.app"
-               BlueprintName = "ScratchUI"
+               BuildableName = "Scratch.app"
+               BlueprintName = "Scratch"
                ReferencedContainer = "container:ScratchUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
