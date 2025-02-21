@@ -1,9 +1,5 @@
 *.DS_Store
-*.xcscheme
 *xcuserdata
-*.xcbkptlist
 xcuserdata/
 *.xcuserstate
 UserInterfaceState.xcuserstate
-*/xcschememanagement.plist
-*/project.xcworkspace/xcshareddata
