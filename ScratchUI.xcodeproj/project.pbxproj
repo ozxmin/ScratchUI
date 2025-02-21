@@ -24,7 +24,7 @@
 /* Begin PBXFileReference section */
 		C921BB032CE54718008D40A2 /* Notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Notes.md; sourceTree = "<group>"; };
 		C93ACCE52C609A5500208CB6 /* ScratchUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScratchUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9A1E1452D69047E0058CFD6 /* Scratch-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Scratch-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A1E1452D69047E0058CFD6 /* iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9FFBEFF2CC813F500BFFB20 /* TODOs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODOs.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,7 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				C93ACCE52C609A5500208CB6 /* ScratchUI.app */,
-				C9A1E1452D69047E0058CFD6 /* Scratch-iOS-Tests.xctest */,
+				C9A1E1452D69047E0058CFD6 /* iOS-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,9 +104,9 @@
 			productReference = C93ACCE52C609A5500208CB6 /* ScratchUI.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C9A1E1442D69047E0058CFD6 /* Scratch-iOS-Tests */ = {
+		C9A1E1442D69047E0058CFD6 /* iOS-Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9A1E14D2D69047E0058CFD6 /* Build configuration list for PBXNativeTarget "Scratch-iOS-Tests" */;
+			buildConfigurationList = C9A1E14D2D69047E0058CFD6 /* Build configuration list for PBXNativeTarget "iOS-Tests" */;
 			buildPhases = (
 				C9A1E1412D69047E0058CFD6 /* Sources */,
 				C9A1E1422D69047E0058CFD6 /* Frameworks */,
@@ -120,11 +120,11 @@
 			fileSystemSynchronizedGroups = (
 				C9A1E1462D69047E0058CFD6 /* Scratch-iOS-Tests */,
 			);
-			name = "Scratch-iOS-Tests";
+			name = "iOS-Tests";
 			packageProductDependencies = (
 			);
 			productName = "Scratch-iOS-Tests";
-			productReference = C9A1E1452D69047E0058CFD6 /* Scratch-iOS-Tests.xctest */;
+			productReference = C9A1E1452D69047E0058CFD6 /* iOS-Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -142,7 +142,6 @@
 					};
 					C9A1E1442D69047E0058CFD6 = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = C93ACCE42C609A5500208CB6;
 					};
 				};
 			};
@@ -160,7 +159,7 @@
 			projectRoot = "";
 			targets = (
 				C93ACCE42C609A5500208CB6 /* ScratchUI */,
-				C9A1E1442D69047E0058CFD6 /* Scratch-iOS-Tests */,
+				C9A1E1442D69047E0058CFD6 /* iOS-Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -343,6 +342,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -371,6 +371,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,7 +389,6 @@
 		C9A1E14B2D69047E0058CFD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86R5XVSPS7;
@@ -400,14 +400,12 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScratchUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ScratchUI";
 			};
 			name = Debug;
 		};
 		C9A1E14C2D69047E0058CFD6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 86R5XVSPS7;
@@ -419,7 +417,6 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ScratchUI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ScratchUI";
 			};
 			name = Release;
 		};
@@ -444,7 +441,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9A1E14D2D69047E0058CFD6 /* Build configuration list for PBXNativeTarget "Scratch-iOS-Tests" */ = {
+		C9A1E14D2D69047E0058CFD6 /* Build configuration list for PBXNativeTarget "iOS-Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9A1E14B2D69047E0058CFD6 /* Debug */,

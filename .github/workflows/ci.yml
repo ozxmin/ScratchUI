@@ -1,0 +1,28 @@
+name: iOS CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Xcode environment
+      - name: Set up Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
+      # Build and run tests
+      - name: Build and Test
+        run: |
+          xcodebuild clean build test -project ScratchUI.xcodeproj -scheme "CI" CODE_SIGNING_ALLOWED=NO
