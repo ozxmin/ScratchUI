@@ -14,18 +14,6 @@ jobs:
     runs-on: macos-latest
 
     steps:
-		- name: Double-check macOS version (${{ matrix.macos }})
-		run: sw_vers
-		- name: Double-check Xcode.app selected
-		  run: xcode-select --print-path
-		- name: Check xcodebuild version
-		  run: xcodebuild -version
-		- name: Check xcode embedded SDKs
-		  run: xcodebuild -showsdks
-		- name: Show buildable schemes
-		  run: xcodebuild -list
-		- name: Show eligible build destinations for the ${{ matrix.scheme }}
-		  run: xcodebuild -showdestinations -scheme ${{ matrix.scheme }}
       # Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -34,7 +22,25 @@ jobs:
       - name: Set up Xcode
         run: sudo xcode-select -switch /Applications/Xcode_16.2.app
 
+      - name: Double-check macOS version (${{ matrix.macos }})
+        run: sw_vers
+      
+      - name: Double-check Xcode.app selected
+        run: xcode-select --print-path
+
+      - name: Check xcodebuild version
+        run: xcodebuild -version
+      
+      - name: Check xcode embedded SDKs
+        run: xcodebuild -showsdks
+      
+      - name: Show buildable schemes
+        run: xcodebuild -list
+
+      - name: Show eligible build destinations for the ${{ matrix.scheme }}
+        run: xcodebuild -showdestinations -scheme ${{ matrix.scheme }}
+
       # Build and run tests
       - name: Build and Test
         run: |
-          xcodebuild clean build test -project ScratchUI.xcodeproj -scheme CI -destination "platform=iOS Simulator,name=iPhone 11 Pro,OS=17.5" CODE_SIGNING_ALLOWED=NO
+          xcodebuild clean build test -project ScratchUI.xcodeproj -scheme CI -destination "platform=iOS Simulator,OS=17.5" CODE_SIGNING_ALLOWED=NO
