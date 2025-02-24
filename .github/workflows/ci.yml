@@ -1,0 +1,47 @@
+name: iOS CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Xcode environment
+      - name: Set up Xcode
+        run: sudo xcode-select -switch /Applications/Xcode_16.1.app
+
+      - name: Double-check macOS version (${{ matrix.macos }})
+        run: sw_vers
+      
+      - name: Double-check Xcode.app selected
+        run: xcode-select --print-path
+
+      - name: Check xcodebuild version
+        run: xcodebuild -version
+      
+      - name: Check xcode embedded SDKs
+        run: xcodebuild -showsdks
+      
+      - name: Show buildable schemes
+        run: xcodebuild -list
+
+      - name: Show eligible build destinations for "CI"
+        run: xcodebuild -showdestinations -scheme "CI"
+
+      # Build and run tests
+      - name: Build and Test
+        run: |
+          xcodebuild clean build test -project ScratchUI.xcodeproj -scheme "CI" -destination "platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1" CODE_SIGNING_ALLOWED=NO
+          
