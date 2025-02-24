@@ -17,16 +17,14 @@ protocol ContactsViewProtocol {
     func layout(with style: LayoutStyle)
 }
 
-typealias ContactsViewTC = UITableViewController & ContactsViewProtocol
-final class ContactsTableViewController: ContactsViewTC {
+final class ContactsTableViewController: UITableViewController {
 
-    private var presenter: ContactsPresenterProtocol!
+    var presenter: ContactsPresenterProtocol!
     private var contacts: [[ContactDisplay<Info.Basic>]] = []
     private var sections: [String] = []
 
     override func loadView() {
         super.loadView()
-        self.presenter = ContactsPresenter(view: self)
     }
 
     override func viewDidLoad() {
@@ -51,7 +49,7 @@ final class ContactsTableViewController: ContactsViewTC {
 
 // MARK: - View Conformance
 
-extension ContactsTableViewController {
+extension ContactsTableViewController: ContactsViewProtocol {
     func configureInitialView() {
         configureTableDelegates()
         configureNavigationBar()

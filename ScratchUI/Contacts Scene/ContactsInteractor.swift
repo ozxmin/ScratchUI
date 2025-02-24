@@ -10,7 +10,7 @@ import Foundation
 protocol ContactsInteractorProtocol { }
 
 
-class ContactsInteractor {
+final class ContactsInteractor {
     let dataManager: ContactsDataManagerProtocol
     init() {
         dataManager = ContactsDataManager()

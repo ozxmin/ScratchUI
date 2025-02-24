@@ -9,34 +9,51 @@ import Foundation
 
 protocol MenuPresenterInterface {
     func onViewDidLoad()
-    func onDidTapRow(at index: IndexPath)
+    func onDidTapItem(at index: IndexPath)
 }
 
-class MenuPresenter: MenuPresenterInterface {
-    var view: MenuViewProtocol!
-    var interactor: MenuInteractorProtocol!
-    var router: RouterProtocol!
+final class MenuPresenter: MenuPresenterInterface {
+    var view: MenuViewInterface!
+    var interactor: MenuInteractorInterface!
+    var route: ((MenuFlows) -> ())?
 
-    let title = "Menu"
+    private(set) var state: ViewState
+
+    final class ViewState {
+        var title: String
+        var options: [MenuFlows]
+        init(title: String, options: [MenuFlows]) {
+            self.title = title
+            self.options = options
+        }
+    }
+
+    init() {
+        let title = "Menu"
+        state = ViewState(title: title, options: MenuFlows.allCases)
+    }
 }
 
 // MARK: - Conformance
 extension MenuPresenter {
     func onViewDidLoad() {
+        view?.setState(state: state)
         view?.bareLayout()
-        view?.setTitle(title)
     }
 
-    func onDidTapRow(at index: IndexPath) { }
-    func setTableData() { }
+    func onDidTapItem(at index: IndexPath) {
+        let chosen = state.options[index.row]
+        route?(chosen)
+    }
 }
 
-protocol MenuInteractorProtocol {
+
+protocol MenuInteractorInterface {
     func processData()
 }
-final class MenuInteractor: MenuInteractorProtocol {
+final class MenuInteractor: MenuInteractorInterface {
     let prop: String = "prop"
-    var dm: MenuDataManagerProtocol!
+    var dm = MenuDataManager()
 }
 
 // MARK: - Menu Interactor Conformance
@@ -49,9 +66,5 @@ extension MenuInteractor {
     }
 }
 
-
 protocol MenuDataManagerProtocol { }
-class MenuDataManager: MenuDataManagerProtocol { }
-
-protocol RouterProtocol { }
-class Router: RouterProtocol { }
+final class MenuDataManager: MenuDataManagerProtocol { }

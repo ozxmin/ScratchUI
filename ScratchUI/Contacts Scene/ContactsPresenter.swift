@@ -13,18 +13,14 @@ protocol ContactsPresenterProtocol {
     func onDidSelectItem(at indexPath: IndexPath)
 }
 
-class ContactsPresenter: ContactsPresenterProtocol {
+final class ContactsPresenter: ContactsPresenterProtocol {
     let title = "Contacts"
     var layout: LayoutStyle = .list { didSet { view?.layout(with: layout) } }
     var loading: Bool = false { didSet { view?.isLoading(shown: loading) } }
 
     var view: ContactsViewProtocol?
     var interactor: ContactsInteractor!
-
-    init(view: ContactsViewProtocol) {
-        interactor = ContactsInteractor()
-        self.view = view
-    }
+    // fix routing
 }
 
 // Conformance

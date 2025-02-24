@@ -7,30 +7,30 @@
 
 import UIKit
 
-protocol ReuseIdentifiable: UIView { }
+protocol ReusableItem: UIView { }
 
-extension ReuseIdentifiable {
+extension ReusableItem {
     static var id: String {
         String(describing: Self.self)
     }
 }
 
-extension UITableViewCell: ReuseIdentifiable { }
-extension UICollectionViewCell: ReuseIdentifiable { }
+extension UITableViewCell: ReusableItem { }
+extension UICollectionViewCell: ReusableItem { }
 
 // MARK: - DequeueableConsumer
 
 protocol DequeueableConsumer {
-    func dequeueItem<T: ReuseIdentifiable>(for indexPath: IndexPath) -> T
-    func dequeueReusable<U: ReuseIdentifiable>(index: IndexPath) -> U
+    func dequeueItem<T: ReusableItem>(for indexPath: IndexPath) -> T
+    func dequeueReusable<U: ReusableItem>(index: IndexPath) -> U
 }
 
 extension DequeueableConsumer {
-    func dequeueItem<T: ReuseIdentifiable>(for indexPath: IndexPath) -> T {
+    func dequeueItem<T: ReusableItem>(for indexPath: IndexPath) -> T {
         dequeueReusable(index: indexPath)
     }
 
-    fileprivate func unwrap<Output: ReuseIdentifiable, Input: ReuseIdentifiable>(item: Input) -> Output {
+    fileprivate func unwrap<Output: ReusableItem, Input: ReusableItem>(item: Input) -> Output {
         guard let casted = item as? Output else {
             fatalError(#function)
         }
@@ -39,13 +39,13 @@ extension DequeueableConsumer {
 }
 
 extension UITableView: DequeueableConsumer {
-    func dequeueReusable<U: ReuseIdentifiable>(index: IndexPath) -> U {
+    func dequeueReusable<U: ReusableItem>(index: IndexPath) -> U {
          unwrap(item: self.dequeueReusableCell(withIdentifier: U.id, for: index))
     }
 }
 
 extension UICollectionView: DequeueableConsumer {
-    func dequeueReusable<U: ReuseIdentifiable>(index: IndexPath) -> U {
+    func dequeueReusable<U: ReusableItem>(index: IndexPath) -> U {
         unwrap(item: self.dequeueReusableCell(withReuseIdentifier: U.id, for: index))
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 /* TODO: - the property detail is acting as a data source. Asking for updated data wouldn't work. Remove the detail property and use a proper data source. Title should be in the DisplayObject */
 
-class ContactDetailsViewController: UIViewController {
+final class ContactDetailsViewController: UIViewController {
     @IBOutlet weak var avatarHolder: UIView!
     @IBOutlet weak var firstName: UILabel!
     @IBOutlet weak var lastName: UILabel!

@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol MenuViewProtocol {
+protocol MenuViewInterface {
     func bareLayout()
-    func setTitle(_ title: String)
+    func setState(state: MenuPresenter.ViewState)
 }
 
-class MenuTableViewController: UITableViewController, MenuViewProtocol {
+final class MenuTableViewController: UITableViewController, MenuViewInterface {
     var presenter: MenuPresenterInterface!
-    let scenes = Coordinator.allCases
+    var state: MenuPresenter.ViewState! //<T: Presenter> T.State
 
     convenience init(presenter: MenuPresenterInterface) {
         self.init()
@@ -25,35 +25,48 @@ class MenuTableViewController: UITableViewController, MenuViewProtocol {
         super.viewDidLoad()
         presenter.onViewDidLoad()
     }
-
-}
-
-// MARK: - Helpers
-extension MenuTableViewController {
-    private func selectDemo(option: Coordinator) {
-        guard let position = option.index else { return }
-        let index = IndexPath(row: position, section: 0)
-        tableView(tableView, didSelectRowAt: index)
-    }
 }
 
 // MARK: - View Conformance
 extension MenuTableViewController {
-
-    func bareLayout() {
-        configureBars()
-        view.backgroundColor = .systemGroupedBackground
-        selectDemo(option: .contacts)
+    func setState(state: MenuPresenter.ViewState) {
+        self.state = state
     }
 
-    func setTitle(_ title: String) {
-        navigationItem.title = title
+    func bareLayout() {
+        navigationItem.title = state.title
+        view.backgroundColor = .systemGroupedBackground
+        configureBarButtons()
+    }
+}
+
+// MARK: - Table delegates
+extension MenuTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.onDidTapItem(at: indexPath)
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        state.options.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        var content = cell.defaultContentConfiguration()
+        content.textProperties.font = .preferredFont(forTextStyle: .title2)
+        content.textProperties.adjustsFontForContentSizeCategory = true
+
+        content.text = state.options[indexPath.row].title
+
+        cell.contentConfiguration = content
+        cell.accessoryType = .disclosureIndicator
+        return cell
     }
 }
 
 // MARK: - Menu Appearance
 extension MenuTableViewController {
-    private func configureBars() {
+    private func configureBarButtons() {
         navigationController?.isNavigationBarHidden = false
 
         let optionMenu = UIBarButtonItem(title: "Options", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menuItems())
@@ -69,31 +82,5 @@ extension MenuTableViewController {
                 log("Share")
             }])
         return addMenuItems
-    }
-}
-
-// MARK: - Table delegates
-extension MenuTableViewController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let scene = scenes[indexPath.row]
-        let screen = scene.create()
-        show(screen, sender: nil)
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        scenes.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        var content = cell.defaultContentConfiguration()
-        content.textProperties.font = .preferredFont(forTextStyle: .title2)
-        content.textProperties.adjustsFontForContentSizeCategory = true
-
-        content.text = scenes[indexPath.row].title
-
-        cell.contentConfiguration = content
-        cell.accessoryType = .disclosureIndicator
-        return cell
     }
 }

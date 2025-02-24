@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ContactCollectionViewCell: UICollectionViewCell {
+final class ContactCollectionViewCell: UICollectionViewCell {
 
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
