@@ -1,56 +1,57 @@
 //
-//  ContactDataManager.swift
+//  ContactsDataManager.swift
 //  ScratchUI
 //
-//  Created by Ozmin Vazquez on 22/08/24.
+//  Created by Ozmin Vazquez on 18/10/24.
 //
 
 import Foundation
 
-final class ContactsDataManager {
-    //TODO: - Get data fetching off main thread
-    private lazy var contactsSorted: [String : [ContactEntity]] = sortValues()
-    private lazy var sectionsSorted: [String] = Array(contactsSorted.keys.sorted())
-    private var needsRefreshCounter = 0
-    //TODO: - Define URL components and inject URL Components in Data Manager change set to random 1-4
+// MARK: - Contacts Table DataSource
+// TODO: Define URL components and inject URL Components in Data Manager change set to random 1-4
+// TODO: - Don't use ui specific terms in the datasource
+
+protocol ContactsDataManagerProtocol {
+    func getContactEntities() -> [ContactEntity]
 }
 
-// MARK: - Interface
+
+final class ContactsDataManager: ContactsDataManagerProtocol  {
+    let contactsURI = "contacts_mock_data"
+    var dataSource: ContactsDataSource
+    lazy var cachedData: [ContactEntity] = fetchData()
+
+    init() {
+        dataSource = ContactsDataSource()
+    }
+}
+
 extension ContactsDataManager {
-    func getSortedSections() -> [String] {
-        if needsRefreshCounter > 9 {
-            log("needs refresh")
+    func fetchData() -> [ContactEntity] {
+        dataSource.getData(from: contactsURI)
+    }
+
+    func getContactEntities() -> [ContactEntity] {
+        cachedData
+    }
+
+    func sortData() {
+        // memoization
+        //maybe use lazy sequencing ie: array.lazy.map
+        var contacts: [ContactEntity] = []
+        contacts.reserveCapacity(cachedData.count / 20)
+        var contactContainers: [[ContactEntity]] = []
+        contactContainers.reserveCapacity(30)
+
+        contactContainers = cachedData.reduce(contactContainers) { partialResult, entity in
+            guard let leadingChar = entity.firstName.first else {
+                return partialResult
+            }
+            guard let _ = partialResult.firstIndex(where: { contacts in
+                contacts.first?.firstName.first == leadingChar}) else {
+                return partialResult + [.init([entity])]
+            }
+            return partialResult
         }
-        return sectionsSorted
-    }
-
-    func getSortedContacts() -> [String : [ContactEntity]] {
-        contactsSorted
-    }
-
-    func getElement(at indexPath: IndexPath) -> ContactEntity {
-        let currentSection = getSortedSections()[indexPath.section]
-        guard let contact = getSortedContacts()[currentSection]?[indexPath.row] else { fatalError(#function) }
-        return contact
-    }
-}
-
-// MARK: - Helpers
-extension ContactsDataManager {
-    private func sortValues() -> Dictionary<String, [ContactEntity]> {
-        let alphabetically = decodeJsonData().sorted { $0.firstName < $1.firstName }
-        let grouped = Dictionary(grouping: alphabetically) { String($0.firstName.first?.uppercased() ?? "#") }
-        return grouped
-    }
-
-    private func rawDictionary() -> Dictionary<String, [ContactEntity]> {
-        let array = decodeJsonData()
-        let grouped = Dictionary(grouping: array) { String($0.firstName.first?.uppercased() ?? "#") }
-        return grouped
-    }
-
-    private func decodeJsonData() -> [ContactEntity] {
-        let contacts: [ContactEntity] = Bundle.main.decode("contacts_mock_data")
-        return contacts
     }
 }

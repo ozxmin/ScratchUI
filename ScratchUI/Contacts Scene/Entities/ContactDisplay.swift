@@ -11,19 +11,23 @@ import Foundation
 // when annotating a property with the @DataFetcher it's init with a url. if its valid,
 // the fetching will start and set the property as Result<Data, Error>
 
-enum Info {
+protocol InformationLevel {
+    associatedtype Basic
+}
+
+enum Info: InformationLevel {
     enum Basic { }
     enum Grid { }
     enum Detailed { }
 }
 
-struct ContactDisplay<InfoLevel> {
-    // TODO: - Inject exclusions
-    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
 
+struct ContactDisplay<InfoLevel> {
+    // TODO: - Inject exclusions in interactor
+    let exclusions = ["avatar", "id", "name", "lastName", "ethereumAddress"]
     let name: String
     let lastName: String
-    var details: [(label: String, value: String)]?
+    var details: [(label: String, value: String)]? //lazy.map?
     var avatarData: Data?
 
     private var avatarURL: URLComponents?
@@ -59,8 +63,7 @@ struct ContactDisplay<InfoLevel> {
 // Displayable
 
 extension ContactDisplay {
-
-    func propertiesToDisplayable<T>(subject: T) -> [(String, String)] {
+    private func propertiesToDisplayable<T>(subject: T) -> [(String, String)] {
         let contactMirror = Mirror(reflecting: subject)
         let reflection = contactMirror.reflectionToStrings(excluding: exclusions)
 
@@ -72,9 +75,10 @@ extension ContactDisplay {
     }
 
 
-    func fetchData(from url: URL) async -> Data? {
+    private func fetchData(from url: URL) async -> Data? {
         do {
-            let response = try? await URLSession.shared.data(for: URLRequest(url: url))
+            let request = URLRequest(url: url)
+            let response = try? await URLSession.shared.data(for: request)
             if let data = response?.0 {
                 return data
             }

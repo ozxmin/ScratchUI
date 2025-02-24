@@ -22,6 +22,7 @@ extension Bundle {
 
         let decoder = JSONDecoder()
 
+        //move data formatting to datasource
         let formatter = DateFormatter()
         formatter.dateFormat = "y-MM-dd"
 
@@ -99,6 +100,8 @@ extension CharacterSet {
 }
 
 func printQ(_ tag: Int) {
+    // TODO: - change to checkQueue
+    // if is not running on the main thread, launch warning
     if let queueLabel = String(validatingUTF8: __dispatch_queue_get_label(nil)) {
         log("\(tag) - Running on queue: \(queueLabel)")
     } else {
@@ -106,13 +109,11 @@ func printQ(_ tag: Int) {
     }
 }
 
-
-func log<T>(_ message: T) {
 #if DEBUG
+func log<T>(_ message: T) {
     print(message)
-#endif
-
 }
+#endif
 
 // TODO: - Convert to property wrapper. Takes self, and excluded. Returns array keyvaluepairs
 extension Mirror {

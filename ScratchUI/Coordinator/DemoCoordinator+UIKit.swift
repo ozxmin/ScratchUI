@@ -1,36 +1,21 @@
 //
-//  DemoCoordinator.swift
+//  DemoCoordinator+UIKit.swift
 //  ScratchUI
 //
-//  Created by Ozmin Vazquez on 04/09/24.
+//  Created by Ozmin Vazquez on 20/12/24.
 //
 
 import UIKit
 
-enum Either<T, U> {
-    case this(T)
-    case that(U)
-}
-
-// TODO: - Use reflection to make it easier to add new scene cases.
-// -
-// Desired output: Just add a case to have everything working
-// i.e.: Add a case, raw type is an a repository instance. The rawtype is the title.
-// the mirror fills in the repo computed variable
-
-@dynamicMemberLookup
-enum Scene: String, CaseIterable {
-    case contacts = "Contacts"
-    case details = "Details"
-    case collection = "Collection"
-
+extension Coordinator {
     var repo: Repository {
         switch self {
+            case .initial: return make(MenuTableViewController.self)
             case .contacts: return make(ContactsTableViewController.self)
             case .details: return make(ContactDetailsViewController.self)
             case .collection: return make(ContactsCollectionViewControllerTest.self)
         }
-        
+
         func make(_ view: UIViewController.Type) -> Repository {
             Repository(self.rawValue, view)
         }
@@ -40,17 +25,17 @@ enum Scene: String, CaseIterable {
         guard case let .this(viewType) = repo.view else {
             return UIViewController()
         }
-        let view = viewType.init()
+        let view = viewType.init(dependencies: repo.dependencies)
         view.title = repo.title
         return view
     }
 
-    func create(scene: Scene) -> UIViewController {
+    func create(scene: Coordinator) -> UIViewController {
         scene.create()
     }
 
     func create(at index: Int) -> UIViewController? {
-        Scene[index]?.create()
+        Coordinator[index]?.create()
     }
 
     struct Repository {
@@ -65,21 +50,16 @@ enum Scene: String, CaseIterable {
         }
     }
 
-/// - Helpers
+}
 
-    subscript<T>(dynamicMember member: KeyPath<Repository, T>) -> T {
-        repo[keyPath: member]
+protocol Injectable {
+    init<D>(dependencies: D)
+}
+
+extension Injectable where Self: UIViewController {
+    init<D>(dependencies: D) {
+        self.init()
     }
-
-    static subscript(index: Int) -> Scene? {
-        guard index >= 0 && index < allCases.count else {
-            return nil
-        }
-        return allCases[index]
-    }
-
-    var index: Int? {
-        Self.allCases.firstIndex(of: self)
-    }
-
+}
+extension UIViewController: Injectable {
 }

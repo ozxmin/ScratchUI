@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol Dummy {
+    func numberOfSections(in collectionView: UICollectionView) -> Int
+    func contactDisplay<T>() -> T
+}
+
 class ContactsCollectionViewController: UICollectionViewController {
-    private let source = ContactsCollectionDataSource()
+    var  source: (UICollectionViewDataSource & Dummy)!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +60,7 @@ extension ContactsCollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let contactDetailVC = ContactDetailsViewController()
-        let contact: ContactDisplay<Info.Detailed> = source.getDetailsDisplay(for: indexPath)
+        let contact: ContactDisplay<Info.Detailed> = source.contactDisplay()
             contactDetailVC.detail = contact
             show(contactDetailVC, sender: nil)
 
