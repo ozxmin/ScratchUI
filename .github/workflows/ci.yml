@@ -20,7 +20,7 @@ jobs:
 
       # Set up Xcode environment
       - name: Set up Xcode
-        run: sudo xcode-select -switch /Applications/Xcode_16.2.app
+        run: sudo xcode-select -switch /Applications/Xcode_16.1.app
 
       - name: Double-check macOS version (${{ matrix.macos }})
         run: sw_vers
@@ -43,4 +43,5 @@ jobs:
       # Build and run tests
       - name: Build and Test
         run: |
-          xcodebuild clean build test -project ScratchUI.xcodeproj -scheme "CI" -destination "platform=iOS Simulator,OS=18.2" CODE_SIGNING_ALLOWED=NO
+          xcodebuild clean build test -project ScratchUI.xcodeproj -scheme "CI" -destination "platform=iOS Simulator,name=iPhone 16 Pro,OS=18.1" CODE_SIGNING_ALLOWED=NO
+          
